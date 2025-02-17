@@ -1,0 +1,7 @@
+/* 注入 CSS 文件修改 CSS 变量使用示例 */
+
+:root {
+    --first-screen-font-size: 50px;
+    --first-screen-font-color-light : #000000;
+    --first-screen-icon-color-dark: #000000;
+ }
