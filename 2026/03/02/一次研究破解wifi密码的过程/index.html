@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Nbc">
+    
+    <title>
+        
+            一次研究如何获得wifi密码的过程 |
+        
+        Nbc&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/violet.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom-1.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Nbc's Blog","author":"Nbc","avatar":"/images/violet.jpg","logo":"/images/violet.jpg","favicon":"/images/violet.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","Links":"/links","about":"/about"},"first_screen":{"enable":true,"background_img":"/images/bh.jpg","background_img_dark":"/images/yl.jpg","description":"功利主义导向的思考方式往往使我们忘却了 || 生命的本质是一场历程","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Nbccccc/","weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"nbcares@qq.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null,"icon":null},"created_datetime_icon":"fa-solid fa-star"},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2026,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom-1.css"],"js":[null]},"root":"","source_data":{"links":[{"name":"ZIKH26","link":"https://zikh26.github.io","description":"神之学长 我的偶像","avatar":"https://blog-1311372141.cos.ap-nanjing.myqcloud.com/images/202307011626843.jpg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/violet.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Nbc&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/links">
+                                
+                                友链
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/links">
+                            
+                            友链
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        一次研究如何获得wifi密码的过程
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/violet.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Nbc</span>
+                                
+                                    <span class="author-badge">Lv3</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-star"></i>&nbsp;
+                <span class="datetime">2026-03-02 16:59:51</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Mar 02 2026 17:12:14 GMT+0800">2026-03-02 17:12:14</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">安全研究</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/IOT%E5%AE%89%E5%85%A8/">IOT安全</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.9k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>21 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="一次研究如何获得wifi密码的过程"><a href="#一次研究如何获得wifi密码的过程" class="headerlink" title="一次研究如何获得wifi密码的过程"></a>一次研究如何获得wifi密码的过程</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>研究这个的契机是有次跟我的学长<a class="link"   target="_blank" rel="noopener" href="https://zikh26.github.io/" >@ZIKH26<i class="fas fa-external-link-alt"></i></a>聊智能家居iot安全的时候说的“那不连接wifi怎么去入侵智能家居呢”，然后就引申出这个了，描述概括下核心内容大概是这样</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">任何设备都可以接收到路由器的信号，因为本身这个信号就是广播的，否则你识别不到路由器怎么去连接。只是要是想通过wifi去上网，就需要输入验证密码，因为数据是加密的。现在我通过可以发射信号的网卡，去向路由器发送一个特别的帧，让路由器以为与设备断卡连接了，而一般断开连接之后会重新连接，我们就可以捕获这个连接的握手包，然后在本地进行破解出密码</span><br></pre></td></tr></table></figure>
+
+<p>我一听这个牛掰啊：</p>
+<p>首先 这样就可以破解任意密码了(错误的，弱口令且字典需要足够强大，后续会说明)                                 </p>
+<p>其次 这可以直接让区域内设备都上不了网了，这破坏性多大，直接让邻居上不了网(:</p>
+<p>当时学长玩这个的时候用的是<a class="link"   target="_blank" rel="noopener" href="https://github.com/aircrack-ng/aircrack-ng" >aircrack-ng<i class="fas fa-external-link-alt"></i></a>这个工具，说一套下来操作有很多，可以尝试下怎么一键梭哈</p>
+<p>在寒假就一起研究了一下原理等的内容</p>
+<h2 id="抓包过程"><a href="#抓包过程" class="headerlink" title="抓包过程"></a>抓包过程</h2><p>直接get到学长的无线网卡</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250127180609755.png"
+                        alt="image-20250127180609755"
+                 ></p>
+<p>先用现成的工具体验一下</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124144350637.png"
+                        alt="image-20250124144350637"
+                 ></p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124143650486.png"
+                        alt="image-20250124143650486"
+                 ></p>
+<p>工具的具体操作过程这里就不写了，网上有很多文章怎么操作，这里探究怎么写出一键梭哈脚本</p>
+<p>在用工具进行操作时，过程大概是这样的：<code>启动网卡为监听模式-&gt;监听当前环境AP(路由器)-&gt;选定AP监听该设备下的连接设备(STA)-&gt;发送断开帧-&gt;捕获到握手包-&gt;破解</code></p>
+<p>这时候就存在疑问点：</p>
+<ol>
+<li>怎么抓包？</li>
+<li>抓什么包？</li>
+<li>发送的是什么？</li>
+<li>发送完之后抓到什么包才能破解出密码呢？</li>
+</ol>
+<p>打开wireshark选定我们的无线网卡</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124144437747.png"
+                        alt="image-20250124144437747"
+                 ></p>
+<p>看到就是一堆包，也看不懂也不知道哪些包是我需要的，所以就要去研究一下原理了</p>
+<h3 id="Scapy"><a href="#Scapy" class="headerlink" title="Scapy"></a>Scapy</h3><p>首先是怎么抓包，可以使用Scapy来操作</p>
+<p><strong>Scapy</strong> 是一个用于 <strong>网络数据包处理</strong> 和 <strong>网络攻击模拟</strong> 的强大 Python 库。它允许用户轻松地创建、发送、捕获、解析和修改网络数据包</p>
+<p>具体可以看文档</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://scapy.readthedocs.io/en/latest/introduction.html" >Introduction — Scapy 2.6.1 documentation<i class="fas fa-external-link-alt"></i></a></p>
+<p>我们所使用的模块主要在</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://scapy.readthedocs.io/en/latest/api/scapy.layers.dot11.html" >scapy.layers.dot11 — Scapy 2.6.1 documentation<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="802-11协议"><a href="#802-11协议" class="headerlink" title="802.11协议"></a>802.11协议</h3><h4 id="802-11协议简介"><a href="#802-11协议简介" class="headerlink" title="802.11协议简介"></a>802.11协议简介</h4><p>IEEE 802协议簇是指IEEE标准中关于局域网（LAN）和城域网（MAN）的一系列标准。IEEE 802中定义的服务和协议限定在OSI七层网络模型的最低两层，即数据链路层和物理层。实际上，IEEE802又将OSI的数据链路层分成了两个子层，逻辑链路控制层（LLC）和媒介访问控制层（MAC）。IEEE802协议簇由IEEE802标准委员会维护。其中最广泛应用的协议有以太网（802.3）和WLAN（802.11）。每一个工作组专注一个方向，每个工作组由数字编号，比如目前从802.1编到了802.24。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124151955891.png"
+                        alt="image-20250124151955891"
+                 ></p>
+<p>所以802.11协议是IEEE802标准委员会下属的无线局域网工作组制定的无线局域网标准。</p>
+<p>详细内容可以看<a class="link"   target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9363693" >IEEE Xplore Full-Text PDF<i class="fas fa-external-link-alt"></i></a></p>
+<h4 id="802-11-MAC帧结构"><a href="#802-11-MAC帧结构" class="headerlink" title="802.11 MAC帧结构"></a>802.11 MAC帧结构</h4><p>802.11 MAC帧格式如图</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124153816527.png"
+                        alt="image-20250124153816527"
+                 ></p>
+<p>每个MAC帧都包含以下几部分：</p>
+<ol>
+<li>一个MAC帧头</li>
+<li>一个可变长度的帧体，包含特定于帧类型或子类型的信息</li>
+<li>一个帧校验序列，简写为FCS，包含一个32bit的CRC</li>
+</ol>
+<p>主要来看一下帧控制字段</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124155841022.png"
+                        alt="image-20250124155841022"
+                 ></p>
+<ul>
+<li>Protocol Version：帧使用的MAC版本，目前仅支持一个版本，编号为0。</li>
+<li>Type&#x2F;Subtype：标识帧类型，包括数据帧、控制帧和管理帧。</li>
+</ul>
+<blockquote>
+<p>数据帧：负责传输数据报文，包括一种帧主体部分为空的特殊报文（Null帧）。STA可以通过Null帧通知AP自身省电状态的改变。</p>
+<p>控制帧：协助数据帧的传输，负责无线信道的清空、信道的获取等，还用于接收数据时的确认。常用的控制帧有：</p>
+<ul>
+<li>ACK：接收端接收报文后，需要回应ACK帧向发送端确认接收到了此报文。</li>
+<li>请求发送RTS（Request To Send）&#x2F;允许发送CTS（Clear To Send）：提供一种用来减少由隐藏节点问题所造成冲突的机制。发送端向接收端发送数据之前先发送RTS帧，接收端收到后回应CTS帧。通过这种机制来清空无线信道，使发送端获得发送数据的媒介控制权。</li>
+</ul>
+<p>管理帧：负责对无线网络的管理，包括网络信息通告、加入或退出无线网络，射频管理等。常用的管理帧有：</p>
+<ul>
+<li><strong>Beacon：信标帧，AP周期性地宣告无线网络的存在以及支持的各类无线参数（例如，SSID、支持的速率和认证类型等）。</strong></li>
+<li>Association Request&#x2F;Response：关联请求&#x2F;应答帧，当STA试图加入到某个无线网络时，STA会向AP发送关联请求帧。AP收到关联请求帧后，会回复应答帧接受或拒绝STA的关联请求。</li>
+<li>Disassociation：去关联帧，STA可以发送Disassociation帧解除和AP的关联。</li>
+<li>Authentication Request&#x2F;Response：认证请求&#x2F;应答帧，STA和AP进行链路认证时使用，用于无线身份验证。</li>
+<li><strong>Deauthentication：去认证帧，STA可以发送Deauthentication帧解除和AP的链路认证。</strong></li>
+<li>Probe Request&#x2F;Response：探测请求&#x2F;应答帧，STA或AP都可以发送探测帧来探测周围存在的无线网络，接收到该报文的AP或STA需回应Probe Response，Probe Response帧中基本包含了Beacon帧的所有参数。</li>
+</ul>
+</blockquote>
+<ul>
+<li>To DS&#x2F;From DS：标识帧是否来自和去往一个分布式系统（Distribution System，其实就是指AP）。例如都为1，表示AP到AP之间的帧。</li>
+<li>More Frag：表示是否有后续分片传送。</li>
+<li>Retry：表示帧是否重传，用来协助接收端排除重复帧。</li>
+<li>Pwr Mgmt：表示STA发送完成当前帧序列后将要进入的模式，Active或Sleep。</li>
+<li>More Data：表示AP向省电状态的STA传送缓存报文。</li>
+<li>Protected Frame：表示当前帧是否已经被加密。</li>
+<li>+HTC：为控制帧提供额外的信息支持</li>
+</ul>
+<p>详尽在第九章节<a class="link"   target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9363693" >IEEE Xplore Full-Text PDF<i class="fas fa-external-link-alt"></i></a></p>
+<p>关于地址Address <em>n</em>字段：表示MAC地址。4个Address位填法不固定，需要和Frame Control字段中的To DS&#x2F;From DS位结合来确定。例如，帧从一个STA发往AP，与从AP发往STA，4个Address字段的填法是不一样的。</p>
+<p>Address n字段填写规则</p>
+<table>
+<thead>
+<tr>
+<th>To DS</th>
+<th>From DS</th>
+<th>Address 1</th>
+<th>Address 2</th>
+<th>Address 3</th>
+<th>Address 4</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>目的地址</td>
+<td>源地址</td>
+<td>BSSID</td>
+<td>未使用</td>
+<td>管理帧与控制帧。例如，AP发送的Beacon帧。</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>目的地址</td>
+<td>BSSID</td>
+<td>源地址</td>
+<td>未使用</td>
+<td>如图中的AP1向STA1发送的帧。</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>BSSID</td>
+<td>源地址</td>
+<td>目的地址</td>
+<td>未使用</td>
+<td>如图中的STA2向AP1发送的帧。</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>目的AP的BSSID</td>
+<td>源AP的BSSID</td>
+<td>目的地址</td>
+<td>源地址</td>
+<td>如图中的AP1向AP2发送的帧。</td>
+</tr>
+</tbody></table>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124165457518.png"
+                        alt="image-20250124165457518"
+                 ></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>到这里我们就可以有个大概的思路了，如果我们想要知道当前环境下有哪些AP的话，就要捕捉到Beacon帧，因为这个帧是AP用于广播其存在和网络信息的方式。而断开就通过发送Deauthentication帧来中断STA和AP的连接。</p>
+<p>这里会存在一个疑问，如何去获得STA的MAC地址呢？我是通过捕获AP发送的Beacon帧的目的地址来获取的，也就是add1。因为AP的Beacon帧是广播的，所以目的地址也会存在”ff:ff:ff:ff:ff:ff”，过滤掉就行了。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124184449132.png"
+                        alt="image-20250124184449132"
+                 ></p>
+<p>现在我们怎么抓包，抓什么包，发送什么都搞清楚了，那破解关键抓的包是什么呢</p>
+<h3 id="WLAN中的身份认证和访问控制机制"><a href="#WLAN中的身份认证和访问控制机制" class="headerlink" title="WLAN中的身份认证和访问控制机制"></a>WLAN中的身份认证和访问控制机制</h3><p>我想既然有密码这里肯定是跟无限网络中的认证有关的，查阅一番后发现了802.1X</p>
+<h4 id="802-1X认证"><a href="#802-1X认证" class="headerlink" title="802.1X认证"></a>802.1X认证</h4><h5 id="802-1X简介"><a href="#802-1X简介" class="headerlink" title="802.1X简介"></a>802.1X简介</h5><p>802.1X认证系统使用可扩展认证协议EAP（Extensible Authentication Protocol）来实现客户端、设备端和认证服务器之间的信息交互。EAP协议可以运行在各种底层，包括数据链路层和上层协议（如UDP、TCP等），而不需要IP地址。因此使用EAP协议的802.1X认证具有良好的灵活性。</p>
+<ul>
+<li>在客户端与设备端之间，EAP协议报文使用EAPoL（EAP over LANs）封装格式，直接承载于LAN环境中。</li>
+<li>在设备端与认证服务器之间，用户可以根据客户端支持情况和网络安全要求来决定采用的认证方式。<ul>
+<li>EAP终结(解析和处理)方式中，EAP报文在设备端终结并重新封装到RADIUS报文中，利用标准RADIUS协议完成认证、授权和计费。</li>
+<li>EAP中继方式中，EAP报文被直接封装到RADIUS报文中（EAP over RADIUS，简称为EAPoR），以便穿越复杂的网络到达认证服务器。</li>
+</ul>
+</li>
+</ul>
+<h5 id="认证过程"><a href="#认证过程" class="headerlink" title="认证过程"></a>认证过程</h5><p>EAP数据首先被封装在EAPOL帧中，传输于申请者（Supplicant）和验证者（Authenticator）之间。随后又封装在RADIUS或Diameter，传输于验证者和验证服务器（Authentication server）之间。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124180256281.png"
+                        alt="image-20250124180256281"
+                 ></p>
+<h4 id="安全策略"><a href="#安全策略" class="headerlink" title="安全策略"></a>安全策略</h4><p>到这里要提一下WLAN的安全策略</p>
+<p>WLAN安全提供了WEP、WPA、WPA2和WAPI四种安全策略机制。每种安全策略体现了一整套安全机制，包括无线链路建立时的链路认证方式，无线用户上线时的用户接入认证方式和无线用户传输数据业务时的数据加密方式。</p>
+<p>现在常用的机制就是WPA&#x2F;WPA2，在手机中就可以看到</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124194715926.png"
+                        alt="image-20250124194715926"
+                 ></p>
+<h5 id="WPA-WPA2简介"><a href="#WPA-WPA2简介" class="headerlink" title="WPA&#x2F;WPA2简介"></a>WPA&#x2F;WPA2简介</h5><p>由于WEP共享密钥认证采用的是基于RC4对称流的加密算法，需要预先配置相同的静态密钥，无论从加密机制还是从加密算法本身，都很容易受到安全威胁。为了解决这个问题，在802.11i标准没有正式推出安全性更高的安全策略之前，Wi-Fi联盟推出了针对WEP改良的WPA。WPA的核心加密算法还是采用RC4，在WEP基础上提出了临时密钥完整性协议TKIP（Temporal Key Integrity Protocol）加密算法，采用了802.1X的身份验证框架，支持EAP-PEAP、EAP-TLS等认证方式。随后802.11i安全标准组织又推出WPA2，区别于WPA，WPA2采用安全性更高的区块密码锁链-信息真实性检查码协议CCMP（Counter Mode with CBC-MAC Protocol）加密算法。</p>
+<p>为了实现更好的兼容性，在目前的实现中，WPA和WPA2都可以使用802.1X的接入认证、TKIP或CCMP的加密算法，他们之间的不同主要表现在协议报文格式上，在安全性上几乎没有差别。</p>
+<h5 id="密钥协商"><a href="#密钥协商" class="headerlink" title="密钥协商"></a>密钥协商</h5><p>在802.11i里定义了两种密钥层次模型，一种是成对密钥层次结构，主要用来保护STA与AP之间往来的数据；一种是群组密钥层次结构，主要用来描述STA与AP之间的广播或组播数据。</p>
+<p>密钥协商阶段是根据接入认证生成的成对主钥PMK（Pairwise Master Key）产生成对临时密钥PTK（Pairwise Transient Key）和群组临时密钥GTK（Group Temporal Key）。PTK用来加密单播报文，GTK用来加密组播和广播无线报文。</p>
+<ul>
+<li>针对802.1X接入认证，生成PMK的流程图如图所示。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124183907817.png"
+                        alt="image-20250124183907817"
+                 ></p>
+<ul>
+<li>针对PSK认证，根据设置预共享密钥的方式不同（通过命令行可以选择设置预共享密钥的方式），生成的PMK方式也不同：<ul>
+<li>如果设置的预共享密钥是十六进制，则预共享密钥即是PMK；</li>
+<li>如果设置的预共享密钥是字符串，则PMK是利用预共享密钥和SSID通过哈希算法计算出来的。</li>
+</ul>
+</li>
+</ul>
+<p>密钥协商包括单播密钥协商和组播密钥协商过程。</p>
+<h6 id="单播密钥协商过程"><a href="#单播密钥协商过程" class="headerlink" title="单播密钥协商过程"></a>单播密钥协商过程</h6><p>密钥协商过程也叫做四次握手过程，是通过EAPOL-Key报文进行信息交互的，如图所示。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124184013257.png"
+                        alt="image-20250124184013257"
+                 ></p>
+<h6 id="组播密钥协商过程"><a href="#组播密钥协商过程" class="headerlink" title="组播密钥协商过程"></a>组播密钥协商过程</h6><p>组播密钥协商过程也叫做二次握手过程，此过程是在四次握手产生PTK并安装密钥后开始进行的，如图所示</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124184116852.png"
+                        alt="image-20250124184116852"
+                 ></p>
+<h4 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h4><p>通过对WLAN中的身份认证和访问控制机制了解之后，我们就可以知道加密的数据是封装在EAPOL数据包中的，也就是我们要抓取断开重连之后的四次握手数据包(EAPOL)</p>
+<p>在工具抓取的数据包中也可以看到</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250124195941209.png"
+                        alt="image-20250124195941209"
+                 ></p>
+<h2 id="得到密码过程"><a href="#得到密码过程" class="headerlink" title="得到密码过程"></a>得到密码过程</h2><p>要想知道密码的关键就在于这个四次握手包中，那这四次握手到底发生了什么呢？</p>
+<p>在了解四次握手之前先了解一些术语</p>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><p><strong>PMK (Pairwise Master Key)</strong></p>
+<blockquote>
+<p>PMK 是由 MSK 生成，WPA2&#x2F;PSK 的情况下，当 supplicant 和 authenticator 身份验证后，PSK 变成 PMK。PMK 会驻留在 AP 和所有 STA，不需要进行 key 交换，用它来生成用于加密单播数据的PTK。</p>
+<p><strong>PMK&#x3D;HMAC−SHA1(ssid,psk)</strong></p>
+<p><strong>PSK</strong>由ssid和passphrase生成，知道AP名和密码就能得出PSK</p>
+</blockquote>
+<p><strong>GMK (Group Master Key)</strong></p>
+<blockquote>
+<p>GMK 用在四次握手来生成 GTK，GTK 在 AP 端由 MSK 生成，所有连接到该 AP 的 STA 共享。</p>
+</blockquote>
+<p><strong>PTK (Pairwise Transit Key)</strong></p>
+<blockquote>
+<p>PTK 用来加密 AP 和 Station 通讯的单播数据包，AP 与每个 Station 通讯用的 PTK 都是唯一的。我们来看一下生成 PTK 的函数，参数是生成 PTK 需要的信息：</p>
+<p><strong>PTK &#x3D; PRF(PMK + ANonce + SNonce + Mac(AP) + Mac(SA))</strong></p>
+<p>PRF是 pseudo-random function 的缩写，表示伪随机函数，PMK、ANonce、SNonce、Mac(AA) 和Mac(SA) 作为它的输入参数；</p>
+<p><strong>ANonce</strong>是 AP 生成的随机数，A 表示 authenticator；</p>
+<p><strong>SNonce</strong>是 STA生成的随机数，S 表示 supplicant；</p>
+<p>**Mac(AP)**是 AP 的 Mac 地址；</p>
+<p>**Mac(SA)**是 STA 的 Mac 地址；</p>
+<p>由此可知，生成 PTK 依赖 PMK。</p>
+</blockquote>
+<blockquote>
+<p> PTK 由多个密钥组成</p>
+<ul>
+<li>KCK – 在创建 MIC 期间使用，哈希将使用 KCK 生成。</li>
+<li>KEK – 用于加密密钥 [例如：GTK 将使用 KEK 在 M3 中加密以交付给客户端]。</li>
+<li>TK – 单播数据包的加密和解密。</li>
+<li>MIC Tx — 仅用于接入点发送的单播数据包的 TKIP 配置。</li>
+<li>MIC Rx （MIC 接收） – 仅用于客户端发送的单播数据包的 TKIP 配置。</li>
+</ul>
+</blockquote>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250126183312152.png"
+                        alt="image-20250126183312152"
+                 ></p>
+<p><strong>GTK (Group Temporal Key)</strong></p>
+<blockquote>
+<p>GTK 用来加密 AP 和 STA 通讯的多播&#x2F;广播数据包，连接该 AP 的所有 STA 共享一个 GTK。生成 GTK 的公式：</p>
+<p>GTK &#x3D; PRF(GMK + ANonce + Mac(AA))</p>
+<p>与 PTK 不同的是没有 SNonce 和 Mac(SA)，GTK 也依赖 GMK。</p>
+</blockquote>
+<p><strong>MIC(Message Integrity Check)</strong></p>
+<blockquote>
+<p>消息完整性校验，针对一组需要保护的数据计算出的散列值，用来防止数据遭篡改。</p>
+</blockquote>
+<p><strong>KCK (Key Confirmation Key):</strong></p>
+<blockquote>
+<p>PTK 的一部分，用于计算 MIC 验证消息的完整性。</p>
+</blockquote>
+<p><strong>RSN Information</strong>：</p>
+<blockquote>
+<p>包含有关密码套件 （加密算法） 和使用的身份验证方法的信息。</p>
+</blockquote>
+<h3 id="WPA-和-WPA2-4-次握手"><a href="#WPA-和-WPA2-4-次握手" class="headerlink" title="WPA 和 WPA2 4 次握手"></a>WPA 和 WPA2 4 次握手</h3><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250126143254177.png"
+                        alt="image-20250126143254177"
+                 ></p>
+<blockquote>
+<ol>
+<li>AP发送EAPOL-Key帧给STA，帧中包含随机数ANonce。</li>
+<li>STA根据STA与AP的MAC地址、PMK、ANonce和SNonce计算出PTK，STA发送EAPOL-Key帧给AP，帧中包含SNonce、RSN信息元素和EAPOL-Key帧的消息完整码MIC（Message Integrity Code）。AP根据PMK、ANonce、SNonce、AP的MAC地址、STA的MAC地址计算出PTK，并校验MIC，核实STA的PMK是否和自己的一致。</li>
+<li>AP发送EAPOL-Key帧给STA，并通知STA安装密钥，帧中包含Anonce、RSN信息元素、帧MIC、加密过的GTK。</li>
+<li>STA发送EAPOL-Key帧给AP，并通知AP已经安装并准备开始使用加密密钥。AP收到后安装加密密钥。</li>
+</ol>
+</blockquote>
+<p>根据握手包详细分析一下</p>
+<h4 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h4><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250126150730456.png"
+                        alt="image-20250126150730456"
+                 ></p>
+<p>AP 会发送 Nonce，称之为 ANonce。4 次握手使用 HMAC-SHA1 过程生成 MIC。</p>
+<blockquote>
+<p>关于Nonce：<strong>Nonce</strong>（Number once）是一个随机数或伪随机数，通常用于一次性用途，确保安全通信中的某些操作不会被重放攻击利用。它的基本特性是 <strong>唯一性</strong>，即每次通信中使用的 Nonce 都是不同的。</p>
+</blockquote>
+<h4 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h4><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250126164304623.png"
+                        alt="image-20250126164304623"
+                 ></p>
+<p>在STA收到AP发来的第一个帧之后，STA就拥有了计算PTK的所有数据：</p>
+<ul>
+<li>SNonce</li>
+<li>ANonce</li>
+<li>PMK</li>
+<li>APMac</li>
+<li>SAMAC</li>
+</ul>
+<p>从术语介绍中可知PMK是由ssid和密码计算出来的</p>
+<p>此时STA会计算出PTK，然后截取其中的KCK去计算MIC</p>
+<p>最终STA会发送SNonce、MIC、RSN到AP也就是第二个帧</p>
+<h4 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h4><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250126180632751.png"
+                        alt="image-20250126180632751"
+                 ></p>
+<p>在AP接收到STA发来的第二帧时，AP会计算PTK然后生成KCK，计算出MIC。然后将计算出来的MIC和收到的MIC进行对比，如果相同就证明AP和STA拥有相同的PMK，也就是密码是对的。<strong>如果密码是错的，那么就只会有前两个包，后续的包不会出现</strong></p>
+<blockquote>
+<p>Key information:</p>
+<ul>
+<li><p>Install:此位向客户端发出信号以安装其派生的密钥。</p>
+</li>
+<li><p>Key ACK: 客户端必须确认此帧。</p>
+</li>
+<li><p>Key MIC: 存在完整性检查</p>
+</li>
+<li><p>Secure: 此位表示初始密钥交换现已完成，并向客户端发出信号，从现在开始，连接应从不安全切换到安全。</p>
+</li>
+<li><p>Encrypted Key Data: GTK 包含在此帧中</p>
+</li>
+</ul>
+</blockquote>
+<p>AP检查message2没问题后，会发送Anonce、RSN信息元素、MIC、加密过的GTK也就是第三个帧通知STA安装密钥</p>
+<h4 id="第四次握手"><a href="#第四次握手" class="headerlink" title="第四次握手"></a>第四次握手</h4><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250126182311377.png"
+                        alt="image-20250126182311377"
+                 ></p>
+<p>STA接收到第三个包的时候会进行验证MIC等字段如果没问题，就会安装密钥，然后向AP发送确认也就是第四个帧。</p>
+<p>之后AP接收到确认报文后安装安装加密密钥</p>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><p>通过上面的分析，我们可以知道，在第二次握手时(STA-&gt;AP)的包中的MIC值的计算过程，以及AP对接到的第二次握手包中的MIC值的校验过程，均利用到了密码。所以我们想要得到密码，就应该在第二次和第三次握手时。</p>
+<p>可以发现关键就在这个MIC的计算，总结一下MIC的计算过程：</p>
+<p><code>计算PMK(calc_pmk(passphrase, ssid))-&gt;计算PTK(calc_ptk(pmk, ptk_salt))-&gt;得到KCK(ptk[:16])-&gt;计算MIC</code></p>
+<h2 id="项目的编写"><a href="#项目的编写" class="headerlink" title="项目的编写"></a>项目的编写</h2><h3 id="抓包过程-1"><a href="#抓包过程-1" class="headerlink" title="抓包过程"></a>抓包过程</h3><p>这个地方没什么说的，就是按照前面分析的逻辑，用scapy这个写出来就行。并且还加了个众生平等操作，控制一下发送断开帧的包数量以及速度，做到区域内无法上网。</p>
+<h3 id="爆破部分"><a href="#爆破部分" class="headerlink" title="爆破部分"></a>爆破部分</h3><p>其他信息都可以在包中直接得到，变量其实就是passphrase也就是密码，以这个为变量爆破mic，当mic匹配上了,密码也就对了。所以要是弱口令或者信息收集些信息，否则直接爆破还是不容易爆出来的。学长用ewsa gpu拉满用掩码爆破，一位大写字母加手机号都要20分钟，最后没爆破出来才发现少加一位掩码(:   这还是由果导因。</p>
+<p>所以就会想到个问题，爆半天发现爆破用的包不是正确密码的握手包，那就悲剧了。解决这个问题是通过前面学习了解到的，如果密码是错误的情况下，就不会有第三次、第四次握手。所以计算第三次握手包中的mic就可以了，这样就保证这四次握手是成功的握手。</p>
+<p>具体的算法在802.11的官方文档中都有，刚开始我更多参考了<a class="link"   target="_blank" rel="noopener" href="https://github.com/aircrack-ng/aircrack-ng/blob/master/lib/crypto/crypto.c" >aircrack-ng-crypto.c<i class="fas fa-external-link-alt"></i></a>的算法，然后写出了第一版。感觉自己写的没什么问题，但是就是最后算出来的mic就是不对。这时候学长直接：我来助你！</p>
+<p>一起研究了一下，最终还是整出来了。</p>
+<h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/Nbccccc/WAP-WPA2-Handshake-Crack" >Nbccccc&#x2F;WAP-WPA2-Handshake-Crack: 基于WPA&#x2F;WPA2握手原理的Wi-Fi密码爆破<i class="fas fa-external-link-alt"></i></a></p>
+<p>感兴趣的师傅可以玩玩</p>
+<h2 id="WAP3"><a href="#WAP3" class="headerlink" title="WAP3"></a>WAP3</h2><p>从上面我们也可以知道，WAP2是不安全的所以Wi-Fi联盟组织于2018年发布的第三代Wi-Fi加密协议——WPA3。</p>
+<p>这里就引入一下，关于本篇文章的危害改变之处：</p>
+<blockquote>
+<p>WPA3个人版使采用了更加安全的SAE（Simultaneous Authentication of Equals，对等实体同时验证）取代了WPA2个人版采用预先设置共享密钥的PSK认证方式。</p>
+<p>WPA2采用的PSK认证方式通过四次握手进行密钥协商，在协商过程前首先根据SSID和预共享密钥生成PMK，此时由于SSID和预共享密钥都是固定的，PMK也就成了固定的且可计算的，导致每次重装的密钥都是相同的。WPA3所采用的SAE协议在原有的PSK四次握手前增加了SAE握手，在PMK生成过程中引入了动态随机变量，使得每次协商的PMK都是不同的，也就保证了密钥的随机性。因此，SAE为WPA3带来的更加安全的密钥验证机制解决了WPA2所暴露的安全风险：</p>
+<ul>
+<li>防止离线字典或暴力破解攻击：首先SAE对于多次尝试连接设备的终端，会直接拒绝服务，断绝了采用穷举或者逐一尝试密码的行为。其次，SAE还提供了前向保密功能，即使攻击者通过某种方式获取了密码，由于每次建立连接时密钥都是随机的，攻击者尝试再次重新建立连接时密钥已经更换了，就不能破解获取到的数据流量。</li>
+</ul>
+<p>SAE使得个人或家庭用户可以自由设置更加容易记住的Wi-Fi密码，即使不够复杂也能提供同样的安全防护。</p>
+</blockquote>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>这篇文章写也有半个月了，一回到家零零散散的其他事情就变多了。</p>
+<p>褪去昔日旧模样，今日方知我是我！虽然一直学习有写笔记，但是没有发，因为总感觉自己发的就是按照别人的想法做了一遍，所以从这篇开始重新更，多一些自己的思考，新的一年有新的状态，越来越好！祝各位师傅也是如此，越来越好。</p>
+<p>感谢我的学长楠哥<a class="link"   target="_blank" rel="noopener" href="https://zikh26.github.io/" >ZIKH26<i class="fas fa-external-link-alt"></i></a>在很多方面帮了我很多很多</p>
+<p>以下省略，加上上面是自己写给自己的年终总结…</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a class="link"   target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9363693" >IEEE Xplore Full-Text PDF<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://support.huawei.com/enterprise/zh/doc/EDOC1100033976/35825214" >802.11协议标准介绍 - AR100-S, AR110-S, AR120-S, AR150-S, AR160-S, AR200-S, AR1200-S, AR2200-S, AR3200-S V200R010 配置指南-WLAN FAT AP（命令行） - 华为<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/twozh123/article/details/122247337" >802.11协议详解：从基础到最新进展-CSDN博客<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/IEEE_802.1X#cite_note-1" >IEEE 802.1X - 维基百科，自由的百科全书<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/how-to-disconnect-devices-from-wi-fi-using-scapy-in-python/" >How to Disconnect Devices from Wi-Fi using Scapy in Python? - GeeksforGeeks<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://praneethwifi.in/2019/11/09/4-way-hand-shake-keys-generation-and-mic-verification/" >4 次握手、密钥生成和 MIC 验证 - WPA2 – Praneeth’s Blog<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://networklessons.com/cisco/ccnp-encor-350-401/wpa-and-wpa2-4-way-handshake" >WPA and WPA2 4-Way Handshake<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://chujian521.github.io/blog/2018/11/18/WPA-WPA2-4-way-handshake/" >WPA&#x2F;WPA2 4-way handshake - X’s blog<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://praneethwifi.in/2019/11/09/4-way-hand-shake-keys-generation-and-mic-verification/" >4-Way Hand shake , Keys generation and MIC Verification-WPA2 – Praneeth’s Blog<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://gist.github.com/c4mx/0f8eacea356ca01fc8315483ba348b23" >Calculate PMK, PTK, MIC and MIC verification in WPA2-PSK authentication<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43415201/article/details/124432621" >Wifi 认证，关联，四次握手（WPA&#x2F;WPA2&#x2F;WPA3-SAE）_android wifi 四次握手-CSDN博客<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.freebuf.com/articles/others-articles/307276.html" >关于无线网络WPA2的四次握手及中间人攻击 - FreeBuf网络安全行业门户<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://stackoverflow.com/questions/78220476/calculate-ptk-with-python-of-wpa/79374433#79374433" >Calculate PTK with Python of WPA - Stack Overflow<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://techofide.com/blogs/how-to-use-aircrack-ng-aircrack-ng-tutorial-practical-demonstration/" >How to use Aircrack-ng | Aircrack-ng tutorial <i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://info.support.huawei.com/info-finder/encyclopedia/zh/WPA3.html" >什么是WPA3？WPA3 vs WPA2 - 华为<i class="fas fa-external-link-alt"></i></a></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                一次研究如何获得wifi密码的过程
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/03/02/一次研究破解wifi密码的过程/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">Nbc</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-03-02 16:59</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/IOT%E5%AE%89%E5%85%A8/">IOT安全</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/03/02/JAVA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%20%E5%8D%8E%E5%A4%8FERP/"
+                                   title="JAVA代码审计 华夏ERP"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">JAVA代码审计 华夏ERP</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/03/02/%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9BShiro%E5%88%A9%E7%94%A8/"
+                                   title="遇到的一些Shiro利用"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">遇到的一些Shiro利用</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E7%A0%94%E7%A9%B6%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97wifi%E5%AF%86%E7%A0%81%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">一次研究如何获得wifi密码的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E8%BF%87%E7%A8%8B"><span class="nav-text">抓包过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scapy"><span class="nav-text">Scapy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11%E5%8D%8F%E8%AE%AE"><span class="nav-text">802.11协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#802-11%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B"><span class="nav-text">802.11协议简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#802-11-MAC%E5%B8%A7%E7%BB%93%E6%9E%84"><span class="nav-text">802.11 MAC帧结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WLAN%E4%B8%AD%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E5%92%8C%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6"><span class="nav-text">WLAN中的身份认证和访问控制机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#802-1X%E8%AE%A4%E8%AF%81"><span class="nav-text">802.1X认证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#802-1X%E7%AE%80%E4%BB%8B"><span class="nav-text">802.1X简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B"><span class="nav-text">认证过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="nav-text">安全策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#WPA-WPA2%E7%AE%80%E4%BB%8B"><span class="nav-text">WPA&#x2F;WPA2简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86"><span class="nav-text">密钥协商</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8D%95%E6%92%AD%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E8%BF%87%E7%A8%8B"><span class="nav-text">单播密钥协商过程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BB%84%E6%92%AD%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E8%BF%87%E7%A8%8B"><span class="nav-text">组播密钥协商过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="nav-text">得到密码过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AF%E8%AF%AD"><span class="nav-text">术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPA-%E5%92%8C-WPA2-4-%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">WPA 和 WPA2 4 次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第一次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第二次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第三次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第四次握手</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%BC%96%E5%86%99"><span class="nav-text">项目的编写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E8%BF%87%E7%A8%8B-1"><span class="nav-text">抓包过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%86%E7%A0%B4%E9%83%A8%E5%88%86"><span class="nav-text">爆破部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="nav-text">项目地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WAP3"><span class="nav-text">WAP3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-text">结尾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Nbc</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E7%A0%94%E7%A9%B6%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97wifi%E5%AF%86%E7%A0%81%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">一次研究如何获得wifi密码的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E8%BF%87%E7%A8%8B"><span class="nav-text">抓包过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scapy"><span class="nav-text">Scapy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11%E5%8D%8F%E8%AE%AE"><span class="nav-text">802.11协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#802-11%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B"><span class="nav-text">802.11协议简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#802-11-MAC%E5%B8%A7%E7%BB%93%E6%9E%84"><span class="nav-text">802.11 MAC帧结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WLAN%E4%B8%AD%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E5%92%8C%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6"><span class="nav-text">WLAN中的身份认证和访问控制机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#802-1X%E8%AE%A4%E8%AF%81"><span class="nav-text">802.1X认证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#802-1X%E7%AE%80%E4%BB%8B"><span class="nav-text">802.1X简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B"><span class="nav-text">认证过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="nav-text">安全策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#WPA-WPA2%E7%AE%80%E4%BB%8B"><span class="nav-text">WPA&#x2F;WPA2简介</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86"><span class="nav-text">密钥协商</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8D%95%E6%92%AD%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E8%BF%87%E7%A8%8B"><span class="nav-text">单播密钥协商过程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BB%84%E6%92%AD%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86%E8%BF%87%E7%A8%8B"><span class="nav-text">组播密钥协商过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E5%AF%86%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="nav-text">得到密码过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AF%E8%AF%AD"><span class="nav-text">术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPA-%E5%92%8C-WPA2-4-%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">WPA 和 WPA2 4 次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第一次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第二次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第三次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-text">第四次握手</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%BC%96%E5%86%99"><span class="nav-text">项目的编写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E8%BF%87%E7%A8%8B-1"><span class="nav-text">抓包过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%86%E7%A0%B4%E9%83%A8%E5%88%86"><span class="nav-text">爆破部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="nav-text">项目地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WAP3"><span class="nav-text">WAP3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-text">结尾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+
+</body>
+</html>
